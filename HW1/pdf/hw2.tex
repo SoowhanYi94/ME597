@@ -122,19 +122,39 @@ def bfs_search(G, desired_nodes):
     \end{subfigure}
 
 \end{figure*}
-Above figures show how the breath first search works. Those graphs are randomly generated and their edges have directions. Utility file, which includes codes for randomly generated graphs and class for Queue, is also included at the end of the document. Starting from node 2, the search agent looks for the neighbors and put those neighbors into a queue. This queue then pops the next node to search and puts its neighbors to the queue again. This way we can traverse through the graph by searching for the closest neighbor to get to the destination. Here are the links to the video of above simulation.
+Above figures show how the breath first search works. Those graphs are randomly generated and their edges have directions. Utility file, which includes codes for randomly generated graphs and class for Queue, is also included at the end of the document. Starting from node 2, the search agent looks for the neighbors and put those neighbors into a queue. This queue(first in first out) then pops the next node to search and puts its neighbors to the queue again. This way we can traverse through the graph by searching for the closest neighbor to get to the destination. Here are the links to the video of above simulation.
+
+\url{https://github.com/SoowhanYi94/ME597/tree/ebb5167094092be938096bbc1a82e4b2dce9d7b3/HW1}
 
 \end{problem}
 
 \begin{problem}
-    Show the trace $A(G)^3$ (the cube of the adjacency matrix) is six times the number of triangles (cycles with length 3) in the graph G.
+    Show the trace $A(G)^3$ (the cube of the adjacency matrix) is six times the number of triangles (cycles with length 3) in the graph G.\\
+    Let $A(G) = \begin{bmatrix*}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{11} & a_{22} & \cdots & a_{2n} \\
+        \vdots & &&\\
+        a_{n1} & a_{n2} & \cdots & a_{nn}
+    \end{bmatrix*}$ and $A(G)_{ij} = a_{ij}$.
+    \begin{align*}
+         A(G)_{ij} ^k &= \text{number of walks of length k between node i and node j}\\
+         Trace(A(G)^3) &= \sumi{1}{n} A(G)_{ii}^3 \\
+         &= \sumi{1}{n} \text{number of walks of length 3 between node i and node i} \\
+         &= \sumi{1}{n} \text{number of triangle from node i} \\
+         &= \sumi{1}{n} \sumj{1}{n} \sumk{1}{n}a_{ij} a_{jk} a_{ki}\\
+         &= \text{total number of triangle} * 6  & \text{if the graph is undirected}\\
+         &= \text{total number of triangle} * 3  & \text{if the graph is directed}
+    \end{align*}
+    From above equations, we see that the number of triangles from every node is added up. However, this is triple counting the triangles since there can be 3 triangles when triangle is formed. It counts the [1,2][2,3][3,1] and [2,3][3,1][1,2] differently, even though they are the same triangle.  If we were to find number of k-degree triangle(I am sticking with this terminology for simplicity)in the graph, we would have to divide $\sumi{1}{n} \text{number of triangle from node i}$ by k, since it would count the same triangle for every node in the triangle. Therefore $Trace(A(G)^3)$ is six times the number of triangles if the graph is undirected and 3 times the number of tirangles if the graph is directed. 
+
 \end{problem}
 
 
 \begin{problem}
     (MEBook2010 Exercise 2.11). Show that any graph on n vertices that has more than n - 1 edges contains a cycle.
 \end{problem}
-
+    Unless a vertex is not connected with the graph, it needs one edge to stay connected to the graph. Lets say we use one vertex as a root node. Then it needs n-1 edges to connect n-1 nodes, no matter how the graph looks(except for the disconnection). Therefore we need at least n-1 edges to connect n vertices, and extra edges would result in choosing same node pairs as there is no other option. Therefore any graph on n vertices that has more than n - 1 edges contains a cycle.
+    
 \begin{problem}
     (MEBook2010 Exercise 2.2) The degree sequence for a graph is a listing of the degrees of its nodes; thus K3 has the degree sequence 2, 2, 2. Is there a graph with the degree sequence 3, 3, 3, 3, 5, 6, 6, 6, 6, 6, 6? How about with the degree sequence 1, 1, 3, 3, 3, 3, 5, 6, 8, 9?
 
