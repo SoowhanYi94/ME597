@@ -145,8 +145,29 @@ Above figures show how the breath first search works. Those graphs are randomly 
          &= \text{total number of triangle} * 6  & \text{if the graph is undirected}\\
          &= \text{total number of triangle} * 3  & \text{if the graph is directed}
     \end{align*}
-    From above equations, we see that the number of triangles from every node is added up. However, this is triple counting the triangles since there can be 3 triangles when triangle is formed. It counts the [1,2][2,3][3,1] and [2,3][3,1][1,2] differently, even though they are the same triangle.  If we were to find number of k-degree triangle(I am sticking with this terminology for simplicity)in the graph, we would have to divide $\sumi{1}{n} \text{number of triangle from node i}$ by k, since it would count the same triangle for every node in the triangle. Therefore $Trace(A(G)^3)$ is six times the number of triangles if the graph is undirected and 3 times the number of tirangles if the graph is directed. 
+    From above equations, we see that the number of triangles from every node is added up. However, this is triple counting the triangles since there can be 3 triangles when triangle is formed. It counts the [1,2][2,3][3,1] and [2,3][3,1][1,2] differently, even though they are the same triangle.  If we were to find number of k-degree triangle(I am sticking with this terminology for simplicity)in the graph, we would have to divide $\sumi{1}{n} \text{number of triangle from node i}$ by k, since it would count the same triangle for every node in the triangle. Therefore $Trace(A(G)^3)$ is six times the number of triangles if the graph is undirected and 3 times the number of tirangles if the graph is directed. Below is code for counting triangles in generated random graph.
+    \begin{minted}{python3}
+def main(): 
+    n_nodes = 5
+    edge_probability = 2/n_nodes
+    G = util.random_graph(edge_probability, n_nodes)
+    A_G = util.nx.to_numpy_array(G)
+    m = range(len(A_G))
+    count =0
+    for i in m:
+        for j in m:
+            for k in m:
+                if A_G[i][j] and A_G[j][k] and A_G[k][i]:
+                    count +=1
 
+    print("number of trianlge: ", count/3)
+    util.nx.draw(G, font_weight='bold', with_labels=True)
+    util.plt.show()
+    util.plt.savefig('graph.png')
+
+if __name__=="__main__": 
+    main() 
+    \end{minted}
 \end{problem}
 
 
@@ -154,20 +175,114 @@ Above figures show how the breath first search works. Those graphs are randomly 
     (MEBook2010 Exercise 2.11). Show that any graph on n vertices that has more than n - 1 edges contains a cycle.
 \end{problem}
     Unless a vertex is not connected with the graph, it needs one edge to stay connected to the graph. Lets say we use one vertex as a root node. Then it needs n-1 edges to connect n-1 nodes, no matter how the graph looks(except for the disconnection). Therefore we need at least n-1 edges to connect n vertices, and extra edges would result in choosing same node pairs as there is no other option. Therefore any graph on n vertices that has more than n - 1 edges contains a cycle.
-    
+    Also a cycle graph is 2 regular, meaning that nodes in cycle graph each has 2 edges. IF we have more than n-1 edges, a pair of the nodes need to have at least 2 edges, therefore forming a cycle. 
+    Another explaination is that if we think about the adjacency matrix, each component in a row or column, we need at least one compnent to be 1 in order to make the corresponding vertex connected to the graph. If we were to use n number of edges on n vertices, there would be at least one component in diagonal of adjacency matrix that has value of 1, meaning that it has a cycle. 
 \begin{problem}
     (MEBook2010 Exercise 2.2) The degree sequence for a graph is a listing of the degrees of its nodes; thus K3 has the degree sequence 2, 2, 2. Is there a graph with the degree sequence 3, 3, 3, 3, 5, 6, 6, 6, 6, 6, 6? How about with the degree sequence 1, 1, 3, 3, 3, 3, 5, 6, 8, 9?
 
+    Using the Havel-Hakimi theorum, the graphs for first and second degree sequences ([3, 3, 3, 3, 5, 6, 6, 6, 6, 6, 6] and [1, 1, 3, 3, 3, 3, 5, 6, 8, 9]) do not always exist. But it exists for [6 ,3, 3, 3, 3, 2, 2, 2, 2, 1, 1]. 
+\begin{minted}{python3}
+def Havel_Hakimi(sequence=list):
+    if len(sequence) ==0:
+        print("length of degree sequence is 0")
+    sequence.sort(reverse=True)
+    flag = False
+    print(sequence)
+    while (len(sequence) != 0):
+        num = sequence.pop(0)
+        print(sequence)
+        if len(sequence) == 0:
+            flag = True
+            print("The graph does not always exist with this degree sequence.")
+        for i in range(num):
+            sequence[i] -=1
+            if sequence[i] < 0:
+                flag = True
+                print("The graph does not always exist with this degree sequence.")
+                break
+        print(sequence)
+        if flag: break
+        sequence.sort(reverse=True)
+        if sum(sequence) == 0:
+            print("There exists a graph with the given degree sequence.")
+            break
+\end{minted}
+\begin{align*}
+&[3, 3, 3, 3, 5, 6, 6, 6, 6, 6, 6]\\
+&[6, 6, 6, 6, 6, 6, 5, 3, 3, 3, 3] 
+\rightarrow [6, 6, 6, 6, 6, 5, 3, 3, 3, 3]
+\rightarrow [5, 5, 5, 5, 5, 4, 3, 3, 3, 3]\\
+&[5, 5, 5, 5, 5, 4, 3, 3, 3, 3]
+\rightarrow [5, 5, 5, 5, 4, 3, 3, 3, 3]
+\rightarrow [4, 4, 4, 4, 3, 3, 3, 3, 3]\\
+&[4, 4, 4, 4, 3, 3, 3, 3, 3]
+\rightarrow [4, 4, 4, 3, 3, 3, 3, 3]
+\rightarrow [3, 3, 3, 2, 3, 3, 3, 3]\\
+&[3, 3, 3, 3, 3, 3, 3, 2]
+\rightarrow [3, 3, 3, 3, 3, 3, 2]
+\rightarrow [2, 2, 2, 3, 3, 3, 2]\\
+&[3, 3, 3, 2, 2, 2, 2]
+\rightarrow [3, 3, 2, 2, 2, 2]
+\rightarrow [2, 2, 1, 2, 2, 2]\\
+&[2, 2, 2, 2, 2, 1]
+\rightarrow [2, 2, 2, 2, 1]
+\rightarrow [1, 1, 2, 2, 1]\\
+&[2, 2, 1, 1, 1]
+\rightarrow [2, 1, 1, 1]
+\rightarrow [1, 0, 1, 1]\\
+&[1, 1, 1, 0]
+\rightarrow [1, 1, 0]
+\rightarrow [0, 1, 0]\\
+&[1, 0, 0]
+\rightarrow [0, 0]
+\rightarrow [-1, 0]\\
+&------------------------------------------------\\
+& [1, 1, 3, 3, 3, 3, 5, 6, 8, 9]\\
+&[9, 8, 6, 5, 3, 3, 3, 3, 1, 1]
+\rightarrow [8, 6, 5, 3, 3, 3, 3, 1, 1]
+\rightarrow [7, 5, 4, 2, 2, 2, 2, 0, 0]\\
+&[7, 5, 4, 2, 2, 2, 2, 0, 0]
+\rightarrow [5, 4, 2, 2, 2, 2, 0, 0]
+\rightarrow [4, 3, 1, 1, 1, 1, -1, 0]\\
+&------------------------------------------------\\
+&[6, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1]\\
+&[6, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1]
+\rightarrow[3, 3, 3, 3, 2, 2, 2, 2, 1, 1]
+\rightarrow[2, 2, 2, 2, 1, 1, 2, 2, 1, 1]\\
+&[2, 2, 2, 2, 2, 2, 1, 1, 1, 1]
+\rightarrow[2, 2, 2, 2, 2, 1, 1, 1, 1]
+\rightarrow[1, 1, 2, 2, 2, 1, 1, 1, 1]\\
+&[2, 2, 2, 1, 1, 1, 1, 1, 1]
+\rightarrow[2, 2, 1, 1, 1, 1, 1, 1]
+\rightarrow[1, 1, 1, 1, 1, 1, 1, 1]\\
+&[1, 1, 1, 1, 1, 1, 1, 1]
+\rightarrow[1, 1, 1, 1, 1, 1, 1]
+\rightarrow[0, 1, 1, 1, 1, 1, 1]\\
+&[1, 1, 1, 1, 1, 1, 0]
+\rightarrow[1, 1, 1, 1, 1, 0]
+\rightarrow[0, 1, 1, 1, 1, 0]\\
+&[1, 1, 1, 1, 0, 0]
+\rightarrow[1, 1, 1, 0, 0]
+\rightarrow[0, 1, 1, 0, 0]\\
+&[1, 1, 0, 0, 0]
+\rightarrow[1, 0, 0, 0]
+\rightarrow[0, 0, 0, 0]\\
+&[0, 0, 0, 0]
+\end{align*}
+Therefore first two degree sequences are not graphical but the third one is graphical. 
 \end{problem}
 
 \begin{problem}
-    (MEBook2010 Exercise 2.12) Show that the graph and its complement cannot both be disconnected. The complement of the graph G is a graph that has the edges that are not in G but not the edges that are in G.
-        
+    (MEBook2010 Exercise 2.12) Show that the graph and its complement cannot both be disconnected. The complement of the graph G is a graph that has the edges that are not in G but not the edges that are in G.\\
+
+    Lets say there is a set of connected vertices V, with a set of edges E in graph S, and a graph G is a subset of S. Lets assume that the graph G and its complement are both disconnected. Then at least one vertex from each of them (G and its complement) are disconnected from them respectively. This means that those two vertices are disconnected in graph S, which should be connected by definition. There is a contradiction in the statement and therefore the graph and its complement cannot both be disconnected. 
 \end{problem}
 
 \begin{problem}
-    (MEBook2010 Exercise 2.6) Show that any graph on n vertices with more than (n-1)(n-2)/2 edges is connected.
-  
+    (MEBook2010 Exercise 2.6) Show that any graph on n vertices with more than (n-1)(n-2)/2 edges is connected.\\
+
+    Lets say that we have a complete graph with n-1 vertices. Each vertex would have n-2 degree. Then the total number of edge would be $\frac {(n-1)(n-2)}{2}$, since each vertex would have n-2 edges and we have n-1 vertices in $K_{n-1}$ graph. Also we are dividing by 2 because we are double counting the same edge. Finally we need $\frac {(n-1)(n-2)}{2}$ for $K_{n-1}$ graph. If we were to have one more edge, then we would need to connect one more vertex and those n vertices would never become disconnected.
+     
 \end{problem}
 
 \begin{problem}

@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{n\PYGZus{}nodes} \PYG{o}{=} \PYG{l+m+mi}{5}
+    \PYG{n}{edge\PYGZus{}probability} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{/}\PYG{n}{n\PYGZus{}nodes}
+    \PYG{n}{G} \PYG{o}{=} \PYG{n}{util}\PYG{o}{.}\PYG{n}{random\PYGZus{}graph}\PYG{p}{(}\PYG{n}{edge\PYGZus{}probability}\PYG{p}{,} \PYG{n}{n\PYGZus{}nodes}\PYG{p}{)}
+    \PYG{n}{A\PYGZus{}G} \PYG{o}{=} \PYG{n}{util}\PYG{o}{.}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{to\PYGZus{}numpy\PYGZus{}array}\PYG{p}{(}\PYG{n}{G}\PYG{p}{)}
+    \PYG{n}{m} \PYG{o}{=} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{A\PYGZus{}G}\PYG{p}{))}
+    \PYG{n}{count} \PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{m}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n}{m}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n}{m}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{A\PYGZus{}G}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{A\PYGZus{}G}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{k}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{A\PYGZus{}G}\PYG{p}{[}\PYG{n}{k}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]:}
+                    \PYG{n}{count} \PYG{o}{+=}\PYG{l+m+mi}{1}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}number of trianlge: \PYGZdq{}}\PYG{p}{,} \PYG{n}{count}\PYG{o}{/}\PYG{l+m+mi}{3}\PYG{p}{)}
+    \PYG{n}{util}\PYG{o}{.}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{(}\PYG{n}{G}\PYG{p}{,} \PYG{n}{font\PYGZus{}weight}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}bold\PYGZsq{}}\PYG{p}{,} \PYG{n}{with\PYGZus{}labels}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+    \PYG{n}{util}\PYG{o}{.}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+    \PYG{n}{util}\PYG{o}{.}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}graph.png\PYGZsq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}}\PYG{o}{==}\PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}
