@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1705709505 "/home/syi/Wi 24 UW/ME597/HW1/pdf/hw1.tex" "hw1.pdf" "hw1" 1705709506
+["pdflatex"] 1705709735 "/home/syi/Wi 24 UW/ME597/HW1/pdf/hw1.tex" "hw1.pdf" "hw1" 1705709735
   "/dev/null" 1705680429 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/etc/texmf/web2c/texmf.cnf" 1695837190 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/syi/Wi 24 UW/ME597/HW1/pdf/hw1.tex" 1705709496 14015 b57966f00c43eece8dbe21956697d80d ""
+  "/home/syi/Wi 24 UW/ME597/HW1/pdf/hw1.tex" 1705709734 15069 6e459a0d13e7093d9214ba277fbc6a84 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -159,13 +159,14 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1695837504 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1695837507 1435934 47e6e74e9e0dfdcf7d7c4e46620654a0 ""
+  "_minted-hw1/157412500CAC77854A8D053EB3E35780264D006F2469B2FF03626EE570C14B96.pygtex" 1705709734 2862 cb85163f3c924183262f2d77726520f7 ""
   "_minted-hw1/159A247B107DAAD04DA5664FC55D5160E56FD6EFFFDD4DB0A7204B40B369643B.pygtex" 1705709505 3163 32b82d747e5c4194000c99adb4865ab0 ""
   "_minted-hw1/9FBA75273FC0342DD0FF3B09090C5472264D006F2469B2FF03626EE570C14B96.pygtex" 1705709505 2023 99c14865efaa45b85d12717d994e05b1 ""
   "_minted-hw1/F94BA8F64BCF676CE6D689D8C8DA2E53264D006F2469B2FF03626EE570C14B96.pygtex" 1705709505 2207 39fb3ae70ae92271fda4989eebcb78c6 ""
   "_minted-hw1/default.pygstyle" 1705709505 7157 7149f5dc341fa4b43eda328006a43d74 ""
-  "hw1.aux" 1705709506 1031 e3eca0c1db664a9bf2a2d644f33b80bf "pdflatex"
-  "hw1.out" 1705709505 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "hw1.tex" 1705709496 14015 b57966f00c43eece8dbe21956697d80d ""
+  "hw1.aux" 1705709735 1106 bb85f98126a726814cb28b2003312722 "pdflatex"
+  "hw1.out" 1705709735 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "hw1.tex" 1705709734 15069 6e459a0d13e7093d9214ba277fbc6a84 ""
   "img/P1_1/frame0.png" 1705441671 50457 8c35859e8d3afdc7351264a0b17af567 ""
   "img/P1_1/frame1.png" 1705441671 50190 353e887ac4a8b3db334681c319f4f8e8 ""
   "img/P1_1/frame2.png" 1705441671 49999 34abf51af03529dccca4c9936890c308 ""

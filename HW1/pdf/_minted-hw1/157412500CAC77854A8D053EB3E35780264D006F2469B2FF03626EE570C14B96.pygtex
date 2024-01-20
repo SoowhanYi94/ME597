@@ -1,0 +1,44 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{from} \PYG{n+nn}{matplotlib.animation} \PYG{k}{import} \PYG{n}{FuncAnimation}
+\PYG{k+kn}{from} \PYG{n+nn}{matplotlib} \PYG{k}{import} \PYG{n}{animation}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{networkx.drawing.nx\PYGZus{}agraph} \PYG{k}{import} \PYG{n}{graphviz\PYGZus{}layout}
+\PYG{c}{\PYGZsh{}\PYGZsh{} util.py}
+\PYG{k}{class} \PYG{n+nc}{Queue}\PYG{p}{:}
+\PYG{l+s}{\PYGZdq{}A container with a first\PYGZhy{}in\PYGZhy{}first\PYGZhy{}out (FIFO) queuing policy.\PYGZdq{}}
+    \PYG{k}{def} \PYG{n+nf}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{list} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{def} \PYG{n+nf}{push}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,}\PYG{n}{item}\PYG{p}{):}
+        \PYG{l+s}{\PYGZdq{}Enqueue the \PYGZsq{}item\PYGZsq{} into the queue\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{list}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{item}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{pop}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{            Dequeue the earliest enqueued item still in the queue. This}
+\PYG{l+s+sd}{            operation removes the item from the queue.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{list}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{()}
+
+    \PYG{k}{def} \PYG{n+nf}{isEmpty}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{l+s}{\PYGZdq{}Returns true if the queue is empty\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{list}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}
+
+
+\PYG{k}{def} \PYG{n+nf}{random\PYGZus{}graph}\PYG{p}{(}\PYG{n}{prob} \PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{,} \PYG{n}{n\PYGZus{}nodes} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{):}
+
+    \PYG{n}{G} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{DiGraph}\PYG{p}{()}
+
+    \PYG{n}{G}\PYG{o}{.}\PYG{n}{add\PYGZus{}nodes\PYGZus{}from}\PYG{p}{(}\PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{n\PYGZus{}nodes}\PYG{p}{))}
+
+    \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()} \PYG{o}{\PYGZlt{}} \PYG{n}{prob} \PYG{o+ow}{and} \PYG{n}{u}\PYG{o}{!=}\PYG{n}{v} \PYG{p}{:}
+                \PYG{n}{G}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{G}
+
+
+\end{Verbatim}

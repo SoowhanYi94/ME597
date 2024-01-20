@@ -5,6 +5,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib import animation
 import numpy as np
 from networkx.drawing.nx_agraph import graphviz_layout
+## util.py
 class Queue:
     "A container with a first-in-first-out (FIFO) queuing policy."
     def __init__(self):
