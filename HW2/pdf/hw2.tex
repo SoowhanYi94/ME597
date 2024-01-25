@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage{import}
+\usepackage[ruled]{algorithm2e}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{subcaption}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\subimport*{}{macro}
+
+\setlength\parindent{0px}
+
+\begin{document}
+\setcounter{problem}{0}
+\title{Homework \#2}
+\author{
+    \normalsize{AA 597: Networked Dynamics Systems}\\
+    \normalsize{Prof. Mehran Mesbahi}\\
+    \normalsize{Due: Jan 26, 2024 11:59pm}\\
+    \normalsize{Soowhan Yi}
+}
+\date{{}}
+\maketitle
+\begin{problem}
+    Write a code that implements the consensus protocol  $\dot{x}=-L(G) x$, where L(G) is the Laplacian matrix of the graph,  from arbitrary (random) initial conditions. Use networkX or something similar to run the consensus dynamics on a cycle, path, star, and complete graphs. Find the second smallest eigenvalues of these graphs and see if the convergence properties of consensus  can be matched to these second smallest eigenvalues. Then explore the convergence as a function the number  nodes in these graphs- again using networkX or something similar, choose graphs of sizes 5, 10, 20, and 50 for your computational experiments.
+
+\end{problem}
+
+\begin{problem}
+    The complement of graph $G = (V,E)$, denoted by $\bar{G}$, is a graph $(V,\bar{E})$, where $uv \in \bar{E}$ if and only if $uw \notin E$. Show that 
+    \begin{align*}
+        L(G) + L(\bar{G}) = nI -11^T
+    \end{align*}
+    
+    First, by definition, degree matrix of complement of graph $(n-1)I - D(G)$. Assuming that the graph and the complement do not have self loop, complement graph would have a adjacency matrix($A(\bar{G})$) that would make the adjacecny matrix of the graph (($A(G)$)) would become adjacency matrix of complete graph when ($A(\bar{G})$) is added, since the complement of a graph contains edges that would make the union of those graphs to become complete grapoh. Therefore adding their adjacency matrix would result in $11^T - I$.
+    \begin{align*}
+        L(G) + L(\bar{G}) &= D(G) - A(G) + D(\bar{G}) - A(\bar{G})\\
+        &= D(G) + D(\bar{G}) - (A(G)+ A(\bar{G}))\\
+        &= D(G) + (n-1)I - D(G)- (A(G)+ A(\bar{G}))\\
+        &= (n-1)I - (11^T - I) = nI -11^T
+    \end{align*}
+
+    Conclude that for $2 \leq j \leq n$,
+    \begin{align*}
+        \lambda_j (\bar{G}) = n - \lambda_{n+2-j}(G)
+    \end{align*}
+    Lets think about the laplacian of complete graph $K_n$, and its eigenvalues. Since the complete graph can be divided into some graph G and its complement, the laplacian of it would equal to $L(G) + L(\bar{G})$. Therefore 
+    \begin{align*}
+        L(K_n) v_j = (L(G) + L(\bar{G})) v_j = (nI -11^T) v_j
+    \end{align*}
+    Since the $K_n$ is connected, the eigenvectors are just multiple of ones ($\alpha 1$) for the very first eigenvalue which is 0. This is also applicable to $G$ and $\bar{G}$.
+    \begin{align*}
+        (nI -11^T) v_j = (L(G) + L(\bar{G})) v_j = L(G) v_j + L(\bar{G}) v_j = \lambda_j(G) v_j + \lambda_j(\bar{G})v_j 
+    \end{align*}
+    Due to fact that the eigenvectors are independent of each other and eigenvector for 0 eigenvalue is [1]s, the $v_j$ is orthogonal to $11^T$ for $j \geq 2$. Therfore $(-11^T) v_j = 0$. 
+    \begin{align*}
+        \therefore n = \lambda_j(G) + \lambda_j(\bar{G})
+    \end{align*}
+    If we were to sort the laplacian spectrum of $\bar{G}$ in increasing order, then $ \lambda_j(\bar{G}) = n - \lambda_{n + 2 - j}(G)$, assuming that the laplacian spectrum of G is already in increasing order. 
+\end{problem}
+
+\begin{problem}
+    Show that for any graph $G, \lambda_n(G) \geq d_{max}(G)$
+    
+\end{problem}
+
+\begin{problem}
+    Simulate the agreement protocol (3.2) for a graph on five vertices. Compare the rate of convegence of protocol as the number of edges increases. Does the convergence of the protocol alw3ays improve when the graph contains more edges? Provide an analysis to support your observation. 
+
+\end{problem}
+
+\begin{problem}
+    How would one modify the agreement protocol (3.1) so that the agents converge to an equilibrium $\bar{x}$, where $\bar{x} = \alpha 1 + d$ for some given $d \in R^n$ and $\alpha \in R$?
+
+\end{problem}
+\begin{problem}
+    The second-order dynamics of a unit paticle i in one dimension is 
+    \begin{align*}
+        \frac{d}{dt} 
+        \begin{bmatrix*}
+            p_i(t)\\
+            v_i(t)  
+        \end{bmatrix*}
+        = \begin{bmatrix*}
+            0 & 1\\
+            0 & 0 
+        \end{bmatrix*}
+        \begin{bmatrix*}
+            p_i(t)\\
+            v_i(t)  
+        \end{bmatrix*}
+        + 
+        \begin{bmatrix*}
+            0\\
+            1
+        \end{bmatrix*} u_i(t)
+    \end{align*}
+    where $p_i$ and $v_i$ are, respectively the position and the velocity of the particle with repect to an ineartial frame, and $v_i$ is the force and/or control term acting on the particle. Use a setup, inspired by the agreement protocol, to propose a control law $-u_i(t)$ for each vertex such that: (1) the control input for particle i relies only on the relative posistion and velocity information with respect to its neighbors; (2) the control input to each particle results in an asymptotically cohesive behavior for the particle group, that is, the position of the particle remain close to each other; and (3) the control input to each particle results in having a particle group that evolves twith the same velocity. Simulate you r proposed control law.
+
+\end{problem}
+\end{document}
