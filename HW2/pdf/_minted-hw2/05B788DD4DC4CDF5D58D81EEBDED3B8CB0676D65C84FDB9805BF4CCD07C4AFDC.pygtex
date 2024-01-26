@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{get\PYGZus{}xdot}\PYG{p}{(}\PYG{n}{positions}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{L\PYGZus{}G}\PYG{p}{):}
+        \PYG{n}{num} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{positions}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n}{positions} \PYG{o}{=} \PYG{n}{positions}\PYG{o}{.}\PYG{n}{reshape}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{k}{return} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{L\PYGZus{}G}\PYG{p}{,}\PYG{n}{positions}\PYG{p}{))}\PYG{o}{.}\PYG{n}{reshape}\PYG{p}{(}\PYG{n}{num}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+        \PYG{n}{num} \PYG{o}{=} \PYG{l+m+mi}{50}
+        \PYG{n}{graphs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{cycle\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{path\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{star\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{complete\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)]}
+        \PYG{n}{graph} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{complete\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)}
+        \PYG{n}{graph}\PYG{p}{,} \PYG{n}{positions} \PYG{o}{=} \PYG{n}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)}
+        \PYG{n}{t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{101}\PYG{p}{)}
+        \PYG{n}{L\PYGZus{}G} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+        \PYG{n}{trajectory} \PYG{o}{=} \PYG{n}{sp}\PYG{o}{.}\PYG{n}{integrate}\PYG{o}{.}\PYG{n}{odeint}\PYG{p}{(}\PYG{n}{get\PYGZus{}xdot}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{reshape}\PYG{p}{(}\PYG{n}{positions}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)),} \PYG{n}{t}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{L\PYGZus{}G}\PYG{p}{,} \PYG{p}{))}
+\end{Verbatim}

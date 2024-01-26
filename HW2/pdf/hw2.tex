@@ -29,10 +29,7 @@
 }
 \date{{}}
 \maketitle
-\begin{problem}
-    Write a code that implements the consensus protocol  $\dot{x}=-L(G) x$, where L(G) is the Laplacian matrix of the graph,  from arbitrary (random) initial conditions. Use networkX or something similar to run the consensus dynamics on a cycle, path, star, and complete graphs. Find the second smallest eigenvalues of these graphs and see if the convergence properties of consensus  can be matched to these second smallest eigenvalues. Then explore the convergence as a function the number  nodes in these graphs- again using networkX or something similar, choose graphs of sizes 5, 10, 20, and 50 for your computational experiments.
 
-\end{problem}
 
 \begin{problem}
     The complement of graph $G = (V,E)$, denoted by $\bar{G}$, is a graph $(V,\bar{E})$, where $uv \in \bar{E}$ if and only if $uw \notin E$. Show that 
@@ -68,10 +65,40 @@
 \end{problem}
 
 \begin{problem}
-    Show that for any graph $G, \lambda_n(G) \geq d_{max}(G)$\\
+    Show that for any graph $G, \lambda_n(G) \geq d_{max}(G)$
 
-    According to Courant Fischer theorum, $x^T A x= \lambda_n$, where A is a symmetric matrix with $n \times n$. A
-    
+    According to Courant Fischer theorum, $\max {x^T A x}= \lambda_n$, where A is a symmetric matrix with $n \times n$ and $||x|| = 1$. Also using eigenvalue decomposition, we can say that $L(G) = Q \Lambda Q^{-1}$, where $\Lambda = \begin{bmatrix}
+        0 = \lambda_1 & 0 & 0 & \cdots & 0\\
+        0 & \lambda_2 & 0 & \cdots & 0\\
+        0 & 0 & \lambda_3 & \cdots & 0\\
+        \vdots & & &\\
+        0 &  & & &\lambda_n
+    \end{bmatrix}$ and $Q = \begin{bmatrix}
+        v_1 & v_2 & \cdots & v_n
+    \end{bmatrix}$, where $\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$.  $v_i$ are eigenvectors corresponding to those eigenvalues. However, $L_G$ is symmetric
+    and Q is eigenvectors of $L_G$, and therefore Q has to be a orthogonal matrix and $Q^{-1} = Q^{T}$.
+    Now we utilize above properties to solve the problem. 
+    \begin{align*}
+        L(G) = Q \Lambda Q^{-1} = Q \Lambda Q^{T}\\
+        x^T L(G) x = x^T  Q \Lambda Q^{T} x
+    \end{align*}
+    Let $y = Q^T x$, and simplify
+    \begin{align*}
+        x^T L(G) x = x^T  Q \Lambda Q^{T} x &= y^T \Lambda y\\
+        &=\lambda_1 y_1^2 + \lambda_2 y_2^2 + \lambda_3 y_3^2 \cdots + \lambda_n y_n^2
+        \leq \lambda_n y_1^2 + \lambda_n y_2^2 + \lambda_n y_3^2 \cdots + \lambda_n y_n^2 = \lambda_n y^ty\\ 
+        &\therefore x^T L(G) x \leq \lambda_n (\because y^Ty = x^TQQ^Tx = x^Tx = 1)
+    \end{align*}
+    Now, let $x^T = \begin{bmatrix}
+        0 &0 &0 &0 &\cdots &1 & 0 & \cdots &0
+    \end{bmatrix}$, where only ith vertex has the maximum degree in the graph and only ith component in x is 1, so that we can extract the maximum degree out from degree matrix. 
+    \begin{align*}
+        x^t L(G)x &= x^T (D(G) - A(G)) x \\
+        &= x^T(D(G))x - x^TA(G)x \\
+        &= d_{max}(G) - A_{ii}(G)\\
+        &= d_{max}(G) \leq \lambda_n (G) (\because A_{ii} = 0)
+    \end{align*} 
+
 \end{problem}
 
 \begin{problem}
@@ -115,4 +142,68 @@
     where $p_i$ and $v_i$ are, respectively the position and the velocity of the particle with repect to an ineartial frame, and $v_i$ is the force and/or control term acting on the particle. Use a setup, inspired by the agreement protocol, to propose a control law $-u_i(t)$ for each vertex such that: (1) the control input for particle i relies only on the relative posistion and velocity information with respect to its neighbors; (2) the control input to each particle results in an asymptotically cohesive behavior for the particle group, that is, the position of the particle remain close to each other; and (3) the control input to each particle results in having a particle group that evolves twith the same velocity. Simulate you r proposed control law.
 
 \end{problem}
+
+\begin{problem}
+    Write a code that implements the consensus protocol  $\dot{x}=-L(G) x$, where L(G) is the Laplacian matrix of the graph,  from arbitrary (random) initial conditions. Use networkX or something similar to run the consensus dynamics on a cycle, path, star, and complete graphs. Find the second smallest eigenvalues of these graphs and see if the convergence properties of consensus  can be matched to these second smallest eigenvalues. Then explore the convergence as a function the number  nodes in these graphs- again using networkX or something similar, choose graphs of sizes 5, 10, 20, and 50 for your computational experiments.
+    \begin{minted}{python3}
+    def get_xdot(positions, t, L_G):
+        num = int(len(positions)/2)
+        positions = positions.reshape(num, 2)
+        return (-np.matmul(L_G,positions)).reshape(num*2)
+        
+    def main():
+        num = 50
+        graphs = [nx.cycle_graph(num),nx.path_graph(num), nx.star_graph(num), nx.complete_graph(num)]
+        graph = nx.complete_graph(num)
+        graph, positions = random_graphs_init(graph)
+        t = np.linspace(0,10,101)
+        L_G = nx.laplacian_matrix(graph).toarray()
+        trajectory = sp.integrate.odeint(get_xdot, np.reshape(positions, 2*len(graph)), t, args=(L_G, ))
+    \end{minted}
+    From below graphs, we can see that positions of nodes converge to 2 different numbers because I am using x and y coordinates to show this convergence. Plot below would be more helpful for visualization. But we can see that the position is converging to the agreement. The first 4 plots show the convergence of each x and y position, and the last 4 plots show that the convergence in 2 d plane. 
+    
+    Also we can see from figure 2,  that $\lambda_2$ is growing for all the graphs when number of nodes are increased. All the plots are included in next page. 
+    \begin{figure*}[!ht]
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1convergence_cycle_graph_5.png}
+            \caption{cycle graph}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1convergence_path_graph_5.png}
+            \caption{path graph}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1convergence_star_graph_5.png}
+            \caption{star graph}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1convergence_complete_graph_5.png}
+            \caption{complete graph}
+        \end{subfigure}
+
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1xyposition_cycle_graph_5.png}
+            \caption{cycle graph}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1xyposition_path_graph_5.png}
+            \caption{path graph}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1xyposition_star_graph_5.png}
+            \caption{star graph}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p1xyposition_complete_graph_5.png}
+            \caption{complete graph}
+        \end{subfigure}
+    \end{figure*}
+    \begin{figure*}
+        \centering
+        \includegraphics[width=\textwidth]{./img/p1convergence_num_node.png}
+        \caption{convergence vs number of nodes}
+    \end{figure*}
+\end{problem}
+
 \end{document}
