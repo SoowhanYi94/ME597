@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1706214039 "/home/syi/Wi 24 UW/ME597/HW2/pdf/hw2.tex" "hw2.pdf" "hw2" 1706214039
-  "/dev/null" 1706164552 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1706242491 "/home/syi/Wi 24 UW/ME597/HW2/pdf/hw2.tex" "hw2.pdf" "hw2" 1706242492
+  "/dev/null" 1706219608 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/etc/texmf/web2c/texmf.cnf" 1695837190 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/syi/Wi 24 UW/ME597/HW2/pdf/hw2.tex" 1706214039 5593 8c9fd6dd43966665837ae94af6fba754 ""
+  "/home/syi/Wi 24 UW/ME597/HW2/pdf/hw2.tex" 1706242491 6301 f60a4a3c596da3946aaa3a3892445623 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -154,9 +154,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1695837504 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1695837507 1435934 47e6e74e9e0dfdcf7d7c4e46620654a0 ""
-  "hw2.aux" 1706214039 758 4b3e98b53d7d3997d13b72262d5d19ce "pdflatex"
-  "hw2.out" 1706214039 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "hw2.tex" 1706214039 5593 8c9fd6dd43966665837ae94af6fba754 ""
+  "hw2.aux" 1706242491 758 4b3e98b53d7d3997d13b72262d5d19ce "pdflatex"
+  "hw2.out" 1706242491 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "hw2.tex" 1706242491 6301 f60a4a3c596da3946aaa3a3892445623 ""
   "macro.tex" 1706057474 5686 9ef8f0cd96baf2f89ea649495626853d ""
   (generated)
   "hw2.aux"

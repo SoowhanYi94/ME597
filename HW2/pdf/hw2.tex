@@ -68,7 +68,9 @@
 \end{problem}
 
 \begin{problem}
-    Show that for any graph $G, \lambda_n(G) \geq d_{max}(G)$
+    Show that for any graph $G, \lambda_n(G) \geq d_{max}(G)$\\
+
+    According to Courant Fischer theorum, $x^T A x= \lambda_n$, where A is a symmetric matrix with $n \times n$. A
     
 \end{problem}
 
@@ -78,8 +80,15 @@
 \end{problem}
 
 \begin{problem}
+    \begin{align*}
+        \dot{x}_i(t) = \sum_{j \in N(i)} (x_j(t) - x_i(t)), \space i = 1, \cdots , n
+    \end{align*}
     How would one modify the agreement protocol (3.1) so that the agents converge to an equilibrium $\bar{x}$, where $\bar{x} = \alpha 1 + d$ for some given $d \in R^n$ and $\alpha \in R$?
-
+    \begin{align*}
+        \dot{x}_i(t) = \sum_{j \in N(i)} (x_j(t) - x_i(t)) - k_i(x_i(t) - \bar{x}(t))
+    \end{align*}
+    I would introduce control term k like above. This way the $\dot{x}_i(t)$ would become zero when$ x_i(t) = \bar{x}(t)$, therefore reaching the equilibrium $\bar{x} = \alpha 1 + d$.
+    Control term k can be adjusted for control objectives, but, by introducing $x_i(t) - \bar{x}(t)$, the agents are able to converge to  $\bar{x} = \alpha 1 + d$.
 \end{problem}
 \begin{problem}
     The second-order dynamics of a unit paticle i in one dimension is 
