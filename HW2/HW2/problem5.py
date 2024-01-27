@@ -16,8 +16,8 @@ def random_graphs_init(graph):
         x[i][1] = vel
     return graph, x
 def get_input(x, G):
-    k_p = 0.15
-    k_v = 0.2
+    k_p = 1  
+    k_v = 1
     k_f = 1.0
     u = np.zeros_like(x)
     print(u.shape)
@@ -44,7 +44,7 @@ def get_lambda2(G):
 def main():
     nums = [10]
     for num in nums : 
-        graphs = [nx.gnm_random_graph(num, 2* num)]# [nx.cycle_graph(num),nx.path_graph(num), nx.star_graph(num), nx.complete_graph(num)]
+        graphs = [nx.dense_gnm_random_graph(num, random.randint(num//2, 2*num))]# [nx.cycle_graph(num),nx.path_graph(num), nx.star_graph(num), nx.complete_graph(num)]
         # k = 0
         for graph in graphs:
 

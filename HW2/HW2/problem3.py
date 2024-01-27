@@ -61,11 +61,11 @@ def main():
         k+=1
     plt.figure()
     plt.plot(edges, eigvalues)
-    plt.xlabel("probability of forming edge between 2 nodes")
+    plt.xlabel("number of edges")
     plt.ylabel("$\lambda_2$")
     plt.legend()
     plt.grid()
-    plt.title("probabilty vs eigenvalues")
+    plt.title("number of edges vs eigenvalues")
     ## 
     
     plt.show()

@@ -106,71 +106,70 @@
     \begin{figure*}[!ht]
         \centering
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_2_1.png}
-            \caption{Graph with 2 edges}
+            \includegraphics[width=\textwidth]{./img/Figure_1.png}
+            \caption{Graph with 5 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_2_2.png}
-            \caption{Graph with 2 edges}
+            \includegraphics[width=\textwidth]{./img/Figure_2.png}
+            \caption{Graph with 5 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_3_1.png}
-            \caption{Graph with 3 edges}
+            \includegraphics[width=\textwidth]{./img/Figure_3.png}
+            \caption{Graph with 6 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_3_2.png}
-            \caption{Graph with 3 edges}
+            \includegraphics[width=\textwidth]{./img/Figure_4.png}
+            \caption{Graph with 6 edges}
         \end{subfigure}
     \end{figure*}
 
     \begin{figure*}
         \centering   
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_6_1.png}
-            \caption{Graph with 6 edges}
+            \includegraphics[width=\textwidth]{./img/Figure_5.png}
+            \caption{Graph with 7 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_6_2.png}
-            \caption{Graph with 6 edges}
+            \includegraphics[width=\textwidth]{./img/Figure_6.png}
+            \caption{Graph with 7 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_8_1.png}
+            \includegraphics[width=\textwidth]{./img/Figure_7.png}
             \caption{Graph with 8 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_8_2.png}
+            \includegraphics[width=\textwidth]{./img/Figure_8.png}
             \caption{Graph with 8 edges}
         \end{subfigure}
     \end{figure*}
     \begin{figure*}
         \centering
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_9_1.png}
+            \includegraphics[width=\textwidth]{./img/Figure_9.png}
             \caption{Graph with 9 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_9_2.png}
+            \includegraphics[width=\textwidth]{./img/Figure_10.png}
             \caption{Graph with 9 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_10_1.png}
+            \includegraphics[width=\textwidth]{./img/Figure_11.png}
             \caption{Graph with 10 edges}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
-            \includegraphics[width=\textwidth]{./img/p3_edge_10_2.png}
+            \includegraphics[width=\textwidth]{./img/Figure_12.png}
             \caption{Graph with 10 edges}
         \end{subfigure}
 
     \end{figure*}
     \begin{figure*}
         \centering
-        \includegraphics[width=0.5\textwidth]{./img/prob_vs_lambda.png}
-        \caption{convergence vs number of nodes}
+        \includegraphics[width=0.5\textwidth]{./img/Figure_13.png}
+        \caption{convergence vs number of edges}
     \end{figure*}
     \newpage
-    As we can see from above figures, we can see that the graphs with more edges are more converging with same number of nodes. Left hand side of above figures show the x and y coordinates seperately in time domain, and the right hand side shows in the x-y plane. As I was not able to create random graph with 5 nodes and spectific number of edges, I created random graph with 5 nodes and used a probability to form an edge between two nodes. As we can see from the last plot, we see that the $\lambda_2$ is increasing as the probability of forming edge between two nodes is increasing. Also from above plots, we see that it converges faster with more edges. Therefore it always improves with more edges. The reason why we have lower eigenvalue at probability equal to 0.7 is that that particular graph did not form enough edges even with 0.7 probabilty. 
+    As we can see from above figures, we can see that the graphs with more edges are more converging with same number of nodes. Left hand side of above figures show the x and y coordinates seperately in time domain, and the right hand side shows in the x-y plane. I created random dense gnm graph, which we can specify number of nodes and edges, with 5 nodes and used  5 to 10 edges. As we can see from the last plot, we see that the $\lambda_2$ is increasing as the probability of forming edge between two nodes is increasing. Also from above plots, we see that it converges faster with more edges. Therefore it always improves with more edges.
 \end{problem}
-\newpage
 \begin{problem}
     \begin{align*}
         \dot{x}_i(t) = \sum_{j \in N(i)} (x_j(t) - x_i(t)), \space i = 1, \cdots , n
@@ -205,6 +204,7 @@
         \end{bmatrix*} u_i(t)
     \end{align*}
     where $p_i$ and $v_i$ are, respectively the position and the velocity of the particle with repect to an ineartial frame, and $v_i$ is the force and/or control term acting on the particle. Use a setup, inspired by the agreement protocol, to propose a control law $-u_i(t)$ for each vertex such that: (1) the control input for particle i relies only on the relative posistion and velocity information with respect to its neighbors; (2) the control input to each particle results in an asymptotically cohesive behavior for the particle group, that is, the position of the particle remain close to each other; and (3) the control input to each particle results in having a particle group that evolves twith the same velocity. Simulate you r proposed control law.
+
 
 \end{problem}
 
@@ -246,7 +246,9 @@
             \includegraphics[width=\textwidth]{./img/p1convergence_complete_graph_5.png}
             \caption{complete graph}
         \end{subfigure}
-
+    \end{figure*}
+    \begin{figure*}
+        \centering
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/p1xyposition_cycle_graph_5.png}
             \caption{cycle graph}
@@ -266,7 +268,7 @@
     \end{figure*}
     \begin{figure*}
         \centering
-        \includegraphics[width=\textwidth]{./img/p1convergence_num_node.png}
+        \includegraphics[width=0.5\textwidth]{./img/p1convergence_num_node.png}
         \caption{convergence vs number of nodes}
     \end{figure*}
 \end{problem}
