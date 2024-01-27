@@ -103,9 +103,74 @@
 
 \begin{problem}
     Simulate the agreement protocol (3.2) for a graph on five vertices. Compare the rate of convegence of protocol as the number of edges increases. Does the convergence of the protocol alw3ays improve when the graph contains more edges? Provide an analysis to support your observation. 
+    \begin{figure*}[!ht]
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_2_1.png}
+            \caption{Graph with 2 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_2_2.png}
+            \caption{Graph with 2 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_3_1.png}
+            \caption{Graph with 3 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_3_2.png}
+            \caption{Graph with 3 edges}
+        \end{subfigure}
+    \end{figure*}
 
+    \begin{figure*}
+        \centering   
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_6_1.png}
+            \caption{Graph with 6 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_6_2.png}
+            \caption{Graph with 6 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_8_1.png}
+            \caption{Graph with 8 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_8_2.png}
+            \caption{Graph with 8 edges}
+        \end{subfigure}
+    \end{figure*}
+    \begin{figure*}
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_9_1.png}
+            \caption{Graph with 9 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_9_2.png}
+            \caption{Graph with 9 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_10_1.png}
+            \caption{Graph with 10 edges}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p3_edge_10_2.png}
+            \caption{Graph with 10 edges}
+        \end{subfigure}
+
+    \end{figure*}
+    \begin{figure*}
+        \centering
+        \includegraphics[width=0.5\textwidth]{./img/prob_vs_lambda.png}
+        \caption{convergence vs number of nodes}
+    \end{figure*}
+    \newpage
+    As we can see from above figures, we can see that the graphs with more edges are more converging with same number of nodes. Left hand side of above figures show the x and y coordinates seperately in time domain, and the right hand side shows in the x-y plane. As I was not able to create random graph with 5 nodes and spectific number of edges, I created random graph with 5 nodes and used a probability to form an edge between two nodes. As we can see from the last plot, we see that the $\lambda_2$ is increasing as the probability of forming edge between two nodes is increasing. Also from above plots, we see that it converges faster with more edges. Therefore it always improves with more edges. The reason why we have lower eigenvalue at probability equal to 0.7 is that that particular graph did not form enough edges even with 0.7 probabilty. 
 \end{problem}
-
+\newpage
 \begin{problem}
     \begin{align*}
         \dot{x}_i(t) = \sum_{j \in N(i)} (x_j(t) - x_i(t)), \space i = 1, \cdots , n
