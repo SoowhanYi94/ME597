@@ -6,19 +6,18 @@ from scipy.integrate import odeint
 from mpl_toolkits import mplot3d
 def random_graphs_init(graph):
     for i in range(len(graph.nodes())):
-        graph.nodes[i]['pos_x'] = random.randint(0, i + 1)
-        graph.nodes[i]['pos_y'] = random.randint(0, i + 1)
-        graph.nodes[i]['pos_z'] = random.randint(0, i + 1)
-        
-        graph.nodes[i]['vel_x'] = random.randint(0, i + 1)
-        graph.nodes[i]['vel_y'] = random.randint(0, i + 1)
-        graph.nodes[i]['vel_z'] = random.randint(0, i + 1)
+        graph.nodes[i]['pos_x'] = random.randint(0, i + 10)
+        graph.nodes[i]['pos_y'] = random.randint(0, i + 10)
+        graph.nodes[i]['pos_z'] = random.randint(0, i + 10)
+        graph.nodes[i]['vel_x'] = random.randint(0, i + 10)
+        graph.nodes[i]['vel_y'] = random.randint(0, i + 10)
+        graph.nodes[i]['vel_z'] = random.randint(0, i + 10)
         
 
     return graph
 
 def get_input(x, G):
-    k_p = 0.8
+    k_p = 1
     k_v = 1
     u = np.zeros(len(x)//2)
     L_G = list(nx.directed_laplacian_matrix(G))
@@ -59,8 +58,11 @@ def main():
             trajectory_y = odeint(get_xdot, pos_vel_y, t, args=(graph,))
             trajectory_z = odeint(get_xdot, pos_vel_z, t, args=(graph,))
 
-            # plt.figure()
+            plt.figure()
             plt.plot(t, trajectory_x[:,:num])
+            plt.figure()
+            plt.plot(t, trajectory_x[:,num:])
+
             # plt.xlabel("Time t")
             # plt.ylabel("Position x and Velocity of Nodes ")
             # plt.grid()

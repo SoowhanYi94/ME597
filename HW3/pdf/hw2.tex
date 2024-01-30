@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{import}
+\usepackage[ruled]{algorithm2e}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{subcaption}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\subimport*{}{macro}
+
+\setlength\parindent{0px}
+
+\begin{document}
+\setcounter{problem}{0}
+\title{Homework \#3}
+\author{
+    \normalsize{AA 597: Networked Dynamics Systems}\\
+    \normalsize{Prof. Mehran Mesbahi}\\
+    \normalsize{Due: Feb 2, 2024 11:59pm}\\
+    \normalsize{Soowhan Yi}
+}
+\date{{}}
+\maketitle
+
+
+\begin{problem}
+    How would one extend Exercise 3.6 to n particles in three dimensions?
+\end{problem}
+\begin{problem}
+    Consider vertex i in the context of the agreement protocol(3.1). Suppose that vertex i (the rebel) decides not to abide by the agreement protocol, and instead ﬁxes its state to a constant value. Show that all vertices converge to the state of the rebel vertex when the graph is connected.
+\end{problem}
+\begin{problem}
+    Consider the system
+    \begin{align*}
+        \dot{\theta}_i(t) = \omega_i + \sum_{j \in N(i)} sin(\theta_j(t) - \theta_i(t)), \text{  for } i = 1, 2, 3, \cdots, n
+    \end{align*}
+    which resembles the agreement protocol with the linear term $x_j - x_i$ replaced by the nonlinear term $sin(\theta_j(t) - \theta_i(t))$. For $\omega_i = 0$, simulate (4.35) for $n = 5$ and various connected graphs on five nodes. Do the trajectories of (4.35) always converge for any initialization? How about for $\omega_i \neq 0$? (This is a "simulation-inspired question" so it is okay to conjecture!) 
+\end{problem}
+\begin{problem}
+    Provide an example for an agreement protocol on a digraph
+that always converges to the agreement subspace (from arbitrary initializa-
+tion), yet does not admit a quadratic Lyapunov function of the form 12 xT x,
+that testiﬁes to its asymptotic stability with respect to the agreement sub-
+space.
+\end{problem}
+\begin{problem}
+Let $\lambda_1, \lambda_2, \lambda_3, \cdots, \lambda_n $ be the ordered eigenvalues of the graph Laplacian associated with an undirected graph. We have seen that the second eigenvalue $\lambda_2$ is important both as a measure of the robustness in the graph, and as a measure of how fast the protocol converges. Given that our job is to build up a communication network by incrementally adding new edges (communication channels) between nodes, it makes sense to try and make $\lambda_2$ as large as possible.
+    
+Write a program that iteratively adds edges to a graph (starting with a connected graph) in such a way that at each step, the edge (not necessarily unique) is added that maximizes $\lambda_2$ of the graph Laplacian associated with the new graph. In other words, implement the following algorithm: 
+
+Step 0: Given G0 a spanning tree on n nodes. Set k=0
+
+Step 1: Add a single edge to produce Gnew from Gk such that lambda2(Gnew) is maximized. Set k=k+1, Gk=Gnew
+
+Repeat Step 1 until Gk=Kn for n = 10, 20, and 50. Did anything surprising happen?
+\end{problem}
+\end{document}

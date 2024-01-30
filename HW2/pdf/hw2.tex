@@ -205,7 +205,43 @@
     \end{align*}
     where $p_i$ and $v_i$ are, respectively the position and the velocity of the particle with repect to an ineartial frame, and $v_i$ is the force and/or control term acting on the particle. Use a setup, inspired by the agreement protocol, to propose a control law $-u_i(t)$ for each vertex such that: (1) the control input for particle i relies only on the relative posistion and velocity information with respect to its neighbors; (2) the control input to each particle results in an asymptotically cohesive behavior for the particle group, that is, the position of the particle remain close to each other; and (3) the control input to each particle results in having a particle group that evolves twith the same velocity. Simulate you r proposed control law.
 
+    (1) For control input, we are only allowed to use position and velocity information.
 
+    (2) their position can be different but asymptotically at the same position, meaning as long as their positions are close to each other, they can travel at a high speed.
+
+    (3) After all, the velocity should converge to same or similar value. 
+
+    Therefore I would put a bit of penalty on having different position from average of neighboring nodes, and larger penalty on having different velocity from neighboring nodes. 
+    \begin{align*}
+        u_i(t) = k_p \sum_{j \in N(i)}(p_i -  p_j) + k_v\sum_{j \in N(i)} (v_i -  v_j )
+    \end{align*}
+    
+    \begin{minted}{python3}
+    def get_input(x, G):
+        k_p = 0.5
+        k_v = 0.9
+        u = np.array(np.zeros((x.shape[0],1)))
+        
+        for i in G.nodes():
+            for j in G.neighbors(i):
+                u[i] += k_p *(x[i,0] - x[j,0]) + k_v *(x[i, 1] - x[j, 1])
+    
+        return u
+    \end{minted}
+    \begin{figure*}[!h]
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_5_1.png}
+            \caption{position trajectory}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_5_2.png}
+            \caption{velocity trajectory}
+        \end{subfigure}
+        
+
+    \end{figure*}
+    Here, we see that their trajectories are not converging, not even in asymptotical manner. Proper tuning for those gains would achieve those design objectives. 
 \end{problem}
 
 \begin{problem}
