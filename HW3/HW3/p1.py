@@ -20,10 +20,10 @@ def get_input(x, G):
     k_p = 1
     k_v = 1
     u = np.zeros(len(x)//2)
-    L_G = list(nx.directed_laplacian_matrix(G))
+    L_D = list(nx.directed_laplacian_matrix(G))
     for i in G.nodes():
         for j in G.neighbors(i):
-            u[i] += k_p * L_G[i][j] * x[j] + k_v *L_G[i][j]* x[len(x)//2 + j]
+            u[i] += -(k_p * L_D[i][j] * (x[i] - x[j]) + k_v *L_D[i][j]* (x[len(x)//2 + i] - x[len(x)//2 + j]))
     return u
 
 def get_xdot(x, t, G):
@@ -47,7 +47,7 @@ def main():
         graphs = [nx.gnm_random_graph(num, 2 * num, directed=True)]
         for graph in graphs:
             graph = random_graphs_init(graph)
-            t = np.linspace(0, 10, 100)
+            t = np.linspace(0, 30, 101)
 
             pos_vel_x = np.append(list(nx.get_node_attributes(graph, "pos_x").values()),list(nx.get_node_attributes(graph, "vel_x").values()) )
             pos_vel_y = np.append(list(nx.get_node_attributes(graph, "pos_y").values()),list(nx.get_node_attributes(graph, "vel_y").values()) )
@@ -60,23 +60,34 @@ def main():
 
             plt.figure()
             plt.plot(t, trajectory_x[:,:num])
+            plt.xlabel("Time t")
+            plt.ylabel("Position x of Nodes ")
             plt.figure()
             plt.plot(t, trajectory_x[:,num:])
-
-            # plt.xlabel("Time t")
-            # plt.ylabel("Position x and Velocity of Nodes ")
-            # plt.grid()
-            # plt.title(f"Convergence of Position with {num} Nodes")
-            # plt.legend([f'Node {i + 1}' for i in range(num)])
-            # plt.figure()
-            # plt.plot(t, trajectory_y)
-            # plt.figure()
-            # plt.plot(t, trajectory_z)
-            # plt.figure()
-            # ax = plt.axes(projection='3d')
-            # for i in range(num):
-            #     ax.plot3D(trajectory_x[:,i], trajectory_y[:,i], trajectory_z[:,i])
-                # ax.scatter3D(trajectory_x[:,i], trajectory_y[:,i], trajectory_z[:,i])
+            plt.xlabel("Time t")
+            plt.ylabel("Velocity x of Nodes ")
+            plt.figure()
+            plt.plot(t, trajectory_y[:,:num])
+            plt.xlabel("Time t")
+            plt.ylabel("Position y of Nodes ")
+            plt.figure()
+            plt.plot(t, trajectory_y[:,num:])
+            plt.xlabel("Time t")
+            plt.ylabel("Velocity x of Nodes ")
+            plt.figure()
+            plt.plot(t, trajectory_z[:,:num])
+            plt.xlabel("Time t")
+            plt.ylabel("Position z of Nodes ")
+            plt.figure()
+            plt.plot(t, trajectory_z[:,num:])
+            plt.xlabel("Time t")
+            plt.ylabel("Velocity x of Nodes ")
+            plt.figure()
+            ax = plt.axes(projection='3d')
+            for i in range(num):
+                ax.plot3D(trajectory_x[:,i], trajectory_y[:,i], trajectory_z[:,i])
+                ax.scatter3D(trajectory_x[:,i], trajectory_y[:,i], trajectory_z[:,i])
+            plt.xlabel
     plt.show()
 
 if __name__ == "__main__":

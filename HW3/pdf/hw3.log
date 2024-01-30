@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  29 JAN 2024 20:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  30 JAN 2024 13:01
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/syi/Wi 24 UW/ME597/HW3/pdf/hw2.tex"
-(/home/syi/Wi 24 UW/ME597/HW3/pdf/hw2.tex
+**"/home/syi/Wi 24 UW/ME597/HW3/pdf/hw3.tex"
+(/home/syi/Wi 24 UW/ME597/HW3/pdf/hw3.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -270,10 +270,10 @@ Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifluatex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 )
-runsystem(uname -s > "hw2.w18")...executed.
+runsystem(uname -s > "hw3.w18")...executed.
 
- (./hw2.w18)
-runsystem(rm -- "hw2.w18")...executed.
+ (./hw3.w18)
+runsystem(rm -- "hw3.w18")...executed.
 
 ) (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
 \integerpart=\count301
@@ -303,7 +303,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@every@listing=\toks22
 \c@listing=\count306
 )
-runsystem(mkdir -p _minted-hw2)...executed.
+runsystem(mkdir -p _minted-hw3)...executed.
 
  (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
@@ -717,12 +717,12 @@ Package: wrapfig 2003/01/31  v 3.6
 )
 \c@lemma=\count358
 )
-runsystem(which pygmentize && touch hw2.aex)...executed.
+runsystem(which pygmentize && touch hw3.aex)...executed.
 
-runsystem(rm hw2.aex)...executed.
+runsystem(rm hw3.aex)...executed.
 
- (./hw2.aux)
-\openout1 = `hw2.aux'.
+ (./hw3.aux)
+\openout1 = `hw3.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
@@ -755,9 +755,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 21.
 LaTeX Info: Redefining \pageref on input line 21.
 LaTeX Info: Redefining \nameref on input line 21.
- (./hw2.out) (./hw2.out)
+ (./hw3.out) (./hw3.out)
 \@outlinefile=\write5
-\openout5 = `hw2.out'.
+\openout5 = `hw3.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
@@ -827,22 +827,27 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+\openout3 = `hw3.pyg'.
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./hw2.aux)
-Package rerunfilecheck Info: File `hw2.out' has not changed.
+ (./_minted-hw3/default.pygstyle) (./_minted-hw3/68B329DA9893E34099C7D8AD5CB9C940F0CD1767E90E7AC4D3295654CDFA96CC.pygtex) [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./hw3.aux)
+Package rerunfilecheck Info: File `hw3.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+runsystem(rm hw3.pyg)...executed.
+
  ) 
 Here is how much of TeX's memory you used:
- 19913 strings out of 480171
- 339431 string characters out of 5894489
- 882796 words of memory out of 5000000
- 37546 multiletter control sequences out of 15000+600000
- 481428 words of font info for 73 fonts, out of 8000000 for 9000
+ 20022 strings out of 480171
+ 341040 string characters out of 5894489
+ 885796 words of memory out of 5000000
+ 37646 multiletter control sequences out of 15000+600000
+ 481596 words of font info for 74 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 74i,10n,87p,573b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 74i,10n,87p,573b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on hw2.pdf (1 page, 88617 bytes).
+Output written on hw3.pdf (1 page, 89176 bytes).
 PDF statistics:
  60 PDF objects out of 1000 (max. 8388607)
  40 compressed objects within 1 object stream

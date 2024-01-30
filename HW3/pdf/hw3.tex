@@ -33,9 +33,21 @@
 
 \begin{problem}
     How would one extend Exercise 3.6 to n particles in three dimensions?
+
+    First, random graphs with n nodes were created.
+    \begin{minted}{python3}
+
+    \end{minted}
 \end{problem}
 \begin{problem}
+    \begin{align*}
+        \dot{x}_i(t) = \sum_{j \in N(i)} (x_j(t) - x_i(t)), \space i = 1, \cdots , n
+    \end{align*}
     Consider vertex i in the context of the agreement protocol(3.1). Suppose that vertex i (the rebel) decides not to abide by the agreement protocol, and instead ﬁxes its state to a constant value. Show that all vertices converge to the state of the rebel vertex when the graph is connected.
+
+    1. Prove that the graph contains rooted out branching
+    2. Jordan decomposition
+    3. prove $\lambda_1 = 0$, $\lambda_2 >0$
 \end{problem}
 \begin{problem}
     Consider the system
