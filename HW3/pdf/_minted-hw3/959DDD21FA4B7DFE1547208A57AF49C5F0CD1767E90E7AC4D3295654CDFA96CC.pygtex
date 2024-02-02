@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{get\PYGZus{}thetadot}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{G}\PYG{p}{,} \PYG{n}{omega}\PYG{p}{):}
+    \PYG{n}{D} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{incidence\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{G}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+    \PYG{n}{dxdt} \PYG{o}{=} \PYG{n}{omega} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)))}
+    \PYG{k}{return} \PYG{n}{dxdt}
+\end{Verbatim}

@@ -1,0 +1,99 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.integrate} \PYG{k}{import} \PYG{n}{odeint}
+\PYG{k+kn}{from} \PYG{n+nn}{mpl\PYGZus{}toolkits} \PYG{k}{import} \PYG{n}{mplot3d}
+\PYG{k}{def} \PYG{n+nf}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{())):}
+        \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}pos\PYGZus{}x\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{100000}\PYG{p}{)}
+        \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}pos\PYGZus{}y\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{100000}\PYG{p}{)}
+        \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}pos\PYGZus{}z\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{100000}\PYG{p}{)}
+        \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}vel\PYGZus{}x\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{100000}\PYG{p}{)}
+        \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}vel\PYGZus{}y\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{100000}\PYG{p}{)}
+        \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}vel\PYGZus{}z\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{100000}\PYG{p}{)}
+
+
+    \PYG{k}{return} \PYG{n}{graph}
+
+\PYG{k}{def} \PYG{n+nf}{get\PYGZus{}input}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{G}\PYG{p}{):}
+    \PYG{n}{k\PYGZus{}p} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{k\PYGZus{}v} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{u} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{L\PYGZus{}D} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{directed\PYGZus{}laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{G}\PYG{p}{))}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{():}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{i}\PYG{p}{):}
+            \PYG{n}{u}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{+=} \PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{k\PYGZus{}p} \PYG{o}{*} \PYG{n}{L\PYGZus{}D}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]} \PYG{o}{*} \PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{o}{\PYGZhy{}} \PYG{n}{x}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{p}{)} \PYG{o}{+} \PYG{n}{k\PYGZus{}v} \PYG{o}{*}\PYG{n}{L\PYGZus{}D}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]}\PYG{o}{*} \PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{+} \PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{x}\PYG{p}{[}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{+} \PYG{n}{i}\PYG{p}{]} \PYG{p}{))}
+    \PYG{k}{return} \PYG{n}{u}
+
+\PYG{k}{def} \PYG{n+nf}{get\PYGZus{}xdot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{G}\PYG{p}{):}
+    \PYG{n}{num} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+
+    \PYG{n}{A} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]])}
+    \PYG{n}{B} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{])}
+
+    \PYG{c}{\PYGZsh{} Use Kronecker product to define the new dynamics}
+    \PYG{n}{Kronecker\PYGZus{}A} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{kron}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{num}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{))}
+
+    \PYG{n}{u} \PYG{o}{=} \PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{G}\PYG{p}{)}
+
+    \PYG{n}{dxdt} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{Kronecker\PYGZus{}A}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{kron}\PYG{p}{(}\PYG{n}{B}\PYG{p}{,} \PYG{n}{u}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{dxdt}
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{nums} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]}
+    \PYG{k}{for} \PYG{n}{num} \PYG{o+ow}{in} \PYG{n}{nums}\PYG{p}{:}
+        \PYG{n}{graphs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{gnm\PYGZus{}random\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,} \PYG{l+m+mi}{3} \PYG{o}{*} \PYG{n}{num}\PYG{p}{,} \PYG{n}{directed}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)]}
+        \PYG{k}{for} \PYG{n}{graph} \PYG{o+ow}{in} \PYG{n}{graphs}\PYG{p}{:}
+            \PYG{n}{graph} \PYG{o}{=} \PYG{n}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)}
+            \PYG{n}{t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{1001}\PYG{p}{)}
+
+            \PYG{n}{pos\PYGZus{}vel\PYGZus{}x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZus{}x\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{()),}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}vel\PYGZus{}x\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{())} \PYG{p}{)}
+            \PYG{n}{pos\PYGZus{}vel\PYGZus{}y} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZus{}y\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{()),}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}vel\PYGZus{}y\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{())} \PYG{p}{)}
+            \PYG{n}{pos\PYGZus{}vel\PYGZus{}z} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZus{}z\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{()),}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}vel\PYGZus{}z\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{())} \PYG{p}{)}
+
+
+            \PYG{n}{trajectory\PYGZus{}x} \PYG{o}{=} \PYG{n}{odeint}\PYG{p}{(}\PYG{n}{get\PYGZus{}xdot}\PYG{p}{,} \PYG{n}{pos\PYGZus{}vel\PYGZus{}x}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,))}
+            \PYG{n}{trajectory\PYGZus{}y} \PYG{o}{=} \PYG{n}{odeint}\PYG{p}{(}\PYG{n}{get\PYGZus{}xdot}\PYG{p}{,} \PYG{n}{pos\PYGZus{}vel\PYGZus{}y}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,))}
+            \PYG{n}{trajectory\PYGZus{}z} \PYG{o}{=} \PYG{n}{odeint}\PYG{p}{(}\PYG{n}{get\PYGZus{}xdot}\PYG{p}{,} \PYG{n}{pos\PYGZus{}vel\PYGZus{}z}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,))}
+
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}x}\PYG{p}{[:,:}\PYG{n}{num}\PYG{p}{])}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Position x of Nodes \PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}x}\PYG{p}{[:,}\PYG{n}{num}\PYG{p}{:])}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Velocity x of Nodes \PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}y}\PYG{p}{[:,:}\PYG{n}{num}\PYG{p}{])}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Position y of Nodes \PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}y}\PYG{p}{[:,}\PYG{n}{num}\PYG{p}{:])}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Velocity y of Nodes \PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}z}\PYG{p}{[:,:}\PYG{n}{num}\PYG{p}{])}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Position z of Nodes \PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}z}\PYG{p}{[:,}\PYG{n}{num}\PYG{p}{:])}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Velocity z of Nodes \PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{ax} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{axes}\PYG{p}{(}\PYG{n}{projection}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}3d\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{):}
+                \PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot3D}\PYG{p}{(}\PYG{n}{trajectory\PYGZus{}x}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{trajectory\PYGZus{}y}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{trajectory\PYGZus{}z}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{])}
+                \PYG{n}{ax}\PYG{o}{.}\PYG{n}{scatter3D}\PYG{p}{(}\PYG{n}{trajectory\PYGZus{}x}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{trajectory\PYGZus{}y}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{trajectory\PYGZus{}z}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{])}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}x\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}y\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}zlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}z\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}
