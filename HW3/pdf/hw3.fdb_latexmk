@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1706944783 "/home/syi/Wi 24 UW/ME597/HW3/pdf/hw3.tex" "hw3.pdf" "hw3" 1706944784
+["pdflatex"] 1706945955 "/home/syi/Wi 24 UW/ME597/HW3/pdf/hw3.tex" "hw3.pdf" "hw3" 1706945956
   "/dev/null" 1706926538 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/etc/texmf/web2c/texmf.cnf" 1695837190 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/syi/Wi 24 UW/ME597/HW3/pdf/hw3.tex" 1706944783 23288 f59c0aba0d04266ee23dbddd92601d0f ""
+  "/home/syi/Wi 24 UW/ME597/HW3/pdf/hw3.tex" 1706945955 23854 b494ccc647c0e51068cb0ebc52beb5ae ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -170,9 +170,9 @@
   "_minted-hw3/C7EB17C110C0844AE9373B331D600127F0CD1767E90E7AC4D3295654CDFA96CC.pygtex" 1706935036 1749 1e9b3266b85f1532d469c3a59034d038 ""
   "_minted-hw3/CC61E3DC3ADD4C2052096A59383B1162F0CD1767E90E7AC4D3295654CDFA96CC.pygtex" 1706937540 4733 0569c6c8ecbdb9b02f2d22ea43545c5d ""
   "_minted-hw3/default.pygstyle" 1706648515 7157 7149f5dc341fa4b43eda328006a43d74 ""
-  "hw3.aux" 1706944784 1332 b3d01d0f13cfae95242e4aff666079ea "pdflatex"
-  "hw3.out" 1706944783 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "hw3.tex" 1706944783 23288 f59c0aba0d04266ee23dbddd92601d0f ""
+  "hw3.aux" 1706945956 1332 195724b52bc63a42973fb5618a8e3742 "pdflatex"
+  "hw3.out" 1706945956 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "hw3.tex" 1706945955 23854 b494ccc647c0e51068cb0ebc52beb5ae ""
   "img/p1_1.png" 1706651237 22581 0b85001b2c5efeead65b672a8807821e ""
   "img/p1_2.png" 1706651244 25122 942b3fd60b434aebba2cb23fc55dd09e ""
   "img/p1_3.png" 1706651250 23487 d95fd130a6529a22f42bd3123cca3b33 ""

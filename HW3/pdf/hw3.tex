@@ -232,10 +232,12 @@ def get_thetadot(theta, t, G, omega):
 \begin{problem}
     Provide an example for an agreement protocol on a digraph that always converges to the agreement subspace (from arbitrary initialization), yet does not admit a quadratic Lyapunov function of the form $\frac{1}{2} x^T x$, that testiﬁes to its asymptotic stability with respect to the agreement subspace.
 
-    If the agreement protocol is stochastic matrix, than it would not take in quadratic Lyapunov function, as we cannot integrate or take the derivative of stochastic data. Instead, we can use the difference between the current V value and the next one. $V(x(k+1)) - V(x(k)) < 0 $ to make sure that it is converging. We can discretize the agreement protocol by letting $z(k) = x(\delta x)$ for any $\delta \geq 0$. Then the agreement protocol can be expressed as such. 
+    If the agreement protocol is stochastic matrix, than it would not take in quadratic Lyapunov function, as we cannot integrate or take the derivative of stochastic data. Instead, we can use $V(z) = \max_i z_i - min_j z_j$ and $V(x(k+1)) - V(x(k)) < 0 $ to make sure that it is converging. We can discretize the agreement protocol by letting $z(k) = x(\delta x)$ for any $\delta \geq 0$. Then the agreement protocol can be expressed as such. 
     \begin{align*}
         z(k+1) = e^{-\delta L(D)}z(k)
     \end{align*}
+    Since the stochasitc matrix $e^{-\delta L(D)}$ contatin one column of positive elements, (Corollary 4.2 in the textbook), the maximum and minimum states would decrease their differences if there is a difference in their states. Therefore quadratic form of Lyapunov function is not admitted in this case, but we can prove that $V(x(k+1)) - V(x(k)) < 0$ with the fact that the difference in minimum and maximum states are decreasing. Therefore this digraph would always converge to agreement subspace that corresponds to $V (z)= 0$, but not admitting quadratic form of Lyapunov function.
+
 \end{problem}
 
 \begin{problem}
@@ -289,6 +291,11 @@ First I created random graph with gnm random graph funtion. To make sure that I 
         \includegraphics[width=\textwidth]{./img/p5_node40.png}
         \caption{n = 40 }
     \end{subfigure}
+    
+\end{figure*}
+\newpage
+\begin{figure*}[!h]
+    \centering
     \begin{subfigure}{0.35\textwidth}
         \includegraphics[width=\textwidth]{./img/p5_node50.png}
         \caption{n = 50}
@@ -297,11 +304,6 @@ First I created random graph with gnm random graph funtion. To make sure that I 
         \includegraphics[width=\textwidth]{./img/p5_node60.png}
         \caption{n = 60 }
     \end{subfigure}
-\end{figure*}
-\newpage
-\begin{figure*}[!h]
-    \centering
-    
     \begin{subfigure}{0.35\textwidth}
         \includegraphics[width=\textwidth]{./img/p5_node70.png}
         \caption{n = 70 }
