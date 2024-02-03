@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{addEdge}\PYG{p}{(}\PYG{n}{G}\PYG{p}{):}
+    \PYG{n}{start} \PYG{o}{=} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+    \PYG{n}{end} \PYG{o}{=} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+    \PYG{n+nb}{max} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{node\PYGZus{}i} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+        \PYG{n}{G\PYGZus{}temp} \PYG{o}{=} \PYG{n}{G}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+        \PYG{k}{for} \PYG{n}{node\PYGZus{}j} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{node\PYGZus{}i} \PYG{o}{!=} \PYG{n}{node\PYGZus{}j} \PYG{o+ow}{and} \PYG{p}{((}\PYG{n}{node\PYGZus{}i}\PYG{p}{,} \PYG{n}{node\PYGZus{}j}\PYG{p}{)} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{G\PYGZus{}temp}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()):}
+                \PYG{n}{G\PYGZus{}temp}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{node\PYGZus{}i}\PYG{p}{,} \PYG{n}{node\PYGZus{}j}\PYG{p}{)}
+                \PYG{n}{lambda2} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}spectrum}\PYG{p}{(}\PYG{n}{G\PYGZus{}temp}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{k}{if} \PYG{n+nb}{max} \PYG{o}{\PYGZlt{}} \PYG{n}{lambda2}\PYG{p}{:}
+                    \PYG{n+nb}{max} \PYG{o}{=} \PYG{n}{lambda2}
+                    \PYG{n}{start} \PYG{o}{=} \PYG{n}{node\PYGZus{}i}
+                    \PYG{n}{end} \PYG{o}{=} \PYG{n}{node\PYGZus{}j}
+
+    \PYG{n}{G}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,} \PYG{n}{end}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{G}
+\end{Verbatim}

@@ -1,0 +1,51 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.integrate} \PYG{k}{import} \PYG{n}{odeint}
+\PYG{k+kn}{from} \PYG{n+nn}{mpl\PYGZus{}toolkits} \PYG{k}{import} \PYG{n}{mplot3d}
+
+\PYG{k}{def} \PYG{n+nf}{addEdge}\PYG{p}{(}\PYG{n}{G}\PYG{p}{):}
+    \PYG{c}{\PYGZsh{} diameter = nx.diameter(G)}
+    \PYG{n}{start} \PYG{o}{=} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+    \PYG{n}{end} \PYG{o}{=} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+    \PYG{n+nb}{max} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{node\PYGZus{}i} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+        \PYG{n}{G\PYGZus{}temp} \PYG{o}{=} \PYG{n}{G}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+        \PYG{k}{for} \PYG{n}{node\PYGZus{}j} \PYG{o+ow}{in} \PYG{n}{G}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{node\PYGZus{}i} \PYG{o}{!=} \PYG{n}{node\PYGZus{}j} \PYG{o+ow}{and} \PYG{p}{((}\PYG{n}{node\PYGZus{}i}\PYG{p}{,} \PYG{n}{node\PYGZus{}j}\PYG{p}{)} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{G\PYGZus{}temp}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()):}
+                \PYG{n}{G\PYGZus{}temp}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{node\PYGZus{}i}\PYG{p}{,} \PYG{n}{node\PYGZus{}j}\PYG{p}{)}
+                \PYG{n}{lambda2} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}spectrum}\PYG{p}{(}\PYG{n}{G\PYGZus{}temp}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{k}{if} \PYG{n+nb}{max} \PYG{o}{\PYGZlt{}} \PYG{n}{lambda2}\PYG{p}{:}
+                    \PYG{n+nb}{max} \PYG{o}{=} \PYG{n}{lambda2}
+                    \PYG{n}{start} \PYG{o}{=} \PYG{n}{node\PYGZus{}i}
+                    \PYG{n}{end} \PYG{o}{=} \PYG{n}{node\PYGZus{}j}
+
+    \PYG{n}{G}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,} \PYG{n}{end}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{G}
+
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{nums} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{40}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{]}
+    \PYG{k}{for} \PYG{n}{num} \PYG{o+ow}{in} \PYG{n}{nums}\PYG{p}{:}
+        \PYG{n}{graphs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{gnm\PYGZus{}random\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,}  \PYG{p}{(}\PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{p}{(}\PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)]}
+        \PYG{k}{for} \PYG{n}{graph} \PYG{o+ow}{in} \PYG{n}{graphs}\PYG{p}{:}
+            \PYG{n}{lambdas} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{num\PYGZus{}edges} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()))}
+            \PYG{k}{while}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{())} \PYG{o}{\PYGZlt{}} \PYG{n}{num}\PYG{o}{*}\PYG{p}{(}\PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{):}
+                \PYG{n}{lambdas}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}spectrum}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{])}
+                \PYG{n}{num\PYGZus{}edges}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()))}
+                \PYG{n}{graph} \PYG{o}{=} \PYG{n}{addEdge}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()))}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{num\PYGZus{}edges}\PYG{p}{,} \PYG{n}{lambdas}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}number of edges\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZdl{}\PYGZbs{}lambda\PYGZus{}2\PYGZdl{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}

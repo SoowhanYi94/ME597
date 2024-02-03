@@ -4,85 +4,49 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import odeint
 from mpl_toolkits import mplot3d
-def random_graphs_init(graph):
-    for i in range(len(graph.nodes())):
-        graph.nodes[i]['pos_x'] = random.randint(0, i + 100000)
-        graph.nodes[i]['pos_y'] = random.randint(0, i + 100000)
-        graph.nodes[i]['pos_z'] = random.randint(0, i + 100000)
-        graph.nodes[i]['vel_x'] = random.randint(0, i + 100000)
-        graph.nodes[i]['vel_y'] = random.randint(0, i + 100000)
-        graph.nodes[i]['vel_z'] = random.randint(0, i + 100000)
-        graph.nodes[i]['theta'] = random.uniform(np.pi/2, 3*np.pi/2)
 
-    return graph
-def random_connected_graphs_init(graph):
-    for i in range(len(graph.nodes())):
-        graph.nodes[i]['pos_x'] = random.randint(0, i + 100000)
-        graph.nodes[i]['pos_y'] = random.randint(0, i + 100000)
-        graph.nodes[i]['pos_z'] = random.randint(0, i + 100000)
-        graph.nodes[i]['vel_x'] = random.randint(0, i + 100000)
-        graph.nodes[i]['vel_y'] = random.randint(0, i + 100000)
-        graph.nodes[i]['vel_z'] = random.randint(0, i + 100000)
-        graph.nodes[i]['theta'] = random.uniform(np.pi/2, 3*np.pi/2)
-
-    return graph
-def get_xdot(theta, t, G, omega):
-    D = nx.incidence_matrix(G).toarray()
-
-
-    dxdt = omega + np.matmul(D,np.matmul(D.T, np.sin(theta)))
-    
-    return dxdt 
 def addEdge(G):
     # diameter = nx.diameter(G)
-    start = G.nodes[0]
-    end = G.nodes[0]
+    start = G.nodes[0].copy()
+    end = G.nodes[0].copy()
     max = 0    
     for node_i in G.nodes:
+        G_temp = G.copy()
         for node_j in G.nodes:
-            if node_i != node_j:
-                path = longest_simple_paths(G, node_i, node_j)
-                if max < len(path):
-                    max = len(path)
+            if node_i != node_j and ((node_i, node_j) not in G_temp.edges()):
+                G_temp.add_edge(node_i, node_j)
+                lambda2 = nx.laplacian_spectrum(G_temp)[1]
+                if max < lambda2:
+                    max = lambda2
                     start = node_i
                     end = node_j
-
+    
     G.add_edge(start, end)
               
     return G
 
-def longest_simple_paths(graph, source, target):
-    longest_paths = []
-    longest_path_length = 0
-    if not nx.has_path(graph, source, target): 
-        return None
-    for path in nx.shortest_simple_paths(graph, source=source, target=target):
-        if len(path) > longest_path_length:
-            longest_path_length = len(path)
-            longest_paths.clear()
-            longest_paths.append(path)
-        elif len(path) == longest_path_length:
-            longest_paths.append(path)
-    return longest_paths
 
 def main():
-    nums = [10]
+    nums = [10, 20, 30, 40, 50]#[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    names = ['cycle','path', 'star']
     for num in nums:
-        graphs = [nx.erdos_renyi_graph(500, 0.5, seed=123, directed=False)]
+        graphs = [nx.cycle_graph(num), nx.path_graph(num), nx.star_graph(num - 1),]#[nx.gnm_random_graph(num,  (num-1)*(num-2)/2)]
         # omega = [5, 0 ,5, 0, 0]
-        k =0
+        k = 0
         for graph in graphs:
-            graph = random_graphs_init(graph)
-            # graph = nx.random_spanning_tree(graph)
-            t = np.linspace(0, 30, 101)
-            graph = addEdge(graph)
-
-            # trajectory_theta = odeint(get_xdot, list(nx.get_node_attributes(graph, "theta").values()), t, args=(graph, ))
-            # plt.figure()
-            # plt.plot(t, trajectory_theta)
-            # plt.xlabel("Time t")
-            # plt.ylabel("Heading of Nodes ")
-            # plt.title(f"Heading of Nodes {names[k]} ")
+            lambdas = []
+            num_edges = []
+            print(len(graph.edges()))
+            while(len(graph.edges()) < num*(num-1)/2):
+                lambdas.append(nx.laplacian_spectrum(graph)[1])
+                num_edges.append(len(graph.edges()))
+                graph = addEdge(graph)
+                print(len(graph.edges()))
+            plt.figure()
+            plt.plot(num_edges, lambdas)
+            plt.xlabel("number of edges")
+            plt.ylabel("$\lambda_2$")
+            plt.title(f"number of nodes = {num} in {names[k]}")
             k +=1
     plt.show()
 

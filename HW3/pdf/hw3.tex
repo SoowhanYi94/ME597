@@ -242,8 +242,83 @@ Step 0: Given G0 a spanning tree on n nodes. Set k=0
 Step 1: Add a single edge to produce Gnew from Gk such that lambda2(Gnew) is maximized. Set k=k+1, Gk=Gnew
 
 Repeat Step 1 until Gk=Kn for n = 10, 20, and 50. Did anything surprising happen?
-\end{problem}
 
+\begin{minted}{python3}
+def addEdge(G):
+    start = G.nodes[0].copy()
+    end = G.nodes[0].copy()
+    max = 0    
+    for node_i in G.nodes:
+        G_temp = G.copy()
+        for node_j in G.nodes:
+            if node_i != node_j and ((node_i, node_j) not in G_temp.edges()):
+                G_temp.add_edge(node_i, node_j)
+                lambda2 = nx.laplacian_spectrum(G_temp)[1]
+                if max < lambda2:
+                    max = lambda2
+                    start = node_i
+                    end = node_j
+    
+    G.add_edge(start, end)
+              
+    return G
+\end{minted}
+
+First I created random graph with gnm random graph funtion. To make sure that I have the connected graph, I used $ \frac{(n-1)(n-2)}{2} $ for number of edges. Then iterated to add edges until the number of edges equal to number of edges in complete graph. 
+\begin{figure*}[!ht]
+    \centering
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node10.png}
+        \caption{n = 10 }
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node20.png}
+        \caption{n = 20 }
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node30.png}
+        \caption{n = 30}
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node40.png}
+        \caption{n = 40 }
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node50.png}
+        \caption{n = 50}
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node60.png}
+        \caption{n = 60 }
+    \end{subfigure}
+\end{figure*}
+\newpage
+\begin{figure*}[!h]
+    \centering
+    
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node70.png}
+        \caption{n = 70 }
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node80.png}
+        \caption{n = 80 }
+    \end{subfigure}
+
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node90.png}
+        \caption{n = 90 }
+    \end{subfigure}
+    \begin{subfigure}{0.35\textwidth}
+        \includegraphics[width=\textwidth]{./img/p5_node100.png}
+        \caption{n = 100 }
+    \end{subfigure}
+\end{figure*}
+
+
+Clearly we see that the graphs are showing sudden jumps in connectivity or the lambda2. As I have incremented the number of edeges one by one, in some cases, lambda2 did not really change, but shows sudden increase in lambda2. 
+\end{problem}
+\newpage
 \section*{Code problem 1}
 \begin{minted}{python3}
 import random
@@ -389,6 +464,58 @@ def main():
             plt.ylabel("Heading of Nodes ")
             plt.title(f"Heading of Nodes {names[k]} ")
             k +=1
+    plt.show()
+
+if __name__ == "__main__":
+    main()
+\end{minted}
+\section*{Code problem 5}
+\begin{minted}{python3}
+import random
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+from mpl_toolkits import mplot3d
+
+def addEdge(G):
+    # diameter = nx.diameter(G)
+    start = G.nodes[0].copy()
+    end = G.nodes[0].copy()
+    max = 0    
+    for node_i in G.nodes:
+        G_temp = G.copy()
+        for node_j in G.nodes:
+            if node_i != node_j and ((node_i, node_j) not in G_temp.edges()):
+                G_temp.add_edge(node_i, node_j)
+                lambda2 = nx.laplacian_spectrum(G_temp)[1]
+                if max < lambda2:
+                    max = lambda2
+                    start = node_i
+                    end = node_j
+    
+    G.add_edge(start, end)
+                
+    return G
+
+
+def main():
+    nums = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    for num in nums:
+        graphs = [nx.gnm_random_graph(num,  (num-1)*(num-2)/2)]
+        for graph in graphs:
+            lambdas = []
+            num_edges = []
+            print(len(graph.edges()))
+            while(len(graph.edges()) < num*(num-1)/2):
+                lambdas.append(nx.laplacian_spectrum(graph)[1])
+                num_edges.append(len(graph.edges()))
+                graph = addEdge(graph)
+                print(len(graph.edges()))
+            plt.figure()
+            plt.plot(num_edges, lambdas)
+            plt.xlabel("number of edges")
+            plt.ylabel("$\lambda_2$")
     plt.show()
 
 if __name__ == "__main__":
