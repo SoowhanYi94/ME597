@@ -231,7 +231,13 @@ def get_thetadot(theta, t, G, omega):
 
 \begin{problem}
     Provide an example for an agreement protocol on a digraph that always converges to the agreement subspace (from arbitrary initialization), yet does not admit a quadratic Lyapunov function of the form $\frac{1}{2} x^T x$, that testiﬁes to its asymptotic stability with respect to the agreement subspace.
+
+    If the agreement protocol is stochastic matrix, than it would not take in quadratic Lyapunov function, as we cannot integrate or take the derivative of stochastic data. Instead, we can use the difference between the current V value and the next one. $V(x(k+1)) - V(x(k)) < 0 $ to make sure that it is converging. We can discretize the agreement protocol by letting $z(k) = x(\delta x)$ for any $\delta \geq 0$. Then the agreement protocol can be expressed as such. 
+    \begin{align*}
+        z(k+1) = e^{-\delta L(D)}z(k)
+    \end{align*}
 \end{problem}
+
 \begin{problem}
 Let $\lambda_1, \lambda_2, \lambda_3, \cdots, \lambda_n $ be the ordered eigenvalues of the graph Laplacian associated with an undirected graph. We have seen that the second eigenvalue $\lambda_2$ is important both as a measure of the robustness in the graph, and as a measure of how fast the protocol converges. Given that our job is to build up a communication network by incrementally adding new edges (communication channels) between nodes, it makes sense to try and make $\lambda_2$ as large as possible.
     
