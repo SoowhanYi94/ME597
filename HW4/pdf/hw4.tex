@@ -1,0 +1,178 @@
+\documentclass{article}
+\usepackage{import}
+\usepackage[ruled]{algorithm2e}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{subcaption}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\subimport*{}{macro}
+
+\setlength\parindent{0px}
+
+\begin{document}
+\setcounter{problem}{0}
+\title{Homework \#4}
+\author{
+    \normalsize{AA 597: Networked Dynamics Systems}\\
+    \normalsize{Prof. Mehran Mesbahi}\\
+    \normalsize{Due: Feb 9, 2024 11:59pm}\\
+    \normalsize{Soowhan Yi}
+}
+\date{{}}
+\maketitle
+
+All the codes are available at the end of the documents or here.
+\url{https://github.com/SoowhanYi94/ME597}
+\begin{problem}2.15
+    Let $G = (V, E)$ be a graph, and let $uv \notin E$ for some $u, v \in V$. Show that
+    \begin{align*}
+        \lambda_2 (G) \leq \lambda_2(G+e) \leq \lambda_2 + 2
+    \end{align*}
+    where $G + e$ is the graph $(V, E \cup {e})$.
+
+    According to Courant-Fischer theorem, $\min_{||x|| = 1} x^T A x = \lambda_1$ and $\min_{||x|| = 1, x\perp 1} x^T A x = \lambda_2$ where v is a eigenvector corresponding to $\lambda_1$, when A is symmetric. For some graph G, which has u and v as a vertex but (uv) is not a edge. Lets say that this (uv) edge is added to the graph. Then, the degree in u and v vertices are going to increase by 1, and adjacentcy matrix, A, would have extra 1s in $A_{uv}$ and $A_{vu}$. Therefore, where $G + e = G^{'}$, 
+    \begin{align*}
+        &x^T L(G) x = \sumi{1}{n} D_{ii} x_i^2 - \sumi{1}{n} \sumj{1}{n} A_{ij}x_i x_j 
+        , \quad \textrm{and} \quad \space x^T L(G^{'}) x = \sumi{1}{n} D^{'}_{ii} x_i^2 - \sumi{1}{n} \sumj{1}{n} A^{'}_{ij}x_i x_j \\
+        &\min_{||x|| = 1, x\perp 1} x^T L(G) x = \lambda_2,\quad \textrm{and} \quad \min_{||x|| = 1, x\perp 1} x^T L(G^{'}) x = \lambda_2^{'}
+    \end{align*},
+    \begin{align*}
+        x^T L(G^{'}) x &= \sumi{1}{n} D^{'}_{ii} x_i^2 - \sumi{1}{n} \sumj{1}{n} A^{'}_{ij}x_i x_j \\
+        &=(\sumi{1}{n} D_{ii} x_i^2 - \sumi{1}{n} \sumj{1}{n} A_{ij}x_i x_j) + x_u x_u + x_v x_v - x_u x_v - x_v x_u\\
+        &=   x^T L(G) x + (x_u - x_v)^2\\
+        \therefore  \min_{||x|| = 1, x\perp 1} x^T L(G^{'}) x &=  \min_{||x|| = 1, x\perp 1} (x^T L(G) x  + (x_u - x_v)^2) \\
+        &= \lambda_2(G) + \min_{||x|| = 1, x\perp 1} (x_u - x_v)^2  = \lambda_2(G^{'})  \geq \lambda_2(G)
+    \end{align*}
+    Also, $||x|| = 1$. Therefore $x_1^2 + x_2^2 + \cdots +  x_u ^2 + \cdots +  x_v^2 + \cdots x_n^2 = 1 $. Lets say, hypothetically, $ x_1 = x_2 = \cdots = x_n = 0$, but $x_u \neq 0$, and $x_v \neq 0$. Since the minimum value of $x_u x_v$, under $x_u^2 + x_v^2 = 1$, is $-\frac{1}{2}$(this can be calulated with use of lagrangian. $L(x_u, x_v, \alpha) = x_u x_v + \alpha (1 - x_u^2 - x_v^2$), then, 
+    \begin{align*}
+        &x_u^2 + x_v^2 = 1\\
+        &L(x_u, x_v, \alpha) = x_u x_v + \alpha (1 - x_u^2 - x_v^2)\\
+        &\frac{\delta L}{\delta x_u} = x_v - 2 \alpha (x_u) = 0, \quad
+        \frac{\delta L}{\delta x_v} = x_v - 2 \alpha (x_v) = 0 \quad
+        \frac{\delta L}{\delta \alpha} = 1 - x_u^2 - x_v^2 = 0\\
+        \therefore & \min{x_u x_v}  = -\frac{1}{2}. (\because x_u = \pm \frac{1}{\sqrt{2}}, x_v = \mp \frac{1}{\sqrt{2}})\\
+        &(x_u - x_v)^2  = (1 - 2 x_u x_v) = 1 + 1 = 2 
+    \end{align*}
+    Therefore maximum value that $(x_u - x_v)^2$ can be is 2. 
+    \begin{align*}
+        \lambda_2 (G) \leq \lambda_2(G+e) \leq \lambda_2 + 2
+    \end{align*}
+\end{problem}
+\begin{problem}3.3
+    The reverse of D is a digraph where all directed edges of D have been reversed. A disoriented digraph is the graph obtained by replacing the directed edges of the digraph with undirected ones. Prove or disprove:
+    \begin{enumerate}
+        \item The digraph D is strongly connected if and only if its reverse is strongly connected.
+        
+            By definition, strongly connected means that every pair of vertices has at least one directed path. This means that every node is reachable with random initial conditions. Lets say,for strongly connected $G = (V, E)$, $u,v \in V$, and there exists a directed path from u to v and v to u. If we were to reverse all those directions, then there would still exist a directed path from v to u and u to v, respectively. Therefore the reverse of strongly connected digraph D would also have at least one directed path for every pair of vertices. Therefore reverse of strongly connected D is also strongly connected. 
+            If the reverse is not strongly connected, then that means their is some directed path missing in some pair of vertices, and therefore original graph would not be strongly connected with some missing directed path as there is no edge. Therefore the digraph D is strongly connected if and only if its reverse is strongly connected. So the statement is true
+        \item A digraph contains a rooted out-branching if and only if its reverse digraph contains one.
+        \begin{figure*}[!h]
+            \centering
+            \begin{subfigure}{0.35\textwidth}
+                \includegraphics[width=\textwidth]{./img/p2_1.png}
+                \caption{Directed graph with 3 nodes}
+            \end{subfigure}
+            \begin{subfigure}{0.35\textwidth}
+                \includegraphics[width=\textwidth]{./img/p2_2.png}
+                \caption{Reversed directed graph}
+            \end{subfigure}
+        \end{figure*}
+        
+        As we can see from above, a digraph with 3 nodes and rooted out-branching at node 0. However the reversed version of the digraph does not contain rooted out-branching. So the statement is false.
+        \item If the disoriented graph of D is connected, then either the digraph or its reverse contain a rooted out-branching.
+        \begin{figure*}[!h]
+            \centering
+            \begin{subfigure}{0.3\textwidth}
+                \includegraphics[width=\textwidth]{./img/p2_3.png}
+                \caption{Undirected graph with 5 nodes}
+            \end{subfigure}
+            \begin{subfigure}{0.3\textwidth}
+                \includegraphics[width=\textwidth]{./img/p2_4.png}
+                \caption{Directed graph with 5 nodes}
+            \end{subfigure}
+            \begin{subfigure}{0.3\textwidth}
+                \includegraphics[width=\textwidth]{./img/p2_5.png}
+                \caption{Reversed directed graph}
+            \end{subfigure}
+        \end{figure*}
+        
+        As we can see from above, the disoriented graph of D is connected. The second graph is the original graph. Here we do not see a single node that can reach every other nodes. There is no rooted out-branching in original digraph, with $[(1, 0), (1, 2), (3, 2), (3,4)] \in E$. Also we can see that the reverse do not have any node as rooted out-branching. Therefore the statement is false.  
+        \item A digraph is balanced if and only if its reverse is balanced.
+        
+        The definition of balanced digraph is the directed graph that every nodes has same in-degree and out-degree, meaning if there is a directed edge towards or in to the nodes, then there exists a directed edge going away or out of the node. If a node has n edges coming in to the node, then there should be another n edges that goes out from the node. Even if the graph is reversed, there would still be same in-degree and out-degree as we started with same number of edges going in to the node and out from the node. Therefore the statement is true. If reversed was not balanced, the digraph would not be balanced. 
+    \end{enumerate}
+\end{problem}
+\begin{problem} 4.8
+    Consider n agents placed on the line at time t, with agent1 at position 2 $\Delta$, agent2 at position $\Delta$ and the remaining agents at the origin. An edge between agents exists if and only if $|x_i - x_j| \leq \Delta$. Compute where the agents will be at time $t + \delta t$ for some small $\delta t$, under the agreement protocol. In particular, for what values of n is the graph connected at time $t + \delta t$?
+
+    Let $z(k) = x(k\delta t)$ and $k\delta t = \tau$. Then, 
+    \begin{align*}
+        &z(k + 1) = e^{-\delta t L(G)} z(k) = x((k+1)\delta t)=  x(k \delta t + \delta t)\\
+        &=e^{-\delta t L(G)}  x(\tau) = x (\tau + \delta t)\\
+        \therefore & x (\tau + \delta t) - x(\tau) = e^{-\delta t L(G)}  x(\tau) - x(\tau) = (e^{-\delta t L(G)} - I_n) x(\tau) \leq 0  (\because \text{in order to converge})
+    \end{align*}
+    Now lets think about the $L(G)$. Since edges are formed when $|x_i - x_j| \leq \Delta$, every vertices are connected except for the very first vertex. The first vertex is only connected to the second one. This means that it forms a complete graph $K_{n-1}$ with the very first vertex only being connected to the second one. Therefore the degree matrix should be $D(G) = diag([1, n-2, n-2 \cdots , n-2])$ and $A(G)$ should have all ones except for the diagonal and the first row and column. The first row and column only has 1 at 2nd row in first colum and 2nd column in first row. Therefore, 
+    \begin{align*}
+        &-L(G) = \begin{bmatrix*}
+            -1 & 1 & 0 & 0 & \cdots &0 \\
+             1 & 2-n & 1 & 1 & \cdots & 1\\
+             0 & 1 & 2-n & 1 & \cdots & 1 \\
+             \vdots & \vdots & 1&2-n &1 \cdots &1\\
+             0& 1&1&\cdots &1&2-n\\
+        \end{bmatrix*}\\
+        &e^{-\delta t L(G)} = \begin{bmatrix*}
+            e^{-1} & e & 0 & 0 & \cdots &0 \\
+            e & e^{2-n} & 1 & 1 & \cdots & 1\\
+             0 & 1 & e^{2-n} & 1 & \cdots & 1 \\
+             \vdots & \vdots & 1&e^{2-n} &1 \cdots &1\\
+             0& 1&1&\cdots &1&e^{2-n}\\
+        \end{bmatrix*}\\
+        &e^{-\delta t L(G)} - I_n= \begin{bmatrix*}
+            e^{-1} - 1 & e & 0 & 0 & \cdots &0 \\
+            e & e^{2-n} - 1 & 1 & 1 & \cdots & 1\\
+             0 & 1 & e^{2-n} - 1 & 1 & \cdots & 1 \\
+             \vdots & \vdots & 1 &e^{2-n} - 1 &1 \cdots &1\\
+             0& 1&1&\cdots &1&e^{2-n} - 1
+        \end{bmatrix*}
+    \end{align*}
+    Lets use the provided initial conditions $[2\Delta, \Delta, 0, 0, 0, \cdots 0]$ 
+    \begin{align*}
+        x(\delta t) - x(0) &= (e^{-\delta t L(G)} - I_n) x(0) \\
+        &= \begin{bmatrix*}
+            e^{-1} - 1 & e & 0 & 0 & \cdots &0 \\
+            e & e^{2-n} - 1 & 1 & 1 & \cdots & 1\\
+             0 & 1 & e^{2-n} - 1 & 1 & \cdots & 1 \\
+             \vdots & \vdots & 1 &e^{2-n} - 1 &1 \cdots &1\\
+             0& 1&1&\cdots &1&e^{2-n} - 1
+        \end{bmatrix*}
+        \begin{bmatrix*}
+            2\Delta \\ \Delta \\ 0 \\ 0 \\ 0 \\ \vdots \\ 0
+        \end{bmatrix*}
+        &= \begin{bmatrix*}
+            \Delta (2 e^{-1} - 2 + e)\\
+            \Delta (2 e + e^{2-n}  - 1) 
+        \end{bmatrix*} \leq 0
+    \end{align*}
+    Therefore 
+\end{problem}
+\begin{problem}6.5
+    If a team of robots is to drive in formation while avoiding obstacles as well as progressing toward a goal location, one can, for example,let the individual agent dynamics be given by
+    \begin{align*}
+        \dot x_i = F_{form} + F_{goal} + F_{obst}
+    \end{align*}
+    where $f_{form}$ is used to maintain formation. However, $F_{goal}$ is used to steer the robot towards a goal and $F_{obst}$ is used to have it avoid obstacles. Find reasonable $F_{goal}$ and $F_{obst}$ and simulate your proposed solution. 
+\end{problem}
+\begin{problem} 6.9
+    Simulate the formation control law in section 6.4 for one-dimensional
+    single, double, and linear time invariant agents and provide a simulation example of stable and unstable formations.
+\end{problem}
+\end{document}
