@@ -118,51 +118,52 @@ All the codes are available at the end of the documents or here.
     \begin{align*}
         &z(k + 1) = e^{-\delta t L(G)} z(k) = x((k+1)\delta t)=  x(k \delta t + \delta t)\\
         &=e^{-\delta t L(G)}  x(\tau) = x (\tau + \delta t)\\
-        \therefore & x (\tau + \delta t) - x(\tau) = e^{-\delta t L(G)}  x(\tau) - x(\tau) = (e^{-\delta t L(G)} - I_n) x(\tau) \leq 0  (\because \text{in order to converge})
+        \therefore & x (\tau + \delta t) = e^{-\delta t L(G)}  x(\tau) = (e^{-\delta t L(G)} ) x(\tau) \text{ where } |x_i - x_j|\leq \Delta (\because \text{in order to stay connected})
     \end{align*}
-    Now lets think about the $L(G)$. Since edges are formed when $|x_i - x_j| \leq \Delta$, every vertices are connected except for the very first vertex. The first vertex is only connected to the second one. This means that it forms a complete graph $K_{n-1}$ with the very first vertex only being connected to the second one. Therefore the degree matrix should be $D(G) = diag([1, n-2, n-2 \cdots , n-2])$ and $A(G)$ should have all ones except for the diagonal and the first row and column. The first row and column only has 1 at 2nd row in first colum and 2nd column in first row. Therefore, 
+    Now lets think about the $L(G)$. Since edges are formed when $|x_i - x_j| \leq \Delta$, every vertices are connected except for the very first vertex. The first vertex is only connected to the second one. This means that it forms a complete graph $K_{n-1}$ with the very first vertex only being connected to the second one. Therefore the degree matrix should be $D(G) = diag([1, n-1, n-2 \cdots , n-2])$ and $A(G)$ should have all ones except for the diagonal and the first row and column. The first row and column only has 1 at 2nd row in first colum and 2nd column in first row. Therefore, 
     \begin{align*}
         &-L(G) = \begin{bmatrix*}
             -1 & 1 & 0 & 0 & \cdots &0 \\
-             1 & 2-n & 1 & 1 & \cdots & 1\\
+             1 & 1-n & 1 & 1 & \cdots & 1\\
              0 & 1 & 2-n & 1 & \cdots & 1 \\
              \vdots & \vdots & 1&2-n &1 \cdots &1\\
              0& 1&1&\cdots &1&2-n\\
         \end{bmatrix*}\\
         &e^{-\delta t L(G)} = \begin{bmatrix*}
-            e^{-1} & e & 0 & 0 & \cdots &0 \\
-            e & e^{2-n} & 1 & 1 & \cdots & 1\\
-             0 & 1 & e^{2-n} & 1 & \cdots & 1 \\
-             \vdots & \vdots & 1&e^{2-n} &1 \cdots &1\\
-             0& 1&1&\cdots &1&e^{2-n}\\
-        \end{bmatrix*}\\
-        &e^{-\delta t L(G)} - I_n= \begin{bmatrix*}
-            e^{-1} - 1 & e & 0 & 0 & \cdots &0 \\
-            e & e^{2-n} - 1 & 1 & 1 & \cdots & 1\\
-             0 & 1 & e^{2-n} - 1 & 1 & \cdots & 1 \\
-             \vdots & \vdots & 1 &e^{2-n} - 1 &1 \cdots &1\\
-             0& 1&1&\cdots &1&e^{2-n} - 1
+            e^{-\delta t } & e^{\delta t } & 1 & 1 & \cdots &1 \\
+            e^{\delta t } & e^{\delta t (1-n)} & e^{\delta t } & e^{\delta t } & \cdots & e^{\delta t }\\
+             1 & e^{\delta t } & e^{\delta t  (2-n)} & e^{\delta t } & \cdots & e^{\delta t } \\
+             \vdots & \vdots & e^{\delta t }&e^{\delta t  (2-n)} &e^{\delta t } \cdots &e^{\delta t }\\
+             1& e^{\delta t }&e^{\delta t }&\cdots &e^{\delta t }&e^{\delta t  (2-n)}
         \end{bmatrix*}
     \end{align*}
     Lets use the provided initial conditions $[2\Delta, \Delta, 0, 0, 0, \cdots 0]$ 
     \begin{align*}
-        x(\delta t) - x(0) &= (e^{-\delta t L(G)} - I_n) x(0) \\
+        &x(\delta t) = e^{-\delta t L(G)}  x(0) \\
         &= \begin{bmatrix*}
-            e^{-1} - 1 & e & 0 & 0 & \cdots &0 \\
-            e & e^{2-n} - 1 & 1 & 1 & \cdots & 1\\
-             0 & 1 & e^{2-n} - 1 & 1 & \cdots & 1 \\
-             \vdots & \vdots & 1 &e^{2-n} - 1 &1 \cdots &1\\
-             0& 1&1&\cdots &1&e^{2-n} - 1
+            e^{-\delta t } & e^{\delta t } & 1 & 1 & \cdots &1 \\
+            e^{\delta t } & e^{\delta t (1-n)} & e^{\delta t } & e^{\delta t } & \cdots & e^{\delta t }\\
+             1 & e^{\delta t } & e^{\delta t  (2-n)} & e^{\delta t } & \cdots & e^{\delta t } \\
+             \vdots & \vdots & e^{\delta t }&e^{\delta t  (2-n)} &e^{\delta t } \cdots &e^{\delta t }\\
+             1& e^{\delta t }&e^{\delta t }&\cdots &e^{\delta t }&e^{\delta t  (2-n)}
         \end{bmatrix*}
         \begin{bmatrix*}
             2\Delta \\ \Delta \\ 0 \\ 0 \\ 0 \\ \vdots \\ 0
         \end{bmatrix*}
-        &= \begin{bmatrix*}
-            \Delta (2 e^{-1} - 2 + e)\\
-            \Delta (2 e + e^{2-n}  - 1) 
-        \end{bmatrix*} \leq 0
+        = \begin{bmatrix*}
+            \Delta (2 e^{-\delta t} + e^{\delta t}) \cdots (1)\\
+            \Delta (2 e^{\delta t} + e^{\delta t  (1-n)}) \cdots (2)\\
+            \Delta (2 + e^{\delta t}) \cdots (3)\\
+            \Delta (2 + e^{\delta t})\\ 
+            \vdots \\
+            \Delta (2 + e^{\delta t})
+        \end{bmatrix*} 
     \end{align*}
-    Therefore 
+    Therefore we just need to find if $|(1) - (2)| \leq \Delta$ or $|(2) - (3)| \leq \Delta$ or $|(1) - (3)| \leq \Delta$. If 3 out of 2 conditions are met, then this graph is connected after time $\delta t$. Lets say, hypothetically, $|(1) - (2)| \leq \Delta$ and $|(2) - (3)| \leq \Delta$ are true. Then, 
+    \begin{align*}
+        &|(1) - (3)| \leq 2\Delta \rightarrow |2e^{-\delta t} -2| \leq 2\\
+        &\therefore 0 \leq e^{-\delta t} \leq 2 \rightarrow -ln(2) \leq \delta t \leq \infty 
+    \end{align*}
 \end{problem}
 \begin{problem}6.5
     If a team of robots is to drive in formation while avoiding obstacles as well as progressing toward a goal location, one can, for example,let the individual agent dynamics be given by

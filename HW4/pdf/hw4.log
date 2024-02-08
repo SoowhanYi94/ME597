@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  6 FEB 2024 19:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  7 FEB 2024 22:35
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -855,12 +855,7 @@ File: ./img/p2_5.png Graphic file (type png)
 <use ./img/p2_5.png>
 Package pdftex.def Info: ./img/p2_5.png  used on input line 103.
 (pdftex.def)             Requested size: 145.26443pt x 108.89197pt.
- [2 <./img/p2_1.png> <./img/p2_2.png> <./img/p2_3.png> <./img/p2_4.png> <./img/p2_5.png>]
-Overfull \hbox (1.27023pt too wide) detected at line 164
-[]
- []
-
-[3] [4] (./hw4.aux)
+ [2 <./img/p2_1.png> <./img/p2_2.png> <./img/p2_3.png> <./img/p2_4.png> <./img/p2_5.png>] [3] [4] (./hw4.aux)
 Package rerunfilecheck Info: File `hw4.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
@@ -873,7 +868,7 @@ Here is how much of TeX's memory you used:
  59 hyphenation exceptions out of 8191
  74i,15n,87p,685b,679s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on hw4.pdf (4 pages, 204546 bytes).
+Output written on hw4.pdf (4 pages, 204911 bytes).
 PDF statistics:
  111 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream
