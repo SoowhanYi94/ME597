@@ -173,9 +173,37 @@ All the codes are available at the end of the documents or here.
         \dot x_i = F_{form} + F_{goal} + F_{obst}
     \end{align*}
     where $f_{form}$ is used to maintain formation. However, $F_{goal}$ is used to steer the robot towards a goal and $F_{obst}$ is used to have it avoid obstacles. Find reasonable $F_{goal}$ and $F_{obst}$ and simulate your proposed solution. 
+    
 \end{problem}
+\newpage
 \begin{problem} 6.9
     Simulate the formation control law in section 6.4 for one-dimensional
     single, double, and linear time invariant agents and provide a simulation example of stable and unstable formations.
+
+    \begin{figure*}[!h]
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_1.png}
+            \caption{Single Integrater}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_2.png}
+            \caption{Double Integrater position}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_3.png}
+            \caption{Double Integrater velocity}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_5.png}
+            \caption{LTI stable}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_6.png}
+            \caption{LTI Unstable}
+        \end{subfigure}
+    \end{figure*}
+    Since we know that single and double integrater agents achieves desired position and velocity (except for the case when the double integrater has inconsistent desired velocity when desired position is achieved), example for unstable formation is provided only for LTI case. I am going to set all the initial condition to be 0, including velocity.
+    For the single integrater agents, I have set the $z_ref = [0, 1,2,3]$, and, for the double integrater agents, $z_ref = [0, 1,2,3]$, and $ \dot z_ref = [4,5,6,7]$. In fact, my velocity profile for double integrater is not consistent with the position, and their velocity profile seems like converged to 0, but it is acutally oscillating if you were to zoom in. For LTI stable agents, $z_ref = [0, 1,2,3]$ were given with $a = 0.1$, $b = 1$, $k = 1$. It is worth potinting out that this LTI model becomes single integrater model, when $a = 0$, and therefore shows similar behavior as single integrater when a is small. However, the LTI model is stable only when $a-\lambda_i(G) k b < 0$, so I used $a = 1$, $b = 1$, $k = 1$ to simulate unstable formation.
 \end{problem}
 \end{document}
