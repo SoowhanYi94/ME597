@@ -28,7 +28,7 @@ def compute_derivative(robot_positions, t):
     F_form = -k_form * (robot_positions - desired_formation_positions)
     
     # Compute derivatives
-    derivatives = F_goal + F_obst + F_form
+    derivatives =F_form
     return derivatives.flatten()
 
 # Initialize robot positions randomly
@@ -38,7 +38,7 @@ robot_positions = np.random.rand(num_robots, 2) * 15
 desired_formation_positions = np.array([[i, 0] for i in range(num_robots)])
 
 # Time array
-t = np.linspace(0, 10, 100)  # From 0 to 10 seconds with 100 time points
+t = np.linspace(0, 10, 10)  # From 0 to 10 seconds with 100 time points
 
 # Integrate ODEs
 solution = odeint(compute_derivative, robot_positions.flatten(), t)

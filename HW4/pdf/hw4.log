@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  9 FEB 2024 08:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  9 FEB 2024 23:40
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -855,49 +855,68 @@ File: ./img/p2_5.png Graphic file (type png)
 <use ./img/p2_5.png>
 Package pdftex.def Info: ./img/p2_5.png  used on input line 103.
 (pdftex.def)             Requested size: 145.26443pt x 108.89197pt.
- [2 <./img/p2_1.png> <./img/p2_2.png> <./img/p2_3.png> <./img/p2_4.png> <./img/p2_5.png>] [3]
-<./img/p5_1.png, id=51, 461.8053pt x 346.1733pt>
+ [2 <./img/p2_1.png> <./img/p2_2.png> <./img/p2_3.png> <./img/p2_4.png> <./img/p2_5.png>] [3] [4]
+<./img/p5_1.png, id=55, 461.8053pt x 346.1733pt>
 File: ./img/p5_1.png Graphic file (type png)
 <use ./img/p5_1.png>
-Package pdftex.def Info: ./img/p5_1.png  used on input line 186.
+Package pdftex.def Info: ./img/p5_1.png  used on input line 196.
 (pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
-<./img/p5_2.png, id=52, 461.8053pt x 346.1733pt>
+<./img/p5_2.png, id=56, 461.8053pt x 346.1733pt>
 File: ./img/p5_2.png Graphic file (type png)
 <use ./img/p5_2.png>
-Package pdftex.def Info: ./img/p5_2.png  used on input line 190.
+Package pdftex.def Info: ./img/p5_2.png  used on input line 200.
 (pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
-<./img/p5_3.png, id=53, 461.8053pt x 346.1733pt>
+<./img/p5_3.png, id=57, 461.8053pt x 346.1733pt>
 File: ./img/p5_3.png Graphic file (type png)
 <use ./img/p5_3.png>
-Package pdftex.def Info: ./img/p5_3.png  used on input line 194.
+Package pdftex.def Info: ./img/p5_3.png  used on input line 204.
 (pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
-<./img/p5_5.png, id=54, 461.8053pt x 346.1733pt>
+<./img/p5_5.png, id=58, 461.8053pt x 346.1733pt>
 File: ./img/p5_5.png Graphic file (type png)
 <use ./img/p5_5.png>
-Package pdftex.def Info: ./img/p5_5.png  used on input line 198.
+Package pdftex.def Info: ./img/p5_5.png  used on input line 208.
 (pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
-<./img/p5_6.png, id=55, 461.8053pt x 346.1733pt>
+<./img/p5_6.png, id=59, 461.8053pt x 346.1733pt>
 File: ./img/p5_6.png Graphic file (type png)
 <use ./img/p5_6.png>
-Package pdftex.def Info: ./img/p5_6.png  used on input line 202.
+Package pdftex.def Info: ./img/p5_6.png  used on input line 212.
 (pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
- [4 <./img/p5_1.png> <./img/p5_2.png> <./img/p5_3.png> <./img/p5_5.png> <./img/p5_6.png>] (./hw4.aux)
+\openout3 = `hw4.pyg'.
+
+ (./_minted-hw4/default.pygstyle) (./_minted-hw4/7B815C8CD85389E824B31947E09632825D4BCA98E8DC9888371204C00CF78E94.pygtex
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 2.
+ [5 <./img/p5_1.png> <./img/p5_2.png> <./img/p5_3.png> <./img/p5_5.png> <./img/p5_6.png>])
+\openout3 = `hw4.pyg'.
+
+ (./_minted-hw4/361489519E207A4094C0B643E42CA0235D4BCA98E8DC9888371204C00CF78E94.pygtex)
+\openout3 = `hw4.pyg'.
+
+ (./_minted-hw4/D807350A7739273F3FF3AD1A2FB8C59D5D4BCA98E8DC9888371204C00CF78E94.pygtex [6])
+\openout3 = `hw4.pyg'.
+
+ (./_minted-hw4/DB8E07FC7A6F1C6473E6186EB74F1C595D4BCA98E8DC9888371204C00CF78E94.pygtex [7] [8])
+\openout3 = `hw4.pyg'.
+
+ (./_minted-hw4/D3D6FC6C53255F842FA135BA687FCBEC5D4BCA98E8DC9888371204C00CF78E94.pygtex [9] [10]) [11] (./hw4.aux)
 Package rerunfilecheck Info: File `hw4.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+runsystem(rm hw4.pyg)...executed.
+
  ) 
 Here is how much of TeX's memory you used:
- 20015 strings out of 480171
- 341091 string characters out of 5894489
+ 20165 strings out of 480171
+ 344843 string characters out of 5894489
  902796 words of memory out of 5000000
- 37624 multiletter control sequences out of 15000+600000
- 481895 words of font info for 75 fonts, out of 8000000 for 9000
+ 37741 multiletter control sequences out of 15000+600000
+ 482668 words of font info for 78 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 74i,15n,87p,802b,679s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on hw4.pdf (4 pages, 304063 bytes).
+ 74i,15n,87p,802b,690s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on hw4.pdf (11 pages, 340433 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
+ 170 PDF objects out of 1000 (max. 8388607)
+ 107 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

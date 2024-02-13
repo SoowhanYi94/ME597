@@ -1,0 +1,106 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.integrate} \PYG{k}{import} \PYG{n}{odeint}
+\PYG{k+kn}{from} \PYG{n+nn}{mpl\PYGZus{}toolkits} \PYG{k}{import} \PYG{n}{mplot3d}
+\PYG{k}{def} \PYG{n+nf}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,}\PYG{n}{num}\PYG{p}{):}
+    \PYG{n}{poses} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{vels} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,}\PYG{n}{poses}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{vels}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}vel\PYGZdq{}}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} poses.append(0)}
+    \PYG{n}{graph}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges\PYGZus{}from}\PYG{p}{([(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{())}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)])}
+
+    \PYG{n}{edges} \PYG{o}{=} \PYG{p}{\PYGZob{}(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{):\PYGZob{}}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}pos\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZsq{}pos\PYGZsq{}}\PYG{p}{]\PYGZcb{}}  \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{())}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZcb{}}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}edge\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{edges}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}edge\PYGZus{}length\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{graph}
+
+\PYG{k}{def} \PYG{n+nf}{create\PYGZus{}z\PYGZus{}ref}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,} \PYG{n}{int\PYGZus{}type}\PYG{p}{):}
+    \PYG{c}{\PYGZsh{}uniformly distributed}
+
+    \PYG{n}{match} \PYG{n}{int\PYGZus{}type}\PYG{p}{:}
+        \PYG{n}{case} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{z\PYGZus{}ref} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num}\PYG{p}{)}
+        \PYG{n}{case} \PYG{l+m+mi}{2}\PYG{p}{:}
+                \PYG{n}{z\PYGZus{}ref} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n}{case} \PYG{n}{\PYGZus{}}\PYG{p}{:}
+                \PYG{n}{z\PYGZus{}ref} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{z\PYGZus{}ref}
+
+\PYG{k}{def} \PYG{n+nf}{single\PYGZus{}xdot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{D}\PYG{p}{,} \PYG{n}{z\PYGZus{}ref}\PYG{p}{,}\PYG{n}{k}\PYG{p}{):}
+
+    \PYG{n}{L\PYGZus{}D\PYGZus{}bar} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{to\PYGZus{}undirected}\PYG{p}{(}\PYG{n}{reciprocal}\PYG{o}{=}\PYG{k}{False}\PYG{p}{,} \PYG{n}{as\PYGZus{}view}\PYG{o}{=}\PYG{k}{False}\PYG{p}{))}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+    \PYG{n}{D\PYGZus{}D} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{incidence\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{oriented}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+    \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{n}{k} \PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{L\PYGZus{}D\PYGZus{}bar}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{n}{k} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{D\PYGZus{}D}\PYG{p}{,}\PYG{n}{z\PYGZus{}ref}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{double\PYGZus{}xdot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{D}\PYG{p}{,} \PYG{n}{z\PYGZus{}ref}\PYG{p}{,}\PYG{n}{k}\PYG{p}{):}
+    \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mf}{0.1}
+    \PYG{n}{L\PYGZus{}D\PYGZus{}bar} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{to\PYGZus{}undirected}\PYG{p}{(}\PYG{n}{reciprocal}\PYG{o}{=}\PYG{k}{False}\PYG{p}{,} \PYG{n}{as\PYGZus{}view}\PYG{o}{=}\PYG{k}{False}\PYG{p}{))}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+    \PYG{n}{D\PYGZus{}D} \PYG{o}{=} \PYG{n}{k}\PYG{o}{*}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{incidence\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{oriented}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+
+    \PYG{n}{L\PYGZus{}D\PYGZus{}bar} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{k} \PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{kron}\PYG{p}{([[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{p}{,}\PYG{n}{L\PYGZus{}D\PYGZus{}bar}\PYG{p}{)} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{kron}\PYG{p}{([[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]],} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{))}
+
+
+    \PYG{n}{D\PYGZus{}D} \PYG{o}{=} \PYG{n}{k}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{kron}\PYG{p}{([[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{p}{,}\PYG{n}{D\PYGZus{}D}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{L\PYGZus{}D\PYGZus{}bar}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{D\PYGZus{}D}\PYG{p}{,}\PYG{n}{z\PYGZus{}ref}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{LTI\PYGZus{}xdot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{D}\PYG{p}{,} \PYG{n}{z\PYGZus{}ref}\PYG{p}{,}\PYG{n}{k}\PYG{p}{):}
+    \PYG{n}{a} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{1}
+    \PYG{n}{b} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{z\PYGZus{}t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{incidence\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{oriented}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)}
+    \PYG{n}{u} \PYG{o}{=} \PYG{n}{k}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{incidence\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{oriented}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{(),} \PYG{p}{(}\PYG{n}{z\PYGZus{}ref} \PYG{o}{\PYGZhy{}} \PYG{n}{z\PYGZus{}t}\PYG{p}{))}
+    \PYG{k}{return} \PYG{n}{a}\PYG{o}{*}\PYG{n}{x} \PYG{o}{+} \PYG{n}{b}\PYG{o}{*}\PYG{n}{u}
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{nums} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}
+    \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{1}
+
+    \PYG{k}{for} \PYG{n}{num} \PYG{o+ow}{in} \PYG{n}{nums}\PYG{p}{:}
+        \PYG{n}{labels} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{):}
+            \PYG{n}{labels}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{f}\PYG{l+s}{\PYGZdq{}x\PYGZob{}i\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{D} \PYG{o}{=}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{empty\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,}\PYG{n}{create\PYGZus{}using}\PYG{o}{=}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{DiGraph}\PYG{p}{())}
+        \PYG{c}{\PYGZsh{} D = nx.gnm\PYGZus{}random\PYGZus{}graph(num, (num \PYGZhy{}1)*(num\PYGZhy{}2)/2, directed=True)}
+        \PYG{n}{D} \PYG{o}{=} \PYG{n}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,}\PYG{n}{num}\PYG{p}{)}
+        \PYG{c}{\PYGZsh{} z\PYGZus{}ref = create\PYGZus{}z\PYGZus{}ref(len(D.edges()),1)}
+        \PYG{n}{t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{101}\PYG{p}{)}
+
+        \PYG{c}{\PYGZsh{} trajectory\PYGZus{}x = odeint(single\PYGZus{}xdot, list(nx.get\PYGZus{}node\PYGZus{}attributes(D, \PYGZdq{}pos\PYGZdq{}).values()), t, args=(D, z\PYGZus{}ref, k))}
+        \PYG{c}{\PYGZsh{} plt.figure()}
+        \PYG{c}{\PYGZsh{} plt.plot(t, trajectory\PYGZus{}x, label = labels)}
+        \PYG{c}{\PYGZsh{} plt.xlabel(\PYGZdq{}Time t\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.ylabel(\PYGZdq{}Position\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.title(\PYGZdq{}Single Integrater\PYGZdq{})}
+        \PYG{n}{z\PYGZus{}ref} \PYG{o}{=} \PYG{n}{create\PYGZus{}z\PYGZus{}ref}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()),}\PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{z\PYGZus{}ref}\PYG{p}{)}
+        \PYG{n}{pos\PYGZus{}vel} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{())):}
+            \PYG{n}{pos\PYGZus{}vel}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{)[}\PYG{n}{i}\PYG{p}{])}
+            \PYG{n}{pos\PYGZus{}vel}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}vel\PYGZdq{}}\PYG{p}{)[}\PYG{n}{i}\PYG{p}{])}
+        \PYG{c}{\PYGZsh{} pos\PYGZus{}vel = np.append(list(nx.get\PYGZus{}node\PYGZus{}attributes(D, \PYGZdq{}pos\PYGZdq{}).values()), list(nx.get\PYGZus{}node\PYGZus{}attributes(D, \PYGZdq{}vel\PYGZdq{}).values()))}
+        \PYG{c}{\PYGZsh{} trajectory\PYGZus{}double = odeint(double\PYGZus{}xdot, pos\PYGZus{}vel , t, args=(D, z\PYGZus{}ref, k))}
+        \PYG{c}{\PYGZsh{} plt.figure()}
+        \PYG{c}{\PYGZsh{} plt.plot(t, trajectory\PYGZus{}double[:,:num], label = labels)}
+        \PYG{c}{\PYGZsh{} plt.xlabel(\PYGZdq{}Time t\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.ylabel(\PYGZdq{}Position\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.title(\PYGZdq{}Double Integrater\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.figure()}
+        \PYG{c}{\PYGZsh{} plt.plot(t, trajectory\PYGZus{}double[:,num:], label = labels)}
+        \PYG{c}{\PYGZsh{} plt.xlabel(\PYGZdq{}Time t\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.ylabel(\PYGZdq{}Velocity\PYGZdq{})}
+        \PYG{c}{\PYGZsh{} plt.title(\PYGZdq{}Double Integrater\PYGZdq{})}
+        \PYG{n}{z\PYGZus{}ref} \PYG{o}{=} \PYG{n}{create\PYGZus{}z\PYGZus{}ref}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()),}\PYG{l+m+mi}{3}\PYG{p}{)}
+        \PYG{n}{trajectory\PYGZus{}LTI} \PYG{o}{=} \PYG{n}{odeint}\PYG{p}{(}\PYG{n}{LTI\PYGZus{}xdot}\PYG{p}{,} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{values}\PYG{p}{())} \PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{z\PYGZus{}ref}\PYG{p}{,} \PYG{n}{k}\PYG{p}{))}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}LTI}\PYG{p}{,} \PYG{n}{label} \PYG{o}{=} \PYG{n}{labels}\PYG{p}{)}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Position\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}LTI\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{()}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}

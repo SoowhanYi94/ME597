@@ -167,12 +167,22 @@ All the codes are available at the end of the documents or here.
     \end{align*} 
     Therefore, for any small enough $\delta t$, n should be less than 4. 
 \end{problem}
+\newpage
 \begin{problem}6.5
     If a team of robots is to drive in formation while avoiding obstacles as well as progressing toward a goal location, one can, for example,let the individual agent dynamics be given by
     \begin{align*}
         \dot x_i = F_{form} + F_{goal} + F_{obst}
     \end{align*}
     where $f_{form}$ is used to maintain formation. However, $F_{goal}$ is used to steer the robot towards a goal and $F_{obst}$ is used to have it avoid obstacles. Find reasonable $F_{goal}$ and $F_{obst}$ and simulate your proposed solution. 
+    
+    
+    \begin{align*}
+        &F_{form} = -k_{form}(L(\widetilde{D})x(t) - D(D)z_{ref})\\
+        &F_{goal} = k_{goal}((\bar x, \bar y) - (x_{goal}, y_{goal}))\\
+        &F_{obst} = \sum_{j \in obst} norm(x_i - x_{obst})\\
+        &\dot x_i = F_{form} + F_{goal} + F_{obst}
+    \end{align*}
+
     
 \end{problem}
 \newpage
@@ -206,4 +216,314 @@ All the codes are available at the end of the documents or here.
     Since we know that single and double integrater agents achieves desired position and velocity (except for the case when the double integrater has inconsistent desired velocity when desired position is achieved), example for unstable formation is provided only for LTI case. I am going to set all the initial condition to be 0, including velocity.
     For the single integrater agents, I have set the $z_ref = [0, 1,2,3]$, and, for the double integrater agents, $z_ref = [0, 1,2,3]$, and $ \dot z_ref = [4,5,6,7]$. In fact, my velocity profile for double integrater is not consistent with the position, and their velocity profile seems like converged to 0, but it is acutally oscillating if you were to zoom in. For LTI stable agents, $z_ref = [0, 1,2,3]$ were given with $a = 0.1$, $b = 1$, $k = 1$. It is worth potinting out that this LTI model becomes single integrater model, when $a = 0$, and therefore shows similar behavior as single integrater when a is small. However, the LTI model is stable only when $a-\lambda_i(G) k b < 0$, so I used $a = 1$, $b = 1$, $k = 1$ to simulate unstable formation.
 \end{problem}
+\section*{code for p2 b}
+\begin{minted}{python3}
+import networkx as nx
+import matplotlib.pyplot as plt
+
+def main():
+    n = 3
+    G = nx.empty_graph(n, create_using=nx.DiGraph)
+    G.add_edges_from([(0, 1), (0, 2)])
+    pos = nx.spring_layout(G)
+    plt.figure()
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), node_size = 500)
+    nx.draw_networkx_labels(G, pos)
+    nx.draw_networkx_edges(G, pos,G.edges(),width=3,  arrows=True)
+    G_reverse = nx.reverse(G)
+    pos = nx.spring_layout(G_reverse)
+    plt.figure()
+    nx.draw_networkx_nodes(G_reverse, pos, cmap=plt.get_cmap('jet'), node_size = 500)
+    nx.draw_networkx_labels(G_reverse, pos)
+    nx.draw_networkx_edges(G_reverse, pos,G_reverse.edges(), width=3, arrows=True)
+    plt.show()
+if __name__ == "__main__":
+    main()
+\end{minted}
+\section*{code for p2 c}
+\begin{minted}{python3}
+import networkx as nx
+import matplotlib.pyplot as plt
+
+def main():
+    n = 5
+    G = nx.empty_graph(n, create_using=nx.Graph)
+    G.add_edges_from([(1, 0), (1, 2), (3, 2), (3,4)])
+    pos = nx.spring_layout(G)
+    plt.figure()
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), node_size = 500)
+    nx.draw_networkx_labels(G, pos)
+    nx.draw_networkx_edges(G, pos,G.edges(),width=2,  arrows=True)
+    G = nx.empty_graph(n, create_using=nx.DiGraph)
+    G.add_edges_from([(1, 0), (1, 2), (3, 2), (3,4)])
+    pos = nx.spring_layout(G)
+    plt.figure()
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), node_size = 500)
+    nx.draw_networkx_labels(G, pos)
+    nx.draw_networkx_edges(G, pos,G.edges(), width=2, arrows=True)
+    G_reverse = nx.reverse(G)
+    pos = nx.spring_layout(G_reverse)
+    plt.figure()
+    nx.draw_networkx_nodes(G_reverse, pos, cmap=plt.get_cmap('jet'), node_size = 500)
+    nx.draw_networkx_labels(G_reverse, pos)
+    nx.draw_networkx_edges(G_reverse, pos,G_reverse.edges(),width=2,  arrows=True)
+    plt.show()
+if __name__ == "__main__":
+    main()
+\end{minted}
+\section*{code for p3}
+\begin{minted}{python3}
+import random
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+from mpl_toolkits import mplot3d
+def assess_x_1(U, x_0):
+    delta_t = np.log(2/3)
+    poses = np.matmul(np.exp(-delta_t *nx.laplacian_matrix(U).toarray()),x_0.T)\
+    
+    print(np.exp(-delta_t *nx.laplacian_matrix(U).toarray()))
+    print(poses)
+def main():
+
+    n = 5
+    G = nx.Graph()
+    G.add_node(0)
+    H = nx.complete_graph(n-1)
+    U = nx.disjoint_union(G, H)
+    pos = nx.spring_layout(U)
+    U.add_edges_from([(0,1)])
+    Delta = 1
+    x_0 = np.zeros(n)
+    x_0[0] = Delta *2
+    x_0[1] = Delta
+    
+ 
+    assess_x_1(U, x_0)
+    plt.figure()
+    nx.draw_networkx_nodes(U, pos, cmap=plt.get_cmap('jet'), node_size = 500)
+    nx.draw_networkx_labels(U, pos)
+    nx.draw_networkx_edges(U, pos,U.edges(),width=2,  arrows=True)
+    plt.show()
+if __name__ == "__main__":
+    main()
+
+
+
+\end{minted}
+\section*{code for p4}
+\begin{minted}{python3}
+import random
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+from mpl_toolkits import mplot3d
+import math
+
+
+
+def show(graph): 
+    plt.figure()
+    poses = nx.get_node_attributes(graph, 'pos')
+    nx.draw_networkx_edges(graph, pos = poses,edgelist=graph.edges(),arrows=True)
+    nx.draw_networkx_nodes(graph, pos = poses, nodelist=graph.nodes() ,label=True)
+    nx.draw_networkx_labels(graph, pos=poses)
+    plt.show()
+def random_graphs_init(graph,num):
+    poses = {i: (np.random.randint(i+10),np.random.randint(i+10)) for i in range(num)}
+    vels = {i: (0,0) for i in range(num)}
+    nx.set_node_attributes(graph,poses, "pos")
+    nx.set_node_attributes(graph, vels, "vel")
+    graph.add_edges_from([(i, i+1) for i in range(len(graph.nodes())-1)])
+    graph.add_edges_from([(i+1, i) for i in range(len(graph.nodes())-1)])
+    graph.add_edges_from([(num-1, 0), (0, num -1)])
+
+    return graph
+
+def get_formation_ref(num):
+    l=[]
+    [l.extend([v[0],v[1]]) for k,v in nx.get_node_attributes(D, 'pos').items()]
+    x_mean = sum(l[:num])/num
+    y_mean = sum(l[num:])/num
+    thetas = np.linspace(0, 2*np.pi, num)
+def create_z_ref(l, num, int_type):
+    #uniformly distributed
+    show(D)
+
+    x_mean = sum(l[:num])/num
+    y_mean = sum(l[num:])/num
+    thetas = np.linspace(0, 2*np.pi, num)
+    match int_type:
+        case 1:
+             z_ref = np.linspace(1, 2*num, 2*num)
+             print(z_ref)
+        case 2:
+             z_ref = [1,1,1,1,0,0,0,0]
+        case _:
+             z_ref = np.linspace(0, num-1, num)
+    return z_ref
+
+def single_xdot(x, t, D, z_ref,k):
+
+    # L_D_bar = nx.laplacian_matrix(D.to_undirected(reciprocal=False, as_view=False)).toarray()
+    # D_D = nx.incidence_matrix(D, oriented=True).toarray()
+    # return -k *np.matmul(L_D_bar, x) + k * np.matmul(D_D,z_ref)
+    poses = {i: (x[i],x[i+num]) for i in range(num)}
+    vels = {i: (0,0) for i in range(num)}
+    nx.set_node_attributes(D,poses, "pos")
+    nx.set_node_attributes(D, vels, "vel")
+    return -(x-z_ref)
+
+num = 5
+D =nx.empty_graph(num,create_using=nx.DiGraph())
+# D = nx.gnm_random_graph(num, (num -1)*(num-2)/2, directed=True)
+D = random_graphs_init(D,num)
+z_ref = []
+def main():
+    
+    k = 1
+    
+    labels = []
+    for i in range(num):
+        labels.append(f"x{i}")
+    
+    t = np.linspace(0, 10, 101)
+    l=[]
+    [l.extend([v[0],v[1]]) for k,v in nx.get_node_attributes(D, 'pos').items()]
+    print(f"input for odeint: {l}")
+    ## Single
+    z_ref = create_z_ref(l,len(D.nodes()),1)
+    # np.append(list(nx.get_node_attributes(D, 'pos_x')),list(nx.get_node_attributes(D, 'pos_y')))
+    
+    trajectory_y = odeint(single_xdot,l, t, args=(D, z_ref, k))
+    plt.figure()
+    plt.plot(t, trajectory_y[:,:num], label = labels)
+    plt.xlabel("Time t")
+    plt.ylabel("Position")
+    plt.title("Double Integrater")
+    plt.figure()
+    plt.plot(t, trajectory_y[:,num:], label = labels)
+    plt.xlabel("Time t")
+    plt.ylabel("Velocity")
+    # plt.title("Double Integrater")
+    plt.figure()
+    plt.plot( trajectory_y[:,num:],trajectory_y[:,:num], label = labels)
+    plt.plot(z_ref[num:], z_ref[:num])
+    # plt.xlabel("Time t")
+    # plt.ylabel("Velocity")
+    # plt.title("Double Integrater")
+    show(D)
+    plt.show()
+if __name__ == "__main__":
+    main()
+\end{minted}
+\section*{code for p5}
+\begin{minted}{python3}
+import random
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+from mpl_toolkits import mplot3d
+def random_graphs_init(graph,num):
+    poses = 0
+    vels = 1
+    nx.set_node_attributes(graph,poses, "pos")
+    nx.set_node_attributes(graph, vels, "vel")
+    # poses.append(0)
+    graph.add_edges_from([(i, i+1) for i in range(len(graph.nodes())-1)])
+
+    edges = {(i, i+1):{graph.nodes[i+1]['pos'] - graph.nodes[i]['pos']}  for i in range(len(graph.nodes())-1) }
+    nx.set_edge_attributes(graph, edges, "edge_length")
+    return graph
+
+def create_z_ref(num, int_type):
+    #uniformly distributed
+    
+    match int_type:
+        case 1:
+                z_ref = np.linspace(0, num-1, num)
+        case 2:
+                z_ref = [1,1,1,1,0,0,0,0]
+        case _:
+                z_ref = np.linspace(0, num-1, num)
+    return z_ref
+
+def single_xdot(x, t, D, z_ref,k):
+
+    L_D_bar = nx.laplacian_matrix(D.to_undirected(reciprocal=False, as_view=False)).toarray()
+    D_D = nx.incidence_matrix(D, oriented=True).toarray()
+    return -k *np.matmul(L_D_bar, x) + k * np.matmul(D_D,z_ref)
+
+def double_xdot(x, t, D, z_ref,k):
+    k = 0.1
+    L_D_bar = nx.laplacian_matrix(D.to_undirected(reciprocal=False, as_view=False)).toarray()
+    D_D = k*nx.incidence_matrix(D, oriented=True).toarray()
+    
+    L_D_bar = -k *np.kron([[0,0], [1,1]] ,L_D_bar) + np.kron([[0,1], [0,0]], np.eye(len(x)//2))
+    
+    
+    D_D = k*np.kron([[0,0], [1,1]] ,D_D) 
+    
+    return np.matmul(L_D_bar, x) + np.matmul(D_D,z_ref)
+
+def LTI_xdot(x, t, D, z_ref,k):
+    a = .1
+    b = 1
+    z_t = np.matmul(nx.incidence_matrix(D, oriented=True).toarray().T, x)
+    u = k*np.matmul(nx.incidence_matrix(D, oriented=True).toarray(), (z_ref - z_t)) 
+    return a*x + b*u
+def main():
+    nums = [5]
+    k = 1
+    
+    for num in nums:
+        labels = []
+        for i in range(num):
+            labels.append(f"x{i}")
+        D =nx.empty_graph(num,create_using=nx.DiGraph())
+        # D = nx.gnm_random_graph(num, (num -1)*(num-2)/2, directed=True)
+        D = random_graphs_init(D,num)
+        # z_ref = create_z_ref(len(D.edges()),1)
+        t = np.linspace(0, 30, 101)
+        
+        # trajectory_x = odeint(single_xdot, list(nx.get_node_attributes(D, "pos").values()), t, args=(D, z_ref, k))
+        # plt.figure()
+        # plt.plot(t, trajectory_x, label = labels)
+        # plt.xlabel("Time t")
+        # plt.ylabel("Position")
+        # plt.title("Single Integrater")
+        z_ref = create_z_ref(len(D.edges()),2)
+        print(z_ref)
+        pos_vel = []
+        for i in range(len(D.nodes())):
+            pos_vel.append(nx.get_node_attributes(D, "pos")[i])
+            pos_vel.append(nx.get_node_attributes(D, "vel")[i])
+        # pos_vel = np.append(list(nx.get_node_attributes(D, "pos").values()), list(nx.get_node_attributes(D, "vel").values()))
+        # trajectory_double = odeint(double_xdot, pos_vel , t, args=(D, z_ref, k))
+        # plt.figure()
+        # plt.plot(t, trajectory_double[:,:num], label = labels)
+        # plt.xlabel("Time t")
+        # plt.ylabel("Position")
+        # plt.title("Double Integrater")
+        # plt.figure()
+        # plt.plot(t, trajectory_double[:,num:], label = labels)
+        # plt.xlabel("Time t")
+        # plt.ylabel("Velocity")
+        # plt.title("Double Integrater")
+        z_ref = create_z_ref(len(D.edges()),3)
+        trajectory_LTI = odeint(LTI_xdot, list(nx.get_node_attributes(D, "pos").values()) , t, args=(D, z_ref, k))
+        plt.figure()
+        plt.plot(t, trajectory_LTI, label = labels)
+        plt.xlabel("Time t")
+        plt.ylabel("Position")
+        plt.title("LTI")
+    plt.legend()
+    plt.show()
+
+if __name__ == "__main__":
+    main()
+\end{minted}
 \end{document}

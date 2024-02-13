@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.integrate} \PYG{k}{import} \PYG{n}{odeint}
+\PYG{k+kn}{from} \PYG{n+nn}{mpl\PYGZus{}toolkits} \PYG{k}{import} \PYG{n}{mplot3d}
+\PYG{k}{def} \PYG{n+nf}{assess\PYGZus{}x\PYGZus{}1}\PYG{p}{(}\PYG{n}{U}\PYG{p}{,} \PYG{n}{x\PYGZus{}0}\PYG{p}{):}
+    \PYG{n}{delta\PYGZus{}t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{l+m+mi}{3}\PYG{p}{)}
+    \PYG{n}{poses} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{matmul}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{delta\PYGZus{}t} \PYG{o}{*}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{U}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()),}\PYG{n}{x\PYGZus{}0}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)}\PYGZbs{}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{delta\PYGZus{}t} \PYG{o}{*}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{U}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()))}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{poses}\PYG{p}{)}
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+
+    \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{5}
+    \PYG{n}{G} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{Graph}\PYG{p}{()}
+    \PYG{n}{G}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{H} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{complete\PYGZus{}graph}\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{U} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{disjoint\PYGZus{}union}\PYG{p}{(}\PYG{n}{G}\PYG{p}{,} \PYG{n}{H}\PYG{p}{)}
+    \PYG{n}{pos} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{spring\PYGZus{}layout}\PYG{p}{(}\PYG{n}{U}\PYG{p}{)}
+    \PYG{n}{U}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges\PYGZus{}from}\PYG{p}{([(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)])}
+    \PYG{n}{Delta} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{x\PYGZus{}0} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}
+    \PYG{n}{x\PYGZus{}0}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{Delta} \PYG{o}{*}\PYG{l+m+mi}{2}
+    \PYG{n}{x\PYGZus{}0}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{Delta}
+
+
+    \PYG{n}{assess\PYGZus{}x\PYGZus{}1}\PYG{p}{(}\PYG{n}{U}\PYG{p}{,} \PYG{n}{x\PYGZus{}0}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}nodes}\PYG{p}{(}\PYG{n}{U}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{,} \PYG{n}{cmap}\PYG{o}{=}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{get\PYGZus{}cmap}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}jet\PYGZsq{}}\PYG{p}{),} \PYG{n}{node\PYGZus{}size} \PYG{o}{=} \PYG{l+m+mi}{500}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}labels}\PYG{p}{(}\PYG{n}{U}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}edges}\PYG{p}{(}\PYG{n}{U}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{,}\PYG{n}{U}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{(),}\PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}  \PYG{n}{arrows}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+
+
+\end{Verbatim}

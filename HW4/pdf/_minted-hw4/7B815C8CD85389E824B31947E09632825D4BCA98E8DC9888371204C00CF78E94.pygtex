@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{3}
+    \PYG{n}{G} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{empty\PYGZus{}graph}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,} \PYG{n}{create\PYGZus{}using}\PYG{o}{=}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{DiGraph}\PYG{p}{)}
+    \PYG{n}{G}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges\PYGZus{}from}\PYG{p}{([(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)])}
+    \PYG{n}{pos} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{spring\PYGZus{}layout}\PYG{p}{(}\PYG{n}{G}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}nodes}\PYG{p}{(}\PYG{n}{G}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{,} \PYG{n}{cmap}\PYG{o}{=}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{get\PYGZus{}cmap}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}jet\PYGZsq{}}\PYG{p}{),} \PYG{n}{node\PYGZus{}size} \PYG{o}{=} \PYG{l+m+mi}{500}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}labels}\PYG{p}{(}\PYG{n}{G}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}edges}\PYG{p}{(}\PYG{n}{G}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{,}\PYG{n}{G}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{(),}\PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,}  \PYG{n}{arrows}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+    \PYG{n}{G\PYGZus{}reverse} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{reverse}\PYG{p}{(}\PYG{n}{G}\PYG{p}{)}
+    \PYG{n}{pos} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{spring\PYGZus{}layout}\PYG{p}{(}\PYG{n}{G\PYGZus{}reverse}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}nodes}\PYG{p}{(}\PYG{n}{G\PYGZus{}reverse}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{,} \PYG{n}{cmap}\PYG{o}{=}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{get\PYGZus{}cmap}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}jet\PYGZsq{}}\PYG{p}{),} \PYG{n}{node\PYGZus{}size} \PYG{o}{=} \PYG{l+m+mi}{500}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}labels}\PYG{p}{(}\PYG{n}{G\PYGZus{}reverse}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}edges}\PYG{p}{(}\PYG{n}{G\PYGZus{}reverse}\PYG{p}{,} \PYG{n}{pos}\PYG{p}{,}\PYG{n}{G\PYGZus{}reverse}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{(),} \PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{arrows}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{Verbatim}
