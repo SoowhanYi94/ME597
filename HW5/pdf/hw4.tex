@@ -33,7 +33,7 @@
 All the codes are available at the end of the documents or here.
 \url{https://github.com/SoowhanYi94/ME597}
 \begin{problem}7.1
-    This chapter mainly dealt with $\Delta$-disk graphs, that is, proximity graph (V,E) such that ${v_i, v_j} \in E$ if and only if $||x_i - x_j|| \leq \Delta$. wjere $x_i \in R^p, i = 1, \codts, n, $ is the state of robot i. In this exercise, we will be exploring another type of proximity graphy, namely the wedge graph. Assume that instead of single integrator dynamics, the agents' dynamics are defined as unicycle robots, that is, 
+    This chapter mainly dealt with $\Delta$-disk graphs, that is, proximity graph (V,E) such that ${v_i, v_j} \in E$ if and only if $||x_i - x_j|| \leq \Delta$. wjere $x_i \in R^p, i = 1, \cdots, n, $ is the state of robot i. In this exercise, we will be exploring another type of proximity graphy, namely the wedge graph. Assume that instead of single integrator dynamics, the agents' dynamics are defined as unicycle robots, that is, 
     \begin{align*}
         &\dot x_i(t) = v_i(t) cos{\phi_i (t)}\\
         &\dot y_i(t) = v_i(t) sin{\phi_i (t)}\\
@@ -43,12 +43,41 @@ All the codes are available at the end of the documents or here.
     Here $[x_i, y_i]^T$ is the position of robot i, while, $\phi_i$ denotes its orientation. Moreover, $v_i$ and $\omega_i$ are the translational and rotational velocities, which are the controlled inputs. Now, assume that such a robot is equiopped with a rigidly mounted camer, facing in the forward direction. This gives rise to a directed wedge graph, as seen in the figure. For such a setup, if robot j is visible from robot i, the available information is $d_{ij} = ||[x_i, y_i]^T - [x_j, y_j]^T||$ (distance between agents) and $\delta \phi_{ij}$(relative interagent angle) as per the figure below. Explain how you would solve the rendezvous (agreement) problem for such a system. 
     
     \vspace{12pt}
-    In order to solve this agreement problem, we need to controll the distance between two agents, especially between the leaf nodes($v_j$ and $v_k$ in the example) and the center node($v_i$), and angle between them. So we need to use combination of unicycle control law and control law for single integrator. 
-      
-    Using Laplacian-based protetial, 
+    In order to solve this agreement problem, we need to controll the distance between two agents, especially between the leaf nodes($v_j$ and $v_k$ in the example) and the center node($v_i$), and angle between them. We have a sector form of sensing area, and we need to keep them inside in order to stay connected. So 
     \begin{align*}
-        W_m(\theta) = \frac{1}{2} (e^{jm\theta}) * L(G)(e^{jm\theta}) 
+        v_j(t) &= - \frac{2(\rho - ||l_{ij}||) - ||d_{ij} - l_{ij}||}{(\rho - ||l_{ij}|| - ||d_{ij} - l_{ij}||)^2} (d_{ij} - l_{ij} )\\
+        v_k(t) &= - \frac{2(\rho - ||l_{ik}||) - ||d_{ik} - l_{ik}||}{(\rho - ||l_{ik}|| - ||d_{ik} - l_{ik}||)^2} (d_{ik} - l_{ik} )
     \end{align*}
-\end{problem}
+    where $\rho$ is the limit for the radius of sensing range, $l_{ik}$ and $l_{ij}$ are desired length between agent i,k and i,j.
+    Now we need to keep the angles between them to be in certain range, and I would use the same logic that was used in above equation. According to Lemma 7.5 and theorem 7.6 in the textbook, above equations are guranteed to stay inside the radius of $\rho$ and the current distance between agents, $d_{ij}$, would converge to desired distance, $l_{ij}$. With this in mind, the same logic would be applied to the relative interagent angles. 
+    \begin{align*}
+        \omega_j(t) = \dot \phi_j(t) &= - \frac{2(\frac{\Delta \psi}{2} - \Phi_{ij}) - ||\delta \phi_{ij} - \Phi_{ij}||}{(\frac{\Delta \psi}{2} - \Phi_{ij} - ||\delta \phi_{ij} - \Phi_{ij}||)^2} (\delta \phi_{ij} - \Phi_{ij})\\
+        \omega_k(t) = \dot \phi_k(t) &= - \frac{2(\frac{\Delta \psi}{2} - \Phi_{ik}) - ||\delta \phi_{ik} - \Phi_{ik}||}{(\frac{\Delta \psi}{2} - \Phi_{ik} - ||\delta \phi_{ik} - \Phi_{ik}||)^2} (\delta \phi_{ik} - \Phi_{ik})\\
+    \end{align*}
+    With above equations, agents are guranteed to stay in the sector shaped sensing area. We just need the desired distance and angles between the parent agent(robot i) and the child agent(robot j and robot k), which are $0 \leq l_{ij}, l_{ik} \leq \rho$, and $0 \leq \Phi_{ij}, \Phi_{ik} \leq \frac{\Delta \psi}{2}$, respectively. 
 
+    But can we do this in other way?, for example we can syncronize the headings and let the those edge lengths to converge to desired lengths.It may be computationally harder or not. But if we started inside the sector shape, then we can sync the headings. This would not let those two agents leave the sensing range. I dont know. 
+\end{problem}
+\newpage
+\begin{problem}
+Show that if a $\delta$-disk proximity graph with 4 agents starts connected, then, using the linear agreement protocol, it stays connected for all times. 
+
+\end{problem}
+\begin{problem}
+    \begin{align*}
+        \dot x_i(t) &= -\sum_{j \in N_{G_d}(i)} \frac{2(\Delta - ||d_{ij}||) - ||l_{ij} - d_{ij}||}{(\Delta - ||d_{ij}|| - ||l_{ij} - d_{ij}||)^2} (x_i(t) - x_j(t) - d_{ij} )
+    \end{align*}
+    Lemma 7.5\\
+    Given an initial conditions $x_0$ such that $y_0 = (x_0 - \tau_0) \in D_{G_{d}, \Delta -||d||}^\epsilon$, with $G_d$ a connected spanning graph of $G(x_0)$, the group of autonomous mobile agents adopting the decentralized contral law (the equation above) are guranteed to satisfy
+    \begin{align*}
+        ||x_i(t) - x_j(t)|| = ||l_{ij}(t)|| \leq \Delta \text{ for all } t > 0 \text{ and }{ v_i, v_j} \in E_d
+    \end{align*}
+
+    Theorem 7.6
+    Under the same assumptions as in Lemma 7.5, for all i, j, the pairwize relative distants $||l_{ij}|| = ||x_i(t) - x_j(t)||$ asymptotically converge to $||d_{ij}||$ for ${v_i, v_j} \in E_d$
+    
+    \vspace{12pt}
+    Implement the algorithm above and explore how the conditions of Lemma 7.5/Thm 7.6 are required for the algorithm to work as proposed    
+\end{problem}
+    
 \end{document}
