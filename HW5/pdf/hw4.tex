@@ -54,14 +54,25 @@ All the codes are available at the end of the documents or here.
         \omega_j(t) = \dot \phi_j(t) &= - \frac{2(\frac{\Delta \psi}{2} - \Phi_{ij}) - ||\delta \phi_{ij} - \Phi_{ij}||}{(\frac{\Delta \psi}{2} - \Phi_{ij} - ||\delta \phi_{ij} - \Phi_{ij}||)^2} (\delta \phi_{ij} - \Phi_{ij})\\
         \omega_k(t) = \dot \phi_k(t) &= - \frac{2(\frac{\Delta \psi}{2} - \Phi_{ik}) - ||\delta \phi_{ik} - \Phi_{ik}||}{(\frac{\Delta \psi}{2} - \Phi_{ik} - ||\delta \phi_{ik} - \Phi_{ik}||)^2} (\delta \phi_{ik} - \Phi_{ik})\\
     \end{align*}
-    With above equations, agents are guranteed to stay in the sector shaped sensing area. We just need the desired distance and angles between the parent agent(robot i) and the child agent(robot j and robot k), which are $0 \leq l_{ij}, l_{ik} \leq \rho$, and $0 \leq \Phi_{ij}, \Phi_{ik} \leq \frac{\Delta \psi}{2}$, respectively. 
+    With above equations, agents are guranteed to stay in the sector shaped sensing area. We just need the desired distance and angles between the parent agent(robot i) and the child agent(robot j and robot k), which are $0 \leq l_{ij}, l_{ik} \leq \rho$, and $0 \leq \Phi_{ij}, \Phi_{ik} \leq \frac{\Delta \psi}{2}$, respectively. $0 = l_{ij}, l_{ik}$ , $0 = \Phi_{ij}, \Phi_{ik}$ in case of agreement problem.
 
-    But can we do this in other way?, for example we can syncronize the headings and let the those edge lengths to converge to desired lengths.It may be computationally harder or not. But if we started inside the sector shape, then we can sync the headings. This would not let those two agents leave the sensing range. I dont know. 
+    or
+
+
+
 \end{problem}
 \newpage
 \begin{problem}
-Show that if a $\delta$-disk proximity graph with 4 agents starts connected, then, using the linear agreement protocol, it stays connected for all times. 
+Show that if a $\delta$-disk proximity graph with 4 agents starts connected, then, using the linear agreement protocol, it stays connected for all times.
 
+With theorem 3.4  in the textbook, we know that the linear agreement protocol converges to the agreement set. Therefore the length of edges between two vertices would never increase. As we have started with each lengths of edges being less than $\delta$, those lengths would stay less than $\delta$
+Lemma 7.4 and 7.5 in the book would also prove this.
+
+Lemma 7.5\\
+    Given an initial conditions $x_0$ such that $y_0 = (x_0 - \tau_0) \in D_{G_{d}, \Delta -||d||}^\epsilon$, with $G_d$ a connected spanning graph of $G(x_0)$, the group of autonomous mobile agents adopting the decentralized contral law (the equation above) are guranteed to satisfy
+    \begin{align*}
+        ||x_i(t) - x_j(t)|| = ||l_{ij}(t)|| \leq \Delta \text{ for all } t > 0 \text{ and }{ v_i, v_j} \in E_d
+    \end{align*}
 \end{problem}
 \begin{problem}
     \begin{align*}
