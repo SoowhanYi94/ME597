@@ -3,9 +3,8 @@
 \usepackage[ruled]{algorithm2e}
 \usepackage[shortlabels]{enumitem}
 \usepackage{hyperref}
-\usepackage{minted}
+% \usepackage{minted}
 \usepackage{subcaption}
-
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -20,11 +19,11 @@
 
 \begin{document}
 \setcounter{problem}{0}
-\title{Homework \#4}
+\title{Homework \#5}
 \author{
     \normalsize{AA 597: Networked Dynamics Systems}\\
     \normalsize{Prof. Mehran Mesbahi}\\
-    \normalsize{Due: Feb 9, 2024 11:59pm}\\
+    \normalsize{Due: Feb 16, 2024 11:59pm}\\
     \normalsize{Soowhan Yi}
 }
 \date{{}}
@@ -65,8 +64,7 @@ All the codes are available at the end of the documents or here.
 \begin{problem}
 Show that if a $\delta$-disk proximity graph with 4 agents starts connected, then, using the linear agreement protocol, it stays connected for all times.
 
-With theorem 3.4  in the textbook, we know that the linear agreement protocol converges to the agreement set. Therefore the length of edges between two vertices would never increase. As we have started with each lengths of edges being less than $\delta$, those lengths would stay less than $\delta$
-Lemma 7.4 and 7.5 in the book would also prove this.
+With theorem 3.4  in the textbook, we know that the linear agreement protocol converges to the agreement set. Therefore the length of edges between two vertices would never increase. Even with the case where 2 nodes (node 1 and node 2)are located in one points $\Delta$ away from node 3, and node 4 is located $\Delta$ away from node 3 and $2 \Delta$ away from node 1 and 2, we proved that they do converge in one point with 4 agents. As we have started with each lengths of edges being less than or equal to $\Delta$, those lengths would stay less than $\Delta$ in the progress of the linear agreement protocol and until it reaches the agreement. 
 
 Lemma 7.5\\
     Given an initial conditions $x_0$ such that $y_0 = (x_0 - \tau_0) \in D_{G_{d}, \Delta -||d||}^\epsilon$, with $G_d$ a connected spanning graph of $G(x_0)$, the group of autonomous mobile agents adopting the decentralized contral law (the equation above) are guranteed to satisfy

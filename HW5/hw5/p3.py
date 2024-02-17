@@ -36,6 +36,8 @@ def random_graphs_init(graph,num, Delta):
     nx.set_edge_attributes(graph, edges, "edge_length")
     return graph
 def xdot(x, t,desired_l):
+
+    
     W = construct_W(D, Delta, desired_l, num)
     D_D = nx.incidence_matrix(D, oriented=True).toarray()
     # print(W)
