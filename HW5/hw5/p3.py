@@ -1,9 +1,8 @@
-import random
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import odeint
-from mpl_toolkits import mplot3d
 
 def show(graph): 
     plt.figure()
