@@ -2,48 +2,49 @@ import cvxpy as cp
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-
-num = 5
-
-D = nx.gnm_random_graph(num, (num -1)*(num-2)/2, directed=False)
-
-m = 30
-n = 20
-np.random.seed(1)
-A = np.random.randn(m, n)
-b = np.random.randn(m)
-
-# Construct the problem.
-x = cp.Variable(n)
-objective = cp.Minimize(cp.sum_squares(A @ x - b))
-constraints = [0 <= x, x <= 1]
-prob = cp.Problem(objective, constraints)
-
-# The optimal objective value is returned by `prob.solve()`.
-result = prob.solve()
-# The optimal value for x is stored in `x.value`.
-print(x.value)
-# The optimal Lagrange multiplier for a constraint is stored in
-# `constraint.dual_value`.
-print(constraints[0].dual_value)
+import numpy as np
+#https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
+def gramschmidt(V):
+    n, m = V.shape
+    U = np.zeros_like(V)
+    U[:, 0] = V[:, 0] / np.linalg.norm(V[:, 0])
+    for i in range(1, m):
+        U[:, i] = V[:, i]
+        for j in range(i):
+            U[:, i] -= np.dot(U[:, j].T, U[:, i]) * U[:, j]
+        U[:, i] /= np.linalg.norm(U[:, i])
+    return U[:,1:]
 
 def main():
     nums = [5]
+    custom_graph = nx.star_graph(nums[0]-2)
+    custom_graph.add_node(nums[0] -1)
+    custom_graph.add_edge(nums[0]-1, nums[0]-2)
     for num in nums:
-        names = ['cycle','path', 'star', 'complete']
-        graphs = [nx.cycle_graph(num), nx.path_graph(num), nx.star_graph(num - 1), nx.complete_graph(num)]
-
+        names = ['complete', 'path', 'star', 'custom' ]
+        # graphs = [ custom_graph]
+        graphs = [ nx.complete_graph(num), nx.path_graph(num), nx.star_graph(num - 1),custom_graph]
         k =0
         for graph in graphs:
-            t = np.linspace(0, 30, 101)
-            trajectory_theta = odeint(get_xdot, list(nx.get_node_attributes(graph, "theta").values()), t, args=(graph, omega))
+            U = gramschmidt(np.column_stack([np.ones(num), np.random.randn(num, num-1)]))
+            x = cp.Variable((len(graph.edges),len(graph.edges)), diag=True)
+            D_D = nx.incidence_matrix(graph, graph.nodes(),oriented=True).toarray()
+            gamma = cp.Variable(1)
+            objective = cp.Maximize(gamma)
+            constraints = [x >>0, cp.trace(x) == 1,(U.T@D_D @ x @ D_D.T@U )>>gamma*np.eye(num-1)]
+            prob = cp.Problem(objective, constraints)
+            result = prob.solve()
             plt.figure()
-            plt.plot(t, trajectory_theta)
-            plt.xlabel("Time t")
-            plt.ylabel("Heading of Nodes ")
-            plt.title(f"Heading of Nodes {names[k]} ")
+            plt.title(f"{names[k]} graph weight distribution")
+            edges = list(graph.edges())
+            edge_labels = [ '%.4f' % elem for elem in x.value.data[0] ]
+            weight = {edges[i]: edge_labels[i] for i in range(len(edges))}
+            pos = nx.spring_layout(graph)
+            nx.draw(graph,pos = pos, with_labels = True)            
+            nx.draw_networkx_edge_labels(graph, pos = pos, edge_labels=weight)
             k +=1
-    plt.show()
+        plt.show()
 
 if __name__ == "__main__":
     main()
+

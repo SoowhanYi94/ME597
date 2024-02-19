@@ -48,7 +48,7 @@ All the codes are available at the end of the documents or here.
         \dot x_i(t) &= -\sum_{j \in N(i) }\frac{2\rho  - ||d_{ij}||}{(\rho  - ||d_{ij} ||)^2} (r_{i} - r_{j} ) \cos(\delta \phi_{ij})\\
         \dot y_i(t) &= -\sum_{j \in N(i) }\frac{2\rho  - ||d_{ij}||}{(\rho  - ||d_{ij} ||)^2} (r_{i} - r_{j} ) \sin(\delta \phi_{ij})
     \end{align*}
-    where this i corresponds to those robot agents. From lemma 7.1 from textbook proves that $\Omega (\rho, r_0) = \curly{r| V(\rho, r) \leq V(\rho, r_0)}$ is invariant set under the above control law, where $r_0 \in D_{G, \rho} ^\epsilon$ for $\epsilon \in (0, \rho)$. Also the theorem 7.2 from textbook proves that this control law asymptotically converges to the static centroid. 
+    where this i corresponds to those robot agents. Lemma 7.1 from textbook proves that $\Omega (\rho, r_0) = \curly{r| V(\rho, r) \leq V(\rho, r_0)}$ is invariant set under the above control law, where $r_0 \in D_{G, \rho} ^\epsilon$ for $\epsilon \in (0, \rho)$. Also the theorem 7.2 from textbook proves that this control law asymptotically converges to the static centroid. 
 
     Now we need to keep the angles between them to be in certain range, and I would use the same logic that was used in above equation.
     \begin{align*}
@@ -100,14 +100,40 @@ With theorem 3.4  in the textbook, we know that the linear agreement protocol co
 \end{problem}
 
 \begin{problem}
-    11.2 Show that if $\lambda_2(G)$ has an algebraic muliplicity m in in the graph G, then adding up to m edges will not improve it. 
+    11.2 Show that if $\lambda_2(G)$ has an algebraic multiplicity m in in the graph G, then adding up to m edges will not improve it. 
 
+    If $\lambda_2 (G)$ has an algebraic multiplicity of m, there are m linearly independant eigenvectors assosicated with this $\lambda_2(G)$. Also the characteristic equation for this eigenvalues is 
+    \begin{align*}
+        f(\lambda) = (\lambda_1 -\lambda)(\lambda_2 - \lambda) \cdots (\lambda_{m+1} - \lambda) \cdots (\lambda_n - \lambda) = 0
+    \end{align*}
+    where $\lambda_2 = \lambda_3 = \cdots = \lambda_{m+1}$. If single edge is added, the connectivity increases, and increases the value of $\lambda_2$. However, the eigenvectors assosicated with those $\lambda$s are linearly independant, and therefore the value of $\lambda_3, \lambda_4 \cdots \lambda_m$ remains the same, making the second smallest eigenvalue to become $\lambda_3, \lambda_4 \cdots \lambda_{m+1}$. Therefore adding edges upto m edges would not change the value of second smallest eigenvalue.  
 \end{problem}
 \begin{problem}
     11.10 Use the approach of section11.6 and a semideﬁnite programming
     solver (such as the one mentioned in notes and references), to maximize
     $\lambda_2 (G)$ for the weighted versions of K5 , P5 , and S5 , subject to a normalization on the sum of the weights. Comment on any observed patterns for the
     optimal weight distribution.
+    \begin{figure*}[!h]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_complete.png}
+            \caption{$K_5$ weight distribution}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_path.png}
+            \caption{$P_5$ weight distribution}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_star.png}
+            \caption{$S_5$ weight distribution}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{./img/p5_textbook.png}
+            \caption{Textbook example }
+        \end{subfigure}
+    \end{figure*}
+    
+    We see that those weight are summed to 1 for all graphs and they are symmetric respect to their edges, in case of $K_5, P_5, S_5$. Of course the custom graph(textbook example) would not have symmetric weights for edges that are not symmetric. But the edge connecting (0,1) and (0,2) are symmetric and their weights are the same.
 \end{problem}
 \newpage
 \section*{Code}

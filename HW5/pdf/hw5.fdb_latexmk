@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1708224133 "/home/syi/Wi 24 UW/ME597/HW5/pdf/hw5.tex" "hw5.pdf" "hw5" 1708224133
-  "/dev/null" 1708165814 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1708318486 "/home/syi/Wi 24 UW/ME597/HW5/pdf/hw5.tex" "hw5.pdf" "hw5" 1708318486
+  "/dev/null" 1708255015 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/etc/texmf/web2c/texmf.cnf" 1695837190 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/syi/Wi 24 UW/ME597/HW5/pdf/hw5.tex" 1708224132 8015 c27070bea16a1e213660be3b13bda924 ""
+  "/home/syi/Wi 24 UW/ME597/HW5/pdf/hw5.tex" 1708318486 10009 179e2261594655d8514a991dfe169cce ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -173,12 +173,16 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1695837507 1435934 47e6e74e9e0dfdcf7d7c4e46620654a0 ""
   "_minted-hw5/D41D8CD98F00B204E9800998ECF8427EFB96FAAE2EBB4A89ED36A85C2B670571.pygtex" 1708209733 54 528153b3b4abde6991cec2369605cd68 ""
   "_minted-hw5/default.pygstyle" 1708209515 7157 7149f5dc341fa4b43eda328006a43d74 ""
-  "hw5.aux" 1708224133 881 5bc23c3b0eb729e3dccadfd4d99dc32e "pdflatex"
-  "hw5.out" 1708224133 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "hw5.tex" 1708224132 8015 c27070bea16a1e213660be3b13bda924 ""
+  "hw5.aux" 1708318486 881 d4747fe8967ae4b7add53a8a1d343227 "pdflatex"
+  "hw5.out" 1708318486 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "hw5.tex" 1708318486 10009 179e2261594655d8514a991dfe169cce ""
   "img/p3_1.png" 1708141919 27222 9e88eecdb14e3e779ac8dc21f32b97c6 ""
   "img/p3_2.png" 1708144944 29028 e6ca0c5e493111d819ab994420a5d152 ""
   "img/p3_3.png" 1708145776 30213 09082b3a0c4d77fbd48f0cdb9be50842 ""
+  "img/p5_complete.png" 1708317587 48737 2905d59850caa4e4102d116e3b5afff1 ""
+  "img/p5_path.png" 1708317595 20395 776e477f8028e25e64f0a194093d6c68 ""
+  "img/p5_star.png" 1708317608 26806 ae73211426b723c82159cd35579e3a61 ""
+  "img/p5_textbook.png" 1708317617 20936 966ef36391d74c7193494a486e8cfcaa ""
   "macro.tex" 1707170522 5686 9ef8f0cd96baf2f89ea649495626853d ""
   (generated)
   "hw5.aux"
