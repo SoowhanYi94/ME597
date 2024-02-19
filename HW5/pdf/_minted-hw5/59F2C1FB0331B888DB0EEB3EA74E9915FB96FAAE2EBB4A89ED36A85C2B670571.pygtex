@@ -1,0 +1,85 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.integrate} \PYG{k}{import} \PYG{n}{odeint}
+
+\PYG{k}{def} \PYG{n+nf}{show}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{):}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+    \PYG{n}{poses} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}pos\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}edges}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{pos} \PYG{o}{=} \PYG{n}{poses}\PYG{p}{,}\PYG{n}{edgelist}\PYG{o}{=}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{(),}\PYG{n}{arrows}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}nodes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{pos} \PYG{o}{=} \PYG{n}{poses}\PYG{p}{,} \PYG{n}{nodelist}\PYG{o}{=}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{()} \PYG{p}{,}\PYG{n}{label}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}labels}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{pos}\PYG{o}{=}\PYG{n}{poses}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{def} \PYG{n+nf}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,}\PYG{n}{num}\PYG{p}{,} \PYG{n}{Delta}\PYG{p}{):}
+    \PYG{n}{poses} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{i}\PYG{p}{:} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{Delta}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)\PYGZcb{}} \PYG{c}{\PYGZsh{} starts inside Delta}
+    \PYG{c}{\PYGZsh{} poses = \PYGZob{}i: np.random.randint(0,10*Delta) for i in range(num)\PYGZcb{} \PYGZsh{} starts outside of Delta}
+    \PYG{c}{\PYGZsh{} poses\PYGZus{}= []}
+    \PYG{c}{\PYGZsh{} for i in range(num):}
+    \PYG{c}{\PYGZsh{}     if i == num \PYGZhy{}1:}
+    \PYG{c}{\PYGZsh{}         poses\PYGZus{}.append(np.max(poses\PYGZus{}) + Delta +10)}
+    \PYG{c}{\PYGZsh{}     else :}
+    \PYG{c}{\PYGZsh{}         poses\PYGZus{}.append(np.random.randint(0,Delta))}
+    \PYG{c}{\PYGZsh{} poses = \PYGZob{}i: poses\PYGZus{}[i] for i in range(num)\PYGZcb{} \PYGZsh{} one element just outside of Delta}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,}\PYG{n}{poses}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{edges} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{edge}\PYG{p}{:} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{])}  \PYG{k}{for} \PYG{n}{edge} \PYG{o+ow}{in} \PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()\PYGZcb{}}
+    \PYG{n}{desired\PYGZus{}l} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}edge\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{edges}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}edge\PYGZus{}length\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{graph}\PYG{p}{,} \PYG{n}{desired\PYGZus{}l}
+\PYG{n}{num} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{1}
+\PYG{n}{Delta} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{labels} \PYG{o}{=} \PYG{p}{[]}
+\PYG{n}{D} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{gnm\PYGZus{}random\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,} \PYG{p}{(}\PYG{n}{num} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{p}{(}\PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{directed}\PYG{o}{=}\PYG{k}{False}\PYG{p}{)}
+\PYG{n}{D}\PYG{p}{,}\PYG{n}{desired\PYGZus{}l} \PYG{o}{=} \PYG{n}{random\PYGZus{}graphs\PYGZus{}init}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,}\PYG{n}{num}\PYG{p}{,} \PYG{n}{Delta}\PYG{p}{)}
+\PYG{n}{D} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{minimum\PYGZus{}spanning\PYGZus{}tree}\PYG{p}{(}\PYG{n}{D}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{xdot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,}\PYG{n}{desired\PYGZus{}l}\PYG{p}{):}
+    \PYG{n}{poses} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{i}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)\PYGZcb{}}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{poses}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{edges} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{edge}\PYG{p}{:} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{])}  \PYG{k}{for} \PYG{n}{edge} \PYG{o+ow}{in} \PYG{n}{D}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{()\PYGZcb{}}
+    \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}edge\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{edges}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}edge\PYGZus{}length\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ret}  \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{):}
+        \PYG{n}{dotx} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{n}{i}\PYG{p}{):}
+            \PYG{k}{if} \PYG{p}{((}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n}{edges}\PYG{p}{)} \PYG{p}{:}
+                \PYG{n}{numerator} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{p}{(}\PYG{n}{Delta} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{desired\PYGZus{}l} \PYG{p}{))} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)]} \PYG{o}{\PYGZhy{}} \PYG{n}{desired\PYGZus{}l} \PYG{p}{)}
+                \PYG{n}{denominator} \PYG{o}{=} \PYG{p}{(}\PYG{n}{Delta} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{desired\PYGZus{}l} \PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)]} \PYG{o}{\PYGZhy{}} \PYG{n}{desired\PYGZus{}l} \PYG{p}{))}\PYG{o}{**}\PYG{l+m+mi}{2}
+                \PYG{n}{rest} \PYG{o}{=} \PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{desired\PYGZus{}l}
+                \PYG{n}{dotx} \PYG{o}{+=} \PYG{n}{numerator}\PYG{o}{/}\PYG{n}{denominator} \PYG{o}{*}\PYG{n}{rest}
+            \PYG{k}{elif} \PYG{p}{((}\PYG{n}{j}\PYG{p}{,}\PYG{n}{i}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n}{edges}\PYG{p}{):}
+                \PYG{n}{numerator} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{p}{(}\PYG{n}{Delta} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{desired\PYGZus{}l} \PYG{p}{))} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[(}\PYG{n}{j}\PYG{p}{,}\PYG{n}{i}\PYG{p}{)]} \PYG{o}{\PYGZhy{}} \PYG{n}{desired\PYGZus{}l} \PYG{p}{)}
+                \PYG{n}{denominator} \PYG{o}{=} \PYG{p}{(}\PYG{n}{Delta} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{desired\PYGZus{}l} \PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[(}\PYG{n}{j}\PYG{p}{,}\PYG{n}{i}\PYG{p}{)]} \PYG{o}{\PYGZhy{}} \PYG{n}{desired\PYGZus{}l} \PYG{p}{))}\PYG{o}{**}\PYG{l+m+mi}{2}
+                \PYG{n}{rest} \PYG{o}{=} \PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{D}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{l+s}{\PYGZdq{}pos\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{desired\PYGZus{}l}
+                \PYG{n}{dotx} \PYG{o}{+=} \PYG{n}{numerator}\PYG{o}{/}\PYG{n}{denominator} \PYG{o}{*}\PYG{n}{rest}
+        \PYG{n}{ret}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{dotx}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{ret}
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{):}
+        \PYG{n}{labels}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{f}\PYG{l+s}{\PYGZdq{}x\PYGZob{}i\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{40}\PYG{p}{,}\PYG{n}{num}\PYG{o}{=} \PYG{l+m+mi}{1001}\PYG{p}{)}
+
+    \PYG{n}{l}\PYG{o}{=}\PYG{p}{[]}
+    \PYG{p}{[}\PYG{n}{l}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}\PYG{n}{v}\PYG{p}{])} \PYG{k}{for} \PYG{n}{k}\PYG{p}{,}\PYG{n}{v} \PYG{o+ow}{in} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{get\PYGZus{}node\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{D}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}pos\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()]}
+
+    \PYG{n}{trajectory\PYGZus{}x} \PYG{o}{=} \PYG{n}{odeint}\PYG{p}{(}\PYG{n}{xdot}\PYG{p}{,} \PYG{n}{l}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{desired\PYGZus{}l}\PYG{p}{,} \PYG{p}{))}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{trajectory\PYGZus{}x}\PYG{p}{,} \PYG{n}{label} \PYG{o}{=} \PYG{n}{labels}\PYG{p}{)}
+
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time t\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Position\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}one element just outside of Delta\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{()}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{Verbatim}

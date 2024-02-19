@@ -132,11 +132,148 @@ With theorem 3.4  in the textbook, we know that the linear agreement protocol co
             \caption{Textbook example }
         \end{subfigure}
     \end{figure*}
-    
+
     We see that those weight are summed to 1 for all graphs and they are symmetric respect to their edges, in case of $K_5, P_5, S_5$. Of course the custom graph(textbook example) would not have symmetric weights for edges that are not symmetric. But the edge connecting (0,1) and (0,2) are symmetric and their weights are the same.
 \end{problem}
 \newpage
-\section*{Code}
+\section*{Code P3}
 \begin{minted}{python3}
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+
+def show(graph): 
+    plt.figure()
+    poses = nx.get_node_attributes(graph, 'pos')
+    nx.draw_networkx_edges(graph, pos = poses,edgelist=graph.edges(),arrows=True)
+    nx.draw_networkx_nodes(graph, pos = poses, nodelist=graph.nodes() ,label=True)
+    nx.draw_networkx_labels(graph, pos=poses)
+    plt.show()
+
+def random_graphs_init(graph,num, Delta):
+    poses = {i: np.random.randint(0,Delta) for i in range(num)} # starts inside Delta
+    # poses = {i: np.random.randint(0,10*Delta) for i in range(num)} # starts outside of Delta
+    # poses_= []
+    # for i in range(num):
+    #     if i == num -1:
+    #         poses_.append(np.max(poses_) + Delta +10)
+    #     else :
+    #         poses_.append(np.random.randint(0,Delta))
+    # poses = {i: poses_[i] for i in range(num)} # one element just outside of Delta
+    nx.set_node_attributes(graph,poses, "pos")
+    edges = {edge: np.abs(graph.nodes[edge[0]]["pos"]-graph.nodes[edge[1]]["pos"])  for edge in graph.edges()}
+    desired_l = 0
+    nx.set_edge_attributes(graph, edges, "edge_length")
+    
+    return graph, desired_l
+num = 5
+k = 1
+Delta = 10
+labels = []
+D = nx.gnm_random_graph(num, (num -1)*(num-2)/2, directed=False)
+D,desired_l = random_graphs_init(D,num, Delta)
+D = nx.minimum_spanning_tree(D)
+
+def xdot(x, t,desired_l):
+    poses = {i: x[i] for i in range(num)}
+    nx.set_node_attributes(D, poses, "pos")
+    edges = {edge: np.abs(D.nodes[edge[1]]["pos"]-D.nodes[edge[0]]["pos"])  for edge in D.edges()}
+    nx.set_edge_attributes(D, edges, "edge_length")
+    ret  = []
+    for i in range(num):
+        dotx = 0
+        for j in nx.neighbors(D, i):
+            if ((i,j) in edges) :
+                numerator = 2*(Delta - np.abs(desired_l )) - np.abs(edges[(i,j)] - desired_l )
+                denominator = (Delta - np.abs(desired_l ) - np.abs(edges[(i,j)] - desired_l ))**2
+                rest = D.nodes[i]["pos"] - D.nodes[j]["pos"] - desired_l 
+                dotx += numerator/denominator *rest
+            elif ((j,i) in edges):
+                numerator = 2*(Delta - np.abs(desired_l )) - np.abs(edges[(j,i)] - desired_l )
+                denominator = (Delta - np.abs(desired_l ) - np.abs(edges[(j,i)] - desired_l ))**2
+                rest = D.nodes[i]["pos"] - D.nodes[j]["pos"] - desired_l 
+                dotx += numerator/denominator *rest
+        ret.append(-dotx)
+
+    return ret
+
+def main():
+    
+    for i in range(num):
+        labels.append(f"x{i}")
+    t = np.linspace(0, 40,num= 1001)
+    
+    l=[]
+    [l.extend([v]) for k,v in nx.get_node_attributes(D, 'pos').items()]
+
+    trajectory_x = odeint(xdot, l, t, args=(desired_l, ))
+    plt.figure()
+    plt.plot(t, trajectory_x, label = labels)
+
+    plt.xlabel("Time t")
+    plt.ylabel("Position")
+    plt.title("one element just outside of Delta")
+    plt.legend()
+    plt.show()
+
+if __name__ == "__main__":
+    main()
+    
+\end{minted}
+\section*{Code P5}
+\begin{minted}{python3}
+import cvxpy as cp
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+#https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process
+def gramschmidt(V):
+    n, m = V.shape
+    U = np.zeros_like(V)
+    U[:, 0] = V[:, 0] / np.linalg.norm(V[:, 0])
+    for i in range(1, m):
+        U[:, i] = V[:, i]
+        for j in range(i):
+            U[:, i] -= np.dot(U[:, j].T, U[:, i]) * U[:, j]
+        U[:, i] /= np.linalg.norm(U[:, i])
+    return U[:,1:]
+
+def main():
+    nums = [5]
+    custom_graph = nx.star_graph(nums[0]-2)
+    custom_graph.add_node(nums[0] -1)
+    custom_graph.add_edge(nums[0]-1, nums[0]-2)
+    for num in nums:
+        names = ['complete', 'path', 'star', 'custom' ]
+        # graphs = [ custom_graph]
+        graphs = [ nx.complete_graph(num), nx.path_graph(num), nx.star_graph(num - 1),custom_graph]
+        k =0
+        for graph in graphs:
+            U = gramschmidt(np.column_stack([np.ones(num), np.random.randn(num, num-1)]))
+            x = cp.Variable((len(graph.edges),len(graph.edges)), diag=True)
+            D_D = nx.incidence_matrix(graph, graph.nodes(),oriented=True).toarray()
+            gamma = cp.Variable(1)
+            objective = cp.Maximize(gamma)
+            constraints = [x >>0, cp.trace(x) == 1,(U.T@D_D @ x @ D_D.T@U )>>gamma*np.eye(num-1)]
+            prob = cp.Problem(objective, constraints)
+            result = prob.solve()
+            plt.figure()
+            plt.title(f"{names[k]} graph weight distribution")
+            edges = list(graph.edges())
+            edge_labels = [ '%.4f' % elem for elem in x.value.data[0] ]
+            weight = {edges[i]: edge_labels[i] for i in range(len(edges))}
+            pos = nx.spring_layout(graph)
+            nx.draw(graph,pos = pos, with_labels = True)            
+            nx.draw_networkx_edge_labels(graph, pos = pos, edge_labels=weight)
+            k +=1
+        plt.show()
+
+if __name__ == "__main__":
+    main()
+
+
 \end{minted}
 \end{document}

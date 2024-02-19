@@ -1,0 +1,53 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cvxpy} \PYG{k}{as} \PYG{n+nn}{cp}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{c}{\PYGZsh{}https://en.wikipedia.org/wiki/Gram\PYGZpc{}E2\PYGZpc{}80\PYGZpc{}93Schmidt\PYGZus{}process}
+\PYG{k}{def} \PYG{n+nf}{gramschmidt}\PYG{p}{(}\PYG{n}{V}\PYG{p}{):}
+    \PYG{n}{n}\PYG{p}{,} \PYG{n}{m} \PYG{o}{=} \PYG{n}{V}\PYG{o}{.}\PYG{n}{shape}
+    \PYG{n}{U} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros\PYGZus{}like}\PYG{p}{(}\PYG{n}{V}\PYG{p}{)}
+    \PYG{n}{U}\PYG{p}{[:,} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{V}\PYG{p}{[:,} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{norm}\PYG{p}{(}\PYG{n}{V}\PYG{p}{[:,} \PYG{l+m+mi}{0}\PYG{p}{])}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{m}\PYG{p}{):}
+        \PYG{n}{U}\PYG{p}{[:,} \PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{V}\PYG{p}{[:,} \PYG{n}{i}\PYG{p}{]}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{i}\PYG{p}{):}
+            \PYG{n}{U}\PYG{p}{[:,} \PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{U}\PYG{p}{[:,} \PYG{n}{j}\PYG{p}{]}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{U}\PYG{p}{[:,} \PYG{n}{i}\PYG{p}{])} \PYG{o}{*} \PYG{n}{U}\PYG{p}{[:,} \PYG{n}{j}\PYG{p}{]}
+        \PYG{n}{U}\PYG{p}{[:,} \PYG{n}{i}\PYG{p}{]} \PYG{o}{/=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{norm}\PYG{p}{(}\PYG{n}{U}\PYG{p}{[:,} \PYG{n}{i}\PYG{p}{])}
+    \PYG{k}{return} \PYG{n}{U}\PYG{p}{[:,}\PYG{l+m+mi}{1}\PYG{p}{:]}
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{nums} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}
+    \PYG{n}{custom\PYGZus{}graph} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{star\PYGZus{}graph}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{custom\PYGZus{}graph}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{custom\PYGZus{}graph}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{nums}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{num} \PYG{o+ow}{in} \PYG{n}{nums}\PYG{p}{:}
+        \PYG{n}{names} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}complete\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}path\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}star\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}custom\PYGZsq{}} \PYG{p}{]}
+        \PYG{c}{\PYGZsh{} graphs = [ custom\PYGZus{}graph]}
+        \PYG{n}{graphs} \PYG{o}{=} \PYG{p}{[} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{complete\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{path\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{star\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{),}\PYG{n}{custom\PYGZus{}graph}\PYG{p}{]}
+        \PYG{n}{k} \PYG{o}{=}\PYG{l+m+mi}{0}
+        \PYG{k}{for} \PYG{n}{graph} \PYG{o+ow}{in} \PYG{n}{graphs}\PYG{p}{:}
+            \PYG{n}{U} \PYG{o}{=} \PYG{n}{gramschmidt}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{column\PYGZus{}stack}\PYG{p}{([}\PYG{n}{np}\PYG{o}{.}\PYG{n}{ones}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,} \PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)]))}
+            \PYG{n}{x} \PYG{o}{=} \PYG{n}{cp}\PYG{o}{.}\PYG{n}{Variable}\PYG{p}{((}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{),}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{)),} \PYG{n}{diag}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}
+            \PYG{n}{D\PYGZus{}D} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{incidence\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{(),}\PYG{n}{oriented}\PYG{o}{=}\PYG{k}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+            \PYG{n}{gamma} \PYG{o}{=} \PYG{n}{cp}\PYG{o}{.}\PYG{n}{Variable}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+            \PYG{n}{objective} \PYG{o}{=} \PYG{n}{cp}\PYG{o}{.}\PYG{n}{Maximize}\PYG{p}{(}\PYG{n}{gamma}\PYG{p}{)}
+            \PYG{n}{constraints} \PYG{o}{=} \PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{cp}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{,(}\PYG{n}{U}\PYG{o}{.}\PYG{n}{T}\PYG{n+nd}{@D\PYGZus{}D} \PYG{err}{@} \PYG{n}{x} \PYG{err}{@} \PYG{n}{D\PYGZus{}D}\PYG{o}{.}\PYG{n}{T}\PYG{n+nd}{@U} \PYG{p}{)}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{n}{gamma}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{num}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)]}
+            \PYG{n}{prob} \PYG{o}{=} \PYG{n}{cp}\PYG{o}{.}\PYG{n}{Problem}\PYG{p}{(}\PYG{n}{objective}\PYG{p}{,} \PYG{n}{constraints}\PYG{p}{)}
+            \PYG{n}{result} \PYG{o}{=} \PYG{n}{prob}\PYG{o}{.}\PYG{n}{solve}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{()}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{n}{f}\PYG{l+s}{\PYGZdq{}\PYGZob{}names[k]\PYGZcb{} graph weight distribution\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{edges} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{graph}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{())}
+            \PYG{n}{edge\PYGZus{}labels} \PYG{o}{=} \PYG{p}{[} \PYG{l+s}{\PYGZsq{}\PYGZpc{}.4f\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{elem} \PYG{k}{for} \PYG{n}{elem} \PYG{o+ow}{in} \PYG{n}{x}\PYG{o}{.}\PYG{n}{value}\PYG{o}{.}\PYG{n}{data}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{p}{]}
+            \PYG{n}{weight} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]:} \PYG{n}{edge\PYGZus{}labels}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{))\PYGZcb{}}
+            \PYG{n}{pos} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{spring\PYGZus{}layout}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{)}
+            \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,}\PYG{n}{pos} \PYG{o}{=} \PYG{n}{pos}\PYG{p}{,} \PYG{n}{with\PYGZus{}labels} \PYG{o}{=} \PYG{k}{True}\PYG{p}{)}
+            \PYG{n}{nx}\PYG{o}{.}\PYG{n}{draw\PYGZus{}networkx\PYGZus{}edge\PYGZus{}labels}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{pos} \PYG{o}{=} \PYG{n}{pos}\PYG{p}{,} \PYG{n}{edge\PYGZus{}labels}\PYG{o}{=}\PYG{n}{weight}\PYG{p}{)}
+            \PYG{n}{k} \PYG{o}{+=}\PYG{l+m+mi}{1}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+
+\end{Verbatim}
