@@ -18,6 +18,10 @@ def create_formation(num):
     graph = nx.empty_graph()
     graph.add_nodes_from([i for i in range(1, num + 1)])
     graph.add_edges_from([(1,2), (1,4), (1,5), (1,6), (2,3), (2,5), (2,8), (3,4), (4, 6),(4,7),(5,6),(5,7), (6,8),(7,8)])
+    L  = nx.laplacian_matrix(graph).toarray()
+    D_D = nx.incidence_matrix(graph, oriented=True).toarray()
+    print(D_D)
+
     return graph
 def main():
     num = 8
