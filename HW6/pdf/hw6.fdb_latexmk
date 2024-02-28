@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1709144074 "/home/syi/Wi 24 UW/ME597/HW6/pdf/hw6.tex" "hw6.pdf" "hw6" 1709144075
+["pdflatex"] 1709144299 "/home/syi/Wi 24 UW/ME597/HW6/pdf/hw6.tex" "hw6.pdf" "hw6" 1709144299
   "/dev/null" 1709112500 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/etc/texmf/web2c/texmf.cnf" 1695837190 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/syi/Wi 24 UW/ME597/HW6/pdf/hw6.tex" 1709144074 14837 f644bdee441ffd13cdfb01b482901918 ""
+  "/home/syi/Wi 24 UW/ME597/HW6/pdf/hw6.tex" 1709144298 14705 9f37f644a356c4be6aab78216e9c295c ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -166,9 +166,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1695837504 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1695837507 1435934 47e6e74e9e0dfdcf7d7c4e46620654a0 ""
-  "hw6.aux" 1709144075 758 94eefcb870cfefaa145adbe920c1bb48 "pdflatex"
-  "hw6.out" 1709144075 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "hw6.tex" 1709144074 14837 f644bdee441ffd13cdfb01b482901918 ""
+  "hw6.aux" 1709144299 758 94eefcb870cfefaa145adbe920c1bb48 "pdflatex"
+  "hw6.out" 1709144299 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "hw6.tex" 1709144298 14705 9f37f644a356c4be6aab78216e9c295c ""
   "img/Figure_0.png" 1709010614 16992 52007cde5891debdc58206a3ca6fa716 ""
   "img/Figure_1.png" 1709010620 16992 f23eeae651e9bb76c9fc0f62986757b0 ""
   "img/Figure_2.png" 1709010626 18495 3008417d2801d6aa89c5c0b12fc6319f ""
