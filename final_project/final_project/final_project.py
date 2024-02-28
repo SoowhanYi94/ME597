@@ -20,6 +20,13 @@ def create_formation(num):
     graph.add_edges_from([(1,2), (1,4), (1,5), (1,6), (2,3), (2,5), (2,8), (3,4), (4, 6),(4,7),(5,6),(5,7), (6,8),(7,8)])
     L  = nx.laplacian_matrix(graph).toarray()
     D_D = nx.incidence_matrix(graph, oriented=True).toarray()
+    W = cp.Variable((len(graph.edges),len(graph.edges)), diag=True)
+
+    gamma = cp.Variable(1)
+    objective = cp.Maximize(gamma)
+    constraints = [cp.trace(x) == 1,(U.T@D_D @ x @ D_D.T@U )>>gamma*np.eye(num-1)]
+    prob = cp.Problem(objective, constraints)
+    result = prob.solve()
     print(D_D)
 
     return graph
@@ -34,11 +41,7 @@ def main():
     D_D = nx.incidence_matrix(graph, graph.nodes(),oriented=False).toarray()
     print(D_D.shape)
 
-    gamma = cp.Variable(1)
-    objective = cp.Maximize(gamma)
-    constraints = [cp.trace(x) == 1,(U.T@D_D @ x @ D_D.T@U )>>gamma*np.eye(num-1)]
-    prob = cp.Problem(objective, constraints)
-    result = prob.solve()
+    
     plt.figure()
     plt.title(f"{name} graph weight distribution")
     edges = list(graph.edges())

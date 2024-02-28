@@ -55,19 +55,23 @@ All the codes are available at the end of the documents or here.
     \end{align*}
     Using frequency domain analysis, we can substitute s with $jw$. Therefore, 
     \begin{align*}
-        s & = - e^{-\tau s} \Lambda \leq 0\\
-        &= -  e^{-\tau jw} \Lambda \leq 0\\
-        &= - (\cos{(-\tau w)}+ j\sin{(-\tau w)})\Lambda \leq 0\\
-        &= -(\cos{(\tau w)}- j \sin{(\tau w)})\Lambda \leq 0
+        s & = - e^{-\tau s} \Lambda \\
+        &= -  e^{-\tau jw} \Lambda \\
+        &= - (\cos{(-\tau w)}+ j\sin{(-\tau w)})\Lambda \\
+        &= -(\cos{(\tau w)}- j \sin{(\tau w)})\Lambda 
     \end{align*}.
-    Since the real part of s should be negative, $\cos{(-\tau w)}=\cos{(\tau w)} \geq 0$. Also $\Lambda = \diag (\lambda_1, \lambda_2, \cdots, \lambda_n)$, where $0= \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$. Therefore,
+    Since the real part of s should be negative, $\cos{(-\tau w)}=\cos{(\tau w)} \geq 0$. Also $\Lambda = \diag (\lambda_1, \lambda_2, \cdots, \lambda_n)$, where $0= \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$. Therefore, substituting $jw$ into $sI + e^{-\tau s} \Lambda  = 0$, yields 
     \begin{align*}
         jw + e^{-\tau jw} \lambda_n= 0\\
         -jw + e^{\tau jw} \lambda_n= 0
     \end{align*}.
     Multiplying those two equations yields,
     \begin{align*}
-        (w - \lambda_n)^2 + 2w\lambda_n(1-sin(w\tau)) = 0
+        (jw + e^{-\tau jw} \lambda_n)(-jw + e^{\tau jw} \lambda_n) &= w^2 - jwe^{-\tau jw} \lambda_n + jw e^{\tau jw} \lambda_n + \lambda_n^2\\
+        &= w^2 + \lambda_n^2 - jw\lambda_n(e^{-\tau jw}  - e^{\tau jw} ) \\
+        &= w^2 + \lambda_n^2 - jw\lambda_n(-2jsin(\tau w)) \\
+        &= (w-\lambda_n)^2 + 2w \lambda_n - 2w\lambda_n(sin(\tau w))\\
+        \therefore &(w - \lambda_n)^2 + 2w\lambda_n(1-sin(\tau w)) = 0
     \end{align*}.
     Sine we know $w \geq 0, \tau \geq 0$ and $\lambda_n \geq 0$, $w = \lambda_n$ and $1 = sin(w\tau)$, and therefore, the smallest $\tau$ that satisfies above equations is
     \begin{align*}
@@ -75,7 +79,7 @@ All the codes are available at the end of the documents or here.
     \end{align*}.
     Therefore if $\tau \leq \frac{\pi}{2\lambda_n}$, the delayed agreement protocol is stable.
 
-    Also according to the Gersgorian theorum, $\lambda_n \leq 2 d_{max}(G)$, where $d_{max}(G)$ is the maximum out degree in a node of the graph. Therefore  $\tau \leq \frac{\pi}{4 d_{max}(G)}\leq \frac{\pi}{2\lambda_n}$. So we can infer that the bigger the time delay, we are allowed to have more maximum out degree in a node of the graph, and therfore affecting the degree matrix of the graph and laplacian matrix, which eventually affecting the second smallest eigenvalue  or the convergence rate of the graph in agreement protocol. Therefore there is a tradeoff between faster convergence rate and the tolerance to uniform time delay. 
+    Also according to the Gersgorian theorum, $\lambda_n \leq 2 d_{max}(G)$, where $d_{max}(G)$ is the maximum out degree in a node of the graph. Therefore  $\tau \leq \frac{\pi}{4 d_{max}(G)}\leq \frac{\pi}{2\lambda_n}$. So we can infer that the bigger the time delay, we are allowed to have less out degree in a node of the graph, and therfore affecting the degree matrix of the graph and laplacian matrix, which eventually affecting the second smallest eigenvalue  or the convergence rate of the graph in agreement protocol. Therefore there is a tradeoff between faster convergence rate and the tolerance to uniform time delay. 
 \end{problem}
 \begin{problem} 3.9
     A matrix M is called essentially non-negative if there exists a sufﬁciently large $\mu$ such that $M + \mu I$ is non-negative, that is, all its entries are non-negative. Show that $e^{tM}$ for an essentially non-negative matrix M is non-negative when $t \geq 0.$
