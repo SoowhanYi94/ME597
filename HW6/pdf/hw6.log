@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  23 FEB 2024 17:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.9.27)  27 FEB 2024 13:16
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/syi/Wi 24 UW/ME597/HW6/pdf/hw5.tex"
-(/home/syi/Wi 24 UW/ME597/HW6/pdf/hw5.tex
+**"/home/syi/Wi 24 UW/ME597/HW6/pdf/hw6.tex"
+(/home/syi/Wi 24 UW/ME597/HW6/pdf/hw6.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -270,10 +270,10 @@ Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifluatex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 )
-runsystem(uname -s > "hw5.w18")...executed.
+runsystem(uname -s > "hw6.w18")...executed.
 
- (./hw5.w18)
-runsystem(rm -- "hw5.w18")...executed.
+ (./hw6.w18)
+runsystem(rm -- "hw6.w18")...executed.
 
 ) (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
 \integerpart=\count301
@@ -303,7 +303,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@every@listing=\toks22
 \c@listing=\count306
 )
-runsystem(mkdir -p _minted-hw5)...executed.
+runsystem(mkdir -p _minted-hw6)...executed.
 
  (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
@@ -717,12 +717,12 @@ Package: wrapfig 2003/01/31  v 3.6
 )
 \c@lemma=\count358
 )
-runsystem(which pygmentize && touch hw5.aex)...executed.
+runsystem(which pygmentize && touch hw6.aex)...executed.
 
-runsystem(rm hw5.aex)...executed.
+runsystem(rm hw6.aex)...executed.
 
- (./hw5.aux)
-\openout1 = `hw5.aux'.
+ (./hw6.aux)
+\openout1 = `hw6.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
 LaTeX Font Info:    ... okay on input line 20.
@@ -755,9 +755,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 20.
 LaTeX Info: Redefining \pageref on input line 20.
 LaTeX Info: Redefining \nameref on input line 20.
- (./hw5.out) (./hw5.out)
+ (./hw6.out) (./hw6.out)
 \@outlinefile=\write5
-\openout5 = `hw5.out'.
+\openout5 = `hw6.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
@@ -829,23 +829,75 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 31.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./hw5.aux)
-Package rerunfilecheck Info: File `hw5.out' has not changed.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+<./img/Figure_0.png, id=28, 461.8053pt x 346.1733pt>
+File: ./img/Figure_0.png Graphic file (type png)
+<use ./img/Figure_0.png>
+Package pdftex.def Info: ./img/Figure_0.png  used on input line 136.
+(pdftex.def)             Requested size: 217.89296pt x 163.33533pt.
+<./img/Figure_1.png, id=30, 461.8053pt x 346.1733pt>
+File: ./img/Figure_1.png Graphic file (type png)
+<use ./img/Figure_1.png>
+Package pdftex.def Info: ./img/Figure_1.png  used on input line 140.
+(pdftex.def)             Requested size: 217.89296pt x 163.33533pt.
+<./img/Figure_2.png, id=31, 461.8053pt x 346.1733pt>
+File: ./img/Figure_2.png Graphic file (type png)
+<use ./img/Figure_2.png>
+Package pdftex.def Info: ./img/Figure_2.png  used on input line 144.
+(pdftex.def)             Requested size: 217.89296pt x 163.33533pt.
+<./img/Figure_3.png, id=32, 461.8053pt x 346.1733pt>
+File: ./img/Figure_3.png Graphic file (type png)
+<use ./img/Figure_3.png>
+Package pdftex.def Info: ./img/Figure_3.png  used on input line 148.
+(pdftex.def)             Requested size: 217.89296pt x 163.33533pt.
+ [3 <./img/Figure_0.png> <./img/Figure_1.png> <./img/Figure_2.png> <./img/Figure_3.png>]
+<./img/Figure_4.png, id=45, 461.8053pt x 346.1733pt>
+File: ./img/Figure_4.png Graphic file (type png)
+<use ./img/Figure_4.png>
+Package pdftex.def Info: ./img/Figure_4.png  used on input line 156.
+(pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
+<./img/Figure_5.png, id=46, 461.8053pt x 346.1733pt>
+File: ./img/Figure_5.png Graphic file (type png)
+<use ./img/Figure_5.png>
+Package pdftex.def Info: ./img/Figure_5.png  used on input line 160.
+(pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
+<./img/Figure_6.png, id=47, 461.8053pt x 346.1733pt>
+File: ./img/Figure_6.png Graphic file (type png)
+<use ./img/Figure_6.png>
+Package pdftex.def Info: ./img/Figure_6.png  used on input line 164.
+(pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
+<./img/Figure_7.png, id=48, 461.8053pt x 346.1733pt>
+File: ./img/Figure_7.png Graphic file (type png)
+<use ./img/Figure_7.png>
+Package pdftex.def Info: ./img/Figure_7.png  used on input line 168.
+(pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
+<./img/Figure_8.png, id=49, 461.8053pt x 346.1733pt>
+File: ./img/Figure_8.png Graphic file (type png)
+<use ./img/Figure_8.png>
+Package pdftex.def Info: ./img/Figure_8.png  used on input line 172.
+(pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
+<./img/Figure_9.png, id=50, 461.8053pt x 346.1733pt>
+File: ./img/Figure_9.png Graphic file (type png)
+<use ./img/Figure_9.png>
+Package pdftex.def Info: ./img/Figure_9.png  used on input line 176.
+(pdftex.def)             Requested size: 193.68098pt x 145.18578pt.
+ [4 <./img/Figure_4.png> <./img/Figure_5.png> <./img/Figure_6.png> <./img/Figure_7.png> <./img/Figure_8.png> <./img/Figure_9.png>] [5] (./hw6.aux)
+Package rerunfilecheck Info: File `hw6.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 19917 strings out of 480171
- 339470 string characters out of 5894489
- 887796 words of memory out of 5000000
- 37548 multiletter control sequences out of 15000+600000
- 481596 words of font info for 74 fonts, out of 8000000 for 9000
+ 20022 strings out of 480171
+ 341416 string characters out of 5894489
+ 891796 words of memory out of 5000000
+ 37628 multiletter control sequences out of 15000+600000
+ 484062 words of font info for 83 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 74i,9n,87p,642b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on hw5.pdf (1 page, 109005 bytes).
+ 74i,10n,87p,1194b,577s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on hw6.pdf (5 pages, 317944 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
- 45 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 127 PDF objects out of 1000 (max. 8388607)
+ 73 compressed objects within 1 object stream
+ 14 named destinations out of 1000 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

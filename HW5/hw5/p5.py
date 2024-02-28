@@ -16,7 +16,7 @@ def gramschmidt(V):
     return U[:,1:]
 
 def main():
-    nums = [5]
+    nums = [9]
     custom_graph = nx.star_graph(nums[0]-2)
     custom_graph.add_node(nums[0] -1)
     custom_graph.add_edge(nums[0]-1, nums[0]-2)
