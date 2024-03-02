@@ -1,0 +1,60 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cvxpy} \PYG{k}{as} \PYG{n+nn}{cp}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{networkx} \PYG{k}{as} \PYG{n+nn}{nx}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{num} \PYG{o}{=} \PYG{l+m+mi}{3}
+    \PYG{n}{graph} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{path\PYGZus{}graph}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)}
+    \PYG{n}{delta} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{1}
+    \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{):}
+
+        \PYG{n}{weight} \PYG{o}{=} \PYG{p}{\PYGZob{}(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{):} \PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{j}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{):} \PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{}}
+        \PYG{n}{iteration} \PYG{o}{=} \PYG{l+m+mi}{100} \PYG{c}{\PYGZsh{}number of iteration to simulate limit}
+        \PYG{n}{time\PYGZus{}lim} \PYG{o}{=} \PYG{n}{iteration} \PYG{o}{*}\PYG{n}{delta}
+        \PYG{n}{nx}\PYG{o}{.}\PYG{n}{set\PYGZus{}edge\PYGZus{}attributes}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{weight}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}weight\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{max\PYGZus{}eigen\PYGZus{}val} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}spectrum}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{weight}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}weight\PYGZsq{}}\PYG{p}{))}
+        \PYG{n}{L\PYGZus{}w\PYGZus{}G} \PYG{o}{=} \PYG{n}{nx}\PYG{o}{.}\PYG{n}{laplacian\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,} \PYG{n}{weight}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}weight\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toarray}\PYG{p}{()}
+        \PYG{n}{del\PYGZus{}max\PYGZus{}eig} \PYG{o}{=} \PYG{n+nb}{round}\PYG{p}{(}\PYG{n}{delta}\PYG{o}{*}\PYG{n}{max\PYGZus{}eigen\PYGZus{}val}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{)}
+        \PYG{n}{M\PYGZus{}G} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{delta}\PYG{o}{*}\PYG{n}{L\PYGZus{}w\PYGZus{}G}
+        \PYG{n}{true\PYGZus{}value} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{size} \PYG{o}{=} \PYG{n}{num}\PYG{p}{)}
+        \PYG{n}{avg\PYGZus{}true\PYGZus{}value} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{average}\PYG{p}{(}\PYG{n}{true\PYGZus{}value}\PYG{p}{)}
+        \PYG{n}{H} \PYG{o}{=}  \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{num}\PYG{p}{)}
+        \PYG{n}{estimates} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{P\PYGZus{}mat} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{t} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{time\PYGZus{}lim}\PYG{p}{,} \PYG{n}{iteration}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{num}\PYG{p}{):}
+            \PYG{n}{rand\PYGZus{}noise} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{normal}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{size} \PYG{o}{=} \PYG{n}{num}\PYG{p}{)}
+            \PYG{n}{z} \PYG{o}{=} \PYG{n}{H}\PYG{n+nd}{@true\PYGZus{}value} \PYG{o}{+} \PYG{n}{rand\PYGZus{}noise}
+            \PYG{n}{P} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{iteration}\PYG{p}{):}
+                \PYG{n}{z} \PYG{o}{=} \PYG{n}{M\PYGZus{}G} \PYG{n+nd}{@z}
+                \PYG{n}{P} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{kron}\PYG{p}{(}\PYG{n}{M\PYGZus{}G}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{))} \PYG{n+nd}{@P}
+                \PYG{n}{estimates}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{z}\PYG{p}{)}
+                \PYG{n}{P\PYGZus{}mat}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{P}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{j}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{estimates}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{p}{[}\PYG{n}{avg\PYGZus{}true\PYGZus{}value}\PYG{p}{]}\PYG{o}{*}\PYG{n}{iteration}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{r\PYGZdq{}\PYGZdl{}\PYGZbs{}hat \PYGZbs{}theta (t)\PYGZdl{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s}{r\PYGZdq{}\PYGZdl{}\PYGZbs{}Delta  \PYGZbs{}rho (L(G)) =\PYGZdq{}} \PYG{n}{f}\PYG{l+s}{\PYGZdq{}\PYGZob{}del\PYGZus{}max\PYGZus{}eig\PYGZcb{}\PYGZdl{}\PYGZdq{}} \PYG{l+s}{\PYGZdq{}, weight = \PYGZdq{}} \PYG{n}{f}\PYG{l+s}{\PYGZdq{}\PYGZob{}list(weight.values())\PYGZcb{}\PYGZdq{}} \PYG{n}{f}\PYG{l+s}{\PYGZdq{} \PYGZdl{}\PYGZbs{}Delta = \PYGZob{}delta\PYGZcb{}\PYGZdl{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{estimates} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{j}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}
+            \PYG{n}{P\PYGZus{}mat\PYGZus{}plot} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{iteration}\PYG{p}{):}
+                \PYG{n}{P\PYGZus{}mat\PYGZus{}k} \PYG{o}{=} \PYG{n}{P\PYGZus{}mat}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]}
+                \PYG{n}{P\PYGZus{}mat\PYGZus{}plot}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{diag}\PYG{p}{(}\PYG{n}{P\PYGZus{}mat\PYGZus{}k}\PYG{p}{)))}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{P\PYGZus{}mat\PYGZus{}plot}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}time t\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{n}{f}\PYG{l+s}{\PYGZdq{}\PYGZdl{}P\PYGZus{}i (t)\PYGZdl{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s}{r\PYGZdq{}\PYGZdl{}\PYGZbs{}Delta  \PYGZbs{}rho (L(G)) =\PYGZdq{}} \PYG{n}{f}\PYG{l+s}{\PYGZdq{}\PYGZob{}del\PYGZus{}max\PYGZus{}eig\PYGZcb{}\PYGZdl{}\PYGZdq{}} \PYG{l+s}{\PYGZdq{}, weight = \PYGZdq{}} \PYG{n}{f}\PYG{l+s}{\PYGZdq{}\PYGZob{}list(weight.values())\PYGZcb{}\PYGZdq{}} \PYG{n}{f}\PYG{l+s}{\PYGZdq{} \PYGZdl{}\PYGZbs{}Delta = \PYGZob{}delta\PYGZcb{}\PYGZdl{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{P\PYGZus{}mat} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+
+\end{Verbatim}

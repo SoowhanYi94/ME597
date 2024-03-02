@@ -131,21 +131,21 @@ All the codes are available at the end of the documents or here.
     Let $H_i , i = 1, 2, 3$, be the rows of the $3 \times 3$ identity matrix in the observation scheme $z_i = H_i$ $x + v_i$ for a three-node sensor network, observing state $x \in R^3$ . It is assumed that the nodes form a path graph and that $v_i$ is a zero-mean, unit variance, Gaussian noise. Choose the weighting matrix W (8.8) and the step size $\Delta$ in (8.20) - (8.21), conforming to the condition (8.14). Experiment with the selection of the weights for a given value of $\Delta$ and their effect on the convergence properties of the distributed least square estimation (8.20) - (8.21).
     \begin{figure*}[!h]
         \centering
-        \begin{subfigure}{0.45\textwidth}
+        \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_0.png}
             \caption{$\Delta \rho (L(G)) = 0.3, weight = [1,1], \Delta = 0.1$}
         \end{subfigure}
-        \begin{subfigure}{0.45\textwidth}
+        \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_1.png}
+            \caption{$\Delta \rho (L(G)) = 0.3, weight = [1,1], \Delta = 0.1$}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_2.png}
             \caption{$\Delta \rho (L(G)) = 0.4732, weight = [2,1], \Delta = 0.1$}
         \end{subfigure}
-        \begin{subfigure}{0.45\textwidth}
-            \includegraphics[width=\textwidth]{./img/Figure_2.png}
-            \caption{$\Delta \rho (L(G)) = 0.6646, weight = [3,1], \Delta = 0.1$ }
-        \end{subfigure}
-        \begin{subfigure}{0.45\textwidth}
+        \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_3.png}
-            \caption{$\Delta \rho (L(G)) = 0.8606, weight = [4,1], \Delta = 0.1$}
+            \caption{$\Delta \rho (L(G)) = 0.4732, weight = [2,1], \Delta = 0.1$}
         \end{subfigure}
     \end{figure*}
     \newpage
@@ -153,30 +153,78 @@ All the codes are available at the end of the documents or here.
         \centering
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_4.png}
-            \caption{$\Delta \rho (L(G)) = 1.0583, weight = [5,1], \Delta = 0.1$}
+            \caption{$\Delta \rho (L(G)) = 0.6646, weight = [3,1], \Delta = 0.1$ }
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_5.png}
-            \caption{$\Delta \rho (L(G)) = 1.2568, weight = [6,1], \Delta = 0.1$ }
+            \caption{$\Delta \rho (L(G)) = 0.6646, weight = [3,1], \Delta = 0.1$ }
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_6.png}
-            \caption{$\Delta \rho (L(G)) = 1.4557, weight = [7,1], \Delta = 0.1$}
+            \caption{$\Delta \rho (L(G)) = 0.8606, weight = [4,1], \Delta = 0.1$}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_7.png}
-            \caption{$\Delta \rho (L(G)) = 1.655, weight = [8,1], \Delta = 0.1$}
+            \caption{$\Delta \rho (L(G)) = 0.8606, weight = [4,1], \Delta = 0.1$}
         \end{subfigure}
+
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_8.png}
-            \caption{$\Delta \rho (L(G)) = 1.8544, weight = [9,1], \Delta = 0.1$ }
+            \caption{$\Delta \rho (L(G)) = 1.0583, weight = [5,1], \Delta = 0.1$}
         \end{subfigure}
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[width=\textwidth]{./img/Figure_9.png}
+            \caption{$\Delta \rho (L(G)) = 1.0583, weight = [5,1], \Delta = 0.1$}
+        \end{subfigure}
+    \end{figure*}
+    \newpage
+    \begin{figure*}[!h]
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_10.png}
+            \caption{$\Delta \rho (L(G)) = 1.2568, weight = [6,1], \Delta = 0.1$ }
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_11.png}
+            \caption{$\Delta \rho (L(G)) = 1.2568, weight = [6,1], \Delta = 0.1$ }
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_12.png}
+            \caption{$\Delta \rho (L(G)) = 1.4557, weight = [7,1], \Delta = 0.1$}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_13.png}
+            \caption{$\Delta \rho (L(G)) = 1.4557, weight = [7,1], \Delta = 0.1$}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_14.png}
+            \caption{$\Delta \rho (L(G)) = 1.655, weight = [8,1], \Delta = 0.1$}
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_15.png}
+            \caption{$\Delta \rho (L(G)) = 1.655, weight = [8,1], \Delta = 0.1$}
+        \end{subfigure}
+    \end{figure*}
+    \begin{figure*}[!h]
+        \centering    
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_16.png}
+            \caption{$\Delta \rho (L(G)) = 1.8544, weight = [9,1], \Delta = 0.1$ }
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_17.png}
+            \caption{$\Delta \rho (L(G)) = 1.8544, weight = [9,1], \Delta = 0.1$ }
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_18.png}
+            \caption{$\Delta \rho (L(G)) = 2.053, weight = [10,1], \Delta = 0.1$ }
+        \end{subfigure}
+        \begin{subfigure}{0.4\textwidth}
+            \includegraphics[width=\textwidth]{./img/Figure_19.png}
             \caption{$\Delta \rho (L(G)) = 2.053, weight = [10,1], \Delta = 0.1$ }
         \end{subfigure}
     \end{figure*}
-
+    \newpage
     As we can see from those experiments, if there is significant disproportion in weights, then $\Delta \rho (L(G))$ starts increasing and their values starts to diverge as it gets bigger than 2. 
 \end{problem}
 \newpage
@@ -201,6 +249,83 @@ All the codes are available at the end of the documents or here.
     corresponds to a controllable network.
 
     Now, just because the followers execute a decentralized control strategy it does not follow that the leaders’ optimal control strategy will be decentralized. Determine if this is the case for this inﬁnite horizon optimal control problem.
-\end{problem}
 
+    For linear quadratic optimal problem, the feedback control law is given by
+    \begin{align*}
+        u = -R^{-1}B^T P_+ x
+    \end{align*}
+    where this $P_+$ is the positive definite solution of the algebraic Riccati equation(ARE). 
+    \begin{align*}
+        A^T P + PA - PBR^{-1}B^TP + Q = 0\\
+        \dot x(t) = (A-BR^{-1}B^TP_+)x(t)
+    \end{align*}
+    Therefore we need to use the whole or the global information of x in order to get the control law for the network. So the leaders can not have decentralized optimal control strategy because it requires global information of all the nodes in the network. 
+
+    % Assume we have decentralized control strategy for all leaders and followers. Then this input u becomes completely dependent on their relative states. Using above ARE and $\dot x(t) = -A_f x(t) - B_f u(t) $, 
+    % \begin{align*}
+    %     \dot x(t) = (-A_f-B_fR^{-1}B_f^TP_+)x(t)
+    % \end{align*}  
+    % This $(-A_f-B_fR^{-1}B_f^TP_+)$ matrix has to have eigenvalues have strictly negative real parts, or this x (t) is uncontrollable.   
+\end{problem}
+\section*{Code P4}
+\begin{minted}{python3}
+import cvxpy as cp
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+
+def main():
+    num = 3
+    graph = nx.path_graph(num)
+    delta = .1
+    for j in range(10):
+
+        weight = {(0,1): 1+j, (1,2): 1}
+        iteration = 100 #number of iteration to simulate limit
+        time_lim = iteration *delta
+        nx.set_edge_attributes(graph, weight, 'weight')
+        max_eigen_val = np.max(nx.laplacian_spectrum(graph, weight='weight'))
+        L_w_G = nx.laplacian_matrix(graph, weight='weight').toarray()
+        del_max_eig = round(delta*max_eigen_val,4)
+        M_G = np.eye(num) - delta*L_w_G
+        true_value = np.random.randint(0, 100, size = num)
+        avg_true_value = np.average(true_value)
+        H =  np.eye(num)
+        estimates = []
+        P_mat = []
+        t = np.linspace(0, time_lim, iteration)
+        for i in range(num):
+            rand_noise = np.random.normal(0,1, size = num)
+            z = H@true_value + rand_noise
+            P = np.eye(9)
+            for k in range(iteration):
+                z = M_G @z
+                P = np.kron(M_G,np.eye(3)) @P
+                estimates.append(z)
+                P_mat.append(P)
+            plt.figure(2*j)
+            plt.plot(t, estimates)
+            plt.plot(t, [avg_true_value]*iteration)
+            plt.xlabel("time t")
+            plt.ylabel(r"$\hat \theta (t)$")
+            plt.title(r"$\Delta  \rho (L(G)) =" f"{del_max_eig}$" ", weight = " f"{list(weight.values())}" f" $\Delta = {delta}$")
+            estimates = []
+            plt.figure(2*j+1)
+            P_mat_plot = []
+            for k in range(iteration):
+                P_mat_k = P_mat[k]
+                P_mat_plot.append(np.array(np.diag(P_mat_k)))
+            plt.plot(t, P_mat_plot)
+            plt.xlabel("time t")
+            plt.ylabel(f"$P_i (t)$")
+            plt.title(r"$\Delta  \rho (L(G)) =" f"{del_max_eig}$" ", weight = " f"{list(weight.values())}" f" $\Delta = {delta}$")
+            P_mat = []
+        plt.show()
+
+if __name__ == "__main__":
+    main()
+
+    
+\end{minted}
 \end{document}
