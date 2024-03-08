@@ -18,10 +18,18 @@ def desired_trajectory(t, starting_point, starting_velocity, starting_acc):
     S_t_k1 = 0
     V_t_k1 = 0
     t_k = 0
+    phi_t_k = 1
+    phi_dot_t_k = 1
+    phi_t_k1 = 0.1
+    phi_dot_t_k1 = 0.1
     if t < 10:
         S_t_k1 = starting_point +[2,0]
         V_t_k1 = [0,0]
         t_k = 0
+        phi_t_k = 1
+        phi_dot_t_k = 1
+        phi_t_k1 = 1
+        phi_dot_t_k1 = 1
     elif t <20:
         S_t_k1 = starting_point + [5,0]
         V_t_k1 = [3,0]
@@ -56,40 +64,52 @@ def desired_trajectory(t, starting_point, starting_velocity, starting_acc):
         S_t_k1 = starting_point + [75,0]
         V_t_k1 = [3,0]
         t_k = 80
-    delta_t = 10
+    delta_t = 1
     Delta_t = np.linalg.inv(np.array([[1, 0, 0, 0],[0,1,0,0], [1,delta_t, delta_t^2, delta_t^3],[0, 1, 2*delta_t, 3*delta_t^2]]))
     
     c = np.kron(Delta_t, np.eye(2))@np.row_stack([S_t_k, V_t_k,S_t_k1, V_t_k1]).reshape(8)
     b = c[0:2]+ c[2:4] *(t-t_k) + c[4:6] *np.power(t-t_k,2) + c[6:8]*np.power(t-t_k,3)
     b_dot = 3*c[6:8]*np.power(t-t_k,2) + 2* c[4:6] *(t-t_k)+ c[2:4]
     b_ddot = 6*c[6:8]*(t-t_k) + 2* c[4:6] 
-    
-    P = b
-    V = b_dot
-    Acc =  b_ddot
-    return P, V, Acc
-def P_dot(p, t, graph, weight_dic, num, dim, order):
+
+
+    sigma = Delta_t@np.row_stack([phi_t_k, phi_dot_t_k,phi_t_k1, phi_dot_t_k1]).reshape(4)
+    a = sigma[0]+ sigma[1] *(t-t_k) + sigma[2] *np.power(t-t_k,2) + sigma[3]*np.power(t-t_k,3)
+    a_dot = 3*sigma[3]*np.power(t-t_k,2) + 2* sigma[2] *(t-t_k)+ sigma[1]
+    a_ddot = 6*sigma[3]*(t-t_k) + 2* sigma[2] 
+   
+    return b, b_dot, b_ddot, a, a_dot, a_ddot 
+
+def P_dot(p, t, graph, weight_dic, formation, num, dim, order):
     ## p = current position information where p_i is in d dimension
     ## t = time frame
     ## P = list of length of n, containing P, dot_P, double_dot_P, ... n_dot_p at time t the desired tracjetory of the first leader, which has to be nth order differentiable equation. 
     ## Tracking Control Algorithm Design for first leader
     ## Control gains
     k_11 = 1
-    k_12 = 16
+    k_12 = 15
+    
     beta_1 = 0.5
     # control input for second leader group
-    rho_j = 12
+    rho_j = 0.2
+    k_j1 = 1
+    k_j2 = 10
     #control input for followers
-    gamma_i = 0.5
+    gamma_i = 0
     ## the first leader position and velosity is used to generate desired trajectory. 
     p1 = p[0:dim]
     v1 = p[dim*num:(dim)*(num +1)]
     a1 = p[2*(dim*num):2*(dim*num +1)]
-    P, V, Acc = desired_trajectory(t, p1, v1, a1)
+
+    p_cur = p[0:dim*num]
+    v_cur = p[dim*num:2*dim*num]
+    a_cur = p[2*dim*num:3*dim*num]
+
+    P, V, Acc, Phi_t, Phi_dot_t, Phi_ddot_t = desired_trajectory(t, p1, v1, a1)
     P_aug = np.vstack([P, V, Acc])
     ## This calculates the finite time backstepping approach to track desired position.
-    alpha_1 = np.zeros(len(P)*dim)
-    z_1 = np.zeros(len(P)*dim)
+    alpha_1 = np.zeros(order*dim)
+    z_1 = np.zeros(order*dim)
     u1 = 0
     for i in range(order):
         if i == 0:
@@ -100,8 +120,8 @@ def P_dot(p, t, graph, weight_dic, num, dim, order):
             z_1[0:2] += z_11
         
         else:
-            z_1i = p1[i-1]- alpha_1[2*(i-1):2*i]
-            alpha_1i = alpha_1[2*(i-1):2*i] - k_11*sig(z_1i, beta_1)- z_1[2*(i-1):2*i]
+            z_1i = z_1[i-1]- alpha_1[2*(i-1):2*i]
+            alpha_1i = alpha_1[2*(i-1):2*i] - k_11*sig(z_1i, beta_1)- z_1[2*(i-1):2*i] - k_12*z_1i - z_1i[i-1]
          
             alpha_1[i:i+2] += alpha_1i
             z_1[i:i+2] += z_1i
@@ -112,26 +132,64 @@ def P_dot(p, t, graph, weight_dic, num, dim, order):
     
     M = 4
 
-    p2_M = p[dim:dim*M]
-    v2_M = p[dim*(num+1):(dim)*(num + M)]
-    a2_M = p[(dim*(2*num+1)):dim*(2*num + M)]
-    p2_aug = np.vstack([p2_M,v2_M,a2_M])
-    nodes = [i for i in range(2, M+1)]
+    # nodes = [i for i in range(2, M+1)]
     edges = []
     for i in range(2, M+1):
         for j in graph.neighbors(i):
             if (((i,j) in graph.edges()) and (j in range(2,M+1))):
                 edges.append((i,j))
     nx.set_edge_attributes(graph,weight_dic, "weight")
-    D = nx.incidence_matrix(graph, nodelist=nodes, edgelist=edges, oriented=True, weight="weight").toarray()
-    A = nx.adjacency_matrix(graph, nodelist=nodes, weight="weight").toarray()
-    L_s = nx.laplacian_matrix(graph, nodelist=nodes, weight="weight").toarray()
     
-    u2 = -rho_j * np.sign(np.matmul(np.kron((L_s + np.diag(A[:,0])), np.eye(dim)), (P_aug - np.kron(np.array(np.ones(M-1)).reshape(3,1), np.array(p1).reshape(1,2))).reshape((M-1)*dim)))
+    # A = nx.adjacency_matrix(graph, nodelist=nodes, weight="weight").toarray()
+    # L_s = nx.laplacian_matrix(graph, nodelist=nodes, weight="weight").toarray()
+    ## got it wrong here Start from here again
+    ## P_aug is suspicious. 
+    # print(p2)
+    # dot_pos_2_M = -rho_j * np.sign(np.matmul(np.kron((L_s + np.diag(A[:,0])), np.eye(dim)), (p2_M - np.kron(np.array(np.ones(M-1)).reshape(3,1), np.array(p1).reshape(1,2)).reshape((M-1)*dim))))
+    # dot_vel_2_M = -rho_j * np.sign(np.matmul(np.kron((L_s + np.diag(A[:,0])), np.eye(dim)), (v2_M - np.kron(np.array(np.ones(M-1)).reshape(3,1), np.array(v1).reshape(1,2)).reshape((M-1)*dim))))
+    # dot_acc_2_M = -rho_j * np.sign(np.matmul(np.kron((L_s + np.diag(A[:,0])), np.eye(dim)), (a2_M - np.kron(np.array(np.ones(M-1)).reshape(3,1), np.array(Acc).reshape(1,2)).reshape((M-1)*dim))))
+    # dot_pva_2_M = np.vstack([dot_pos_2_M, dot_vel_2_M, dot_acc_2_M])
+
+    ##A(t) transformation needed
+    A_t = Phi_t * np.eye(dim)
+    A_dot_t = Phi_dot_t * np.eye(dim)
+    A_ddot_t = Phi_ddot_t * np.eye(dim)
+    ## Scaling design
     
+    u2_M =  np.zeros(dim*(M-1))
+    r = formation
+    for j in range(1, M): ## j = agent number
+        p_j = p_cur[j]
+        # v_j = v_cur[j]
+        # a_j = a_cur[j]
+        P_j = A_t@r[j] + P
+        V_j = A_dot_t@r[j] + V
+        A_j = A_ddot_t@r[j] + Acc
+        # p_temp = [p_j, v_j, a_j]
+        P_temp = [P_j, V_j, A_j]
+        alpha_2_M = np.zeros(dim*(M-1))
+        z_2_M = np.zeros(dim*(M-1))
+        u2_j = 0
+        for i in range(order):
+            if i == 0:
+                z_j1 = np.array(p_j) - np.array(P_j)
+                alpha_j1 = - k_j1*sig(z_j1, beta_1) - k_j2*z_j1 + P_temp[i+1]
+                
+                alpha_2_M[0:2] += alpha_j1
+                z_2_M[0:2] += z_j1
+
+            else:
+                z_ji = P_temp[i-1]- alpha_2_M[2*(i-1):2*i]
+                alpha_ji = alpha_2_M[2*(i-1):2*i] - k_j1*sig(z_ji, beta_1)- z_2_M[2*(i-1):2*i]-k_j2*z_ji
+                alpha_1[i:i+2] += alpha_ji
+                z_1[i:i+2] += z_ji
+                if i == len(P)-1:
+                    u2_j = alpha_ji
+
+        u2_M[dim*(j-1):dim*(j-1)+2] +=u2_j
+
 
     ## PD control algorithm design with constant gains
-    
     m = order -1
     B = np.array(np.row_stack([np.column_stack([list(np.zeros(m)),np.eye(m)]), np.zeros(m + 1)]))
     C = np.array(np.column_stack([[np.zeros(m)],[1]])).transpose()
@@ -142,15 +200,13 @@ def P_dot(p, t, graph, weight_dic, num, dim, order):
     # K = [] ##has to be calculated with ARE(Algebraic Riccati Equation)
     p_f = p[dim*M:dim*num]
     v_f = p[dim*(num+M):(dim)*(2*num)]
-    a_f = p[(dim*(2*num + M)):]
+    a_f = p[(dim*(2*num + M)):(dim)*(3*num)]
     pf_aug = np.vstack([p_f,v_f,a_f])
 
-    p_cur = p[0:dim*num]
-    v_cur = p[dim*num:2*dim*num]
-    a_cur = p[2*dim*num:]
+    
     pcur_aug = np.vstack([p_cur, v_cur, a_cur])
-    eta_i = [56 for k in range(M+1, num+1)]
-
+    
+    eta_dot_i = np.zeros(4)
     u3 = np.zeros(dim*(num - M))
     K = np.kron(C.T @ P_riccati,np.eye(dim))
     dot_x_f = []
@@ -159,8 +215,9 @@ def P_dot(p, t, graph, weight_dic, num, dim, order):
         u_temp = 0
         i_0 = i-M-1
         for j in graph.neighbors(i):
-            x_i = pcur_aug[:,i:i+2].reshape(dim*order)
-            x_j = pcur_aug[:,j:j+2].reshape(dim*order)
+            ## i-1, j-1 because i and j are node numbers not indices.
+            x_i = pcur_aug[:,dim*(i-1):dim*(i-1)+2].reshape(dim*order)
+            x_j = pcur_aug[:,dim*(j-1):dim*(j-1)+2].reshape(dim*order)
             w = 0
             if ((i,j) in weight_dic):
                 w = weight_dic[(i,j)] 
@@ -168,23 +225,19 @@ def P_dot(p, t, graph, weight_dic, num, dim, order):
                 w = weight_dic[(j,i)] 
             s_i +=  w* (x_i - x_j)
             u_temp+= w*K @(x_i - x_j).T
-        u3[i_0:i_0+2] = -eta_i[i_0]*u_temp
+        u3[i_0:i_0+2] = -eta_dot_i[i_0]*u_temp
         dot_eta_i = gamma_i * (s_i.T @np.kron(P_riccati @ C @ C.T @P_riccati, np.eye(dim))) @ s_i
-        eta_i[i_0] -=dot_eta_i
+        eta_dot_i[i_0:i_0+2] += dot_eta_i
         dot_x_f_i = (np.kron(B, np.eye(dim)) @ np.reshape(pf_aug[:,i_0:i_0+2], order * dim) + np.kron(C, np.eye(dim)) @ u3[i_0:i_0+2])
         if i == M+1:
             dot_x_f = dot_x_f_i
         else:
             dot_x_f = np.column_stack([dot_x_f, dot_x_f_i])
-        # print(dot_x_f_i)
-        # print(dot_eta_i)
     # print(dot_x_f)
     dot_x_f_pos = dot_x_f[0:2,:]
     dot_x_f_vel = dot_x_f[2:4,:]
     dot_x_f_acc = dot_x_f[4:6,:]
-    # print(u1)
-    # print(u2)
-    # print(u3)
+
     x_l = pcur_aug[:,0:dim*M]
     dot_x_l = []
     for i in range(M):
@@ -194,30 +247,15 @@ def P_dot(p, t, graph, weight_dic, num, dim, order):
             dot_x_i += (list(np.zeros(len(dot_x_i)-2))) + list(u1)
             dot_x_l = dot_x_i
         else:
-            dot_x_i += (list(np.zeros(len(dot_x_i)-2))) + list(u2[2*(i-1):2*(i)])
+            dot_x_i +=  (list(np.zeros(len(dot_x_i)-2))) + list(u2_M[2*(i-1):2*(i-1)+2])
             dot_x_l =np.vstack([dot_x_l,dot_x_i])
     dot_x_l_pos = np.reshape(dot_x_l[:,0:2],dim*M)
     dot_x_l_vel = np.reshape(dot_x_l[:,2:4],dim*M)
     dot_x_l_accel = np.reshape(dot_x_l[:,4:6],dim*M)
-    # print(dot_x_l_pos)
-    # print(dot_x_f_pos.T.reshape(8))
 
-    # print(dot_x_l_vel)
-    # print(dot_x_f_vel.T.reshape(8))
-    # print(dot_x_l_accel)
-    # print(dot_x_f_acc.T.reshape(8))
-    ret = list(dot_x_l_pos) + list(dot_x_f_pos.T.reshape(8)) +list(dot_x_l_vel) +list(dot_x_f_vel.T.reshape(8)) +list( dot_x_l_accel)+list( dot_x_f_acc.T.reshape(8))
-    # print(len(ret))
+    ret = list(dot_x_l_pos) + list(dot_x_f_pos.T.reshape(8)) +list(dot_x_l_vel) +list(dot_x_f_vel.T.reshape(8)) +list( dot_x_l_accel)+list( dot_x_f_acc.T.reshape(8)) + list(eta_dot_i)
     return ret
 
-
-    D_D = nx.incidence_matrix(graph, oriented=True).toarray()
-    # z_ref = np.kron(D_D.T, np.eye(2))@ P
-    # z_t = np.kron(D_D.T, np.eye(2))@p
-    # u = np.kron(D_D, np.eye(2)) @(z_ref - z_t)
-    # print(u.shape)
-    
-    # return u
 def create_formation(num, dim, P_bar):
     graph = nx.empty_graph()
     graph.add_nodes_from([i for i in range(1, num + 1)])
@@ -226,10 +264,7 @@ def create_formation(num, dim, P_bar):
     nx.set_node_attributes(graph, {i: np.random.randint(0, 4, 2) for i in range(1, num+1)}, name="vel")
     nx.set_node_attributes(graph, {i: np.random.randint(0, 4, 2) for i in range(1, num+1)}, name="acc")
     number_of_edges = len(graph.edges)
-    # r = np.array([np.array([0,0]).T,np.array([-1,1]).T,np.array([-1,0]).T,np.array([-1,-1]).T,np.array([-2,1]).T,np.array([-2,-1]).T,np.array([-3,1]).T,np.array([-3,-1]).T])
-    # graph.add_edges_from([(1,1)])
-    
-    
+
     D_D = nx.incidence_matrix(graph, oriented=True).toarray()
     E = [[]]
     
@@ -244,7 +279,6 @@ def create_formation(num, dim, P_bar):
     U_2 = U[:,dim+1:]
     M = []
     omega = []
-    Omega = cp.Variable((z.shape[0], z.shape[0]), diag=True)
     c = cp.Variable(z.shape[1])
     for i in range(z.shape[1]):
         if i == 0:
@@ -267,72 +301,42 @@ def create_formation(num, dim, P_bar):
     plt.show()
     return graph, weight, pos
 
-def simulate(graph, weight_dic, num, dim, order):
-    delta = 0.1
-    iteration = 12 #number of iteration to simulate limit
+def simulate(graph, weight_dic, formation,  num, dim, order):
+    delta = .1
+    iteration = 5 #number of iteration to simulate limit
     time_lim = iteration *delta
     t = np.linspace(0, time_lim, iteration+1)
-    p = np.reshape(list(nx.get_node_attributes(graph,"pos").values()) + list(nx.get_node_attributes(graph,"vel").values()) + list(nx.get_node_attributes(graph,"acc").values()), (num*dim*order))
-    # print(len(p))
-    # v = np.reshape(list(nx.get_node_attributes(graph,"vel").values()), (num*dim))
-    # acc = np.reshape(list(nx.get_node_attributes(graph,"acc").values()), (num*dim))
-    # p.append(v)
-    # p.append(acc)
-    trajectory_P = sp.integrate.odeint(P_dot,p, t, args = (graph, weight_dic, num, dim, order))
-    # print(trajectory_P.shape)
-    # plt.figure()
+    eta_i = np.reshape([56 for k in range(num-4)],4)
+
+    p = np.append(np.reshape(list(nx.get_node_attributes(graph,"pos").values()) + list(nx.get_node_attributes(graph,"vel").values()) + list(nx.get_node_attributes(graph,"acc").values()), (num*dim*order)) ,eta_i)
+    trajectory_P = sp.integrate.odeint(P_dot,p, t, args = (graph, weight_dic, formation, num, dim, order))
+
     labels = []
     for i in range(num):
         labels.append(f"x{i}")
-    # t = np.linspace(0, time_lim, iteration)
-    print(t)
-    # pic_frame = w
     plt.figure()
     for i in range(num):
         # plt.figure()
-        plt.plot(trajectory_P[iteration-1,2*i], trajectory_P[iteration-1,2*i +1], 'ko')
+        plt.plot(trajectory_P[iteration,2*i], trajectory_P[iteration,2*i +1], 'ko')
         plt.plot(trajectory_P[:,2*i], trajectory_P[:,2*i +1], label =labels[i])
         plt.xlabel("Position x")
         plt.ylabel("Position y")
     plt.legend()
     plt.show()
     L  = nx.laplacian_matrix(graph).toarray()
-    # W = cp.Variable((number_of_edges,number_of_edges), symmetric = True)
-    # constraints = [W >> 1]
-    # objective = np.kron(D_D@W@D_D.T)@x==0
-    # problem = cp.Problem(objective=objective, constraints=constraints)
-    # result = problem.solve()
-    
 
-
-    # 
-    # prob = cp.Problem(objective, constraints)
-    # result = prob.solve()
-    # print(D_D)
 
 def main():
     num = 8
     dim = 2
-    # P = [[0,0],[-1,1],[-1,0],[-1,-1],[-2,1],[-2,-1],[-3,1],[-3,-1]]
-    # P = np.reshape(P, num*dim)
+    formation = [[0,0],[-1,1],[-1,0],[-1,-1],[-2,1],[-2,-1],[-3,1],[-3,-1]]
     P_bar = np.array(np.column_stack([[[0,0],[-1,1],[-1,0],[-1,-1],[-2,1],[-2,-1],[-3,1],[-3,-1]], np.ones(num)]))
     graph, weight_dic, pos_dic = create_formation(num, dim, P_bar)
-    simulate(graph, weight_dic, num, dim, order =3)
+    simulate(graph, weight_dic, formation, num, dim, order =3)
     name = 'custom'
     
 
     
-    # plt.figure()
-    # plt.title(f"{name} graph weight distribution")
-    # edges = list(graph.edges())
-    # edge_labels = [ '%.4f' % elem for elem in x.value.data[0] ]
-    # weight = {edges[i]: edge_labels[i] for i in range(len(edges))}
-    # pos = nx.spring_layout(graph)
-    # nx.draw(graph,pos = pos, with_labels = True)            
-    # nx.draw_networkx_edge_labels(graph, pos = pos, edge_labels=weight)
-    # k +=1
-    # plt.show()
-
 if __name__ == "__main__":
     main()
 
