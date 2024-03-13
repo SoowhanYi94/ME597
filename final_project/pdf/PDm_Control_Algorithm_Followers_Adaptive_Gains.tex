@@ -1,0 +1,37 @@
+\subsection*{PDm Control Algorithm for Followers with Adaptive Gains} \label{PDm_Control_Algorithm_Followers_with_Adaptive_gains}
+%what are the underlying analysis for the design and/or understanding the phenomena of interest? for example, to address the mathematical setup or the design, what analysis techniques (such as stability, or transport, etc.) are used? 
+
+ With constant control gain larger than $\frac{1}{2\lambda(\Omega_{ff})}$, the trajectory would be depending on the formation of the graph. So the author suggests using adaptive gains with Algebraic Riccati Equation. 
+ \begin{align*}
+   \dot u_i &= -\eta_i \sum_{j \in V_l\bigcup V_f } \omega_{ij}[k_0(e_{ij}) + k_1(e_{ij}^{(1)}) + \cdots +k_m(e_{ij}^{(m)})]\\
+   \dot {\hat \eta}_i &=\gamma_i s_i^T(PCC^TP \otimes I_d)s_i\\
+   s_i &= \sum_{j \in V_l \bigcup V_f} \omega_{ij}(x_i - x_j)
+ \end{align*}.
+
+ Considering the previous Lyapunov function and building upon it, 
+ \begin{align*}
+   V_{1} &= X_f^T (\Omega_{ff} \otimes P \otimes I_d) X_f\\
+   V_{2} &= V_{1} + \sum_{i = M+1}^{N}(\hat \eta_i(t) - \bar \eta)^2/\gamma_i\\
+   \dot V_{1} &= - X_f^T [\Omega_{ff}\otimes I_{m+1} \otimes I_d] X_f + X_f^T [(\Omega_{ff} \\
+   &- 2\Omega_{ff}\Lambda\Omega_{ff})\otimes PCC^TP \otimes I_d]X_f\\
+   &=- X_f^T [\Omega_{ff}\otimes I_{m+1} \otimes I_d] X_f \\
+   &+X_f^T [\Omega_{ff}\otimes PCC^TP \otimes I_d]X_f\\
+   &- 2[\Omega_{ff}\otimes I_{(m+1)d}X_f]^T[\hat \Lambda(t) \otimes PCC^TP \otimes I_d]\\
+   &\times [(\Omega_{ff}\otimes I_{(m+1)d})X_f]\\
+   \dot V_{2} &= \dot V_{1} + \sum_{i = M+1}^{N} 2(\hat \eta_i(t) - \bar \eta)[s_i^T(PCC^TP \otimes I_d)s_i]
+ \end{align*}
+ Substituting $\dot V_1$ into $\dot V_2$ equation achieves, 
+ \begin{align*}
+   \therefore \dot V_{2} &=- X_f^T [\Omega_{ff}\otimes I_{m+1} \otimes I_d] X_f\\
+   & + X_f^T [\Omega_{ff}\otimes PCC^TP \otimes I_d]X_f\\
+   & - 2\bar \eta \sum_{i = M+1}^{N} s_i^T(PCC^TP \otimes I_d)s_i\\
+   &=- X_f^T [\Omega_{ff}\otimes I_{m+1} \otimes I_d] X_f\\
+   & + X_f^T [\Omega_{ff}\otimes PCC^TP \otimes I_d]X_f\\
+   & - 2\bar \eta X_f^T[\Omega_{ff}\Omega_{ff}(PCC^TP \otimes I_d)]X_f.
+ \end{align*}
+ 
+ Applying the same logic that was applied in previous section, to obtain the stability$\dot V_{2} \leq 0$,
+ \begin{align*}
+   2\bar \eta \Omega_{ff}\Omega_{ff} - \Omega_{ff} \geq 0\\
+   \therefore \bar \eta \geq \frac{1}{2\lambda_{min}(\Omega_{ff})}
+ \end{align*}

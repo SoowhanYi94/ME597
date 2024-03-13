@@ -1,0 +1,60 @@
+\subsection*{Tracking Control Algorithm for First Leader} \label{Tracking_Control_Algorithm_First_Leader}
+%what are the underlying analysis for the design and/or understanding the phenomena of interest? for example, to address the mathematical setup or the design, what analysis techniques (such as stability, or transport, etc.) are used? 
+ Assuming that the trajectory and its finite time derivative information is already given, the paper designes tracking control algorithm for leaders. First it uses a finite time backstepping approach to achieve $lim_{t\rightarrow \infty} p_1 - p_1^* = 0$ for the first leader. Using the existing control objectives as auxiliary variable and a virtual variable that is to be determined later, auxiliary variable can be designed as such,
+ \begin{align*}
+    Z_{11} &= p_1 - p_1^*\\
+    Z_{1i} &= p_1^{i-1} - \alpha_{1(i-1)} (t)
+ \end{align*}.
+ Then, if we can determine $\alpha_{1(i-1)} (t)$ and know all the time derivative information of itself, then we would be able to design the tracking control algorithm for the first leader. By using above equations, the paper achieves the relation between auxiliary variables in higher order. 
+ \begin{align*}
+    \dot Z_{11} &= \dot p_1 - \dot p_1^* = Z_{12} - \alpha_{11} - \dot p_1^*\\
+    \alpha_{11} (t) &= \dot p_1^{*} - k_{11} sig ^{\beta}(Z_{11}) - k_12 Z_{11}
+ \end{align*}, where
+ \begin{align*}
+    sig^r(x)   &= [sig^r(x_1), sig^r(x_2), \cdots sig^r(x_n)]\\
+    sig^r(x_i) &= sgn(x_i) |x_i|^r
+ \end{align*} and $sgn(x_i) = 
+ \begin{cases} 
+    -1 & x_i < 0\\
+    0 & x_i = 0\\
+    1 & x_i > 0\\
+\end{cases}$. Also $k_{11}$and $ k_{12}$ are positive control gains, and $0 \leq \beta \leq 1$. 
+Therefore, substituting above $\alpha_{11}$ equation to the $\dot Z_{11}$ equation, yields
+\begin{align*}
+    \dot Z_{11} &= Z_{12} - k_{11} sig ^{\beta}(Z_{11}) - k_{12} Z_{11}
+\end{align*}
+ Repeating the same procedure for $Z_{12}$ and continuing on $Z_{1i}$,
+ \begin{align*} 
+    Z_{12} &= p_2^{(1)} - \alpha_{11} (t)\\
+    \dot Z_{12} &= p_2^{(2)} - \dot \alpha_{11}  = Z_{13} + \alpha_{12} - \dot \alpha_{11}\\
+    \alpha_{12} &= \dot \alpha_{11} \dot Z_{11} + \ddot{p_1^*} - k_{11} sig^{\beta}(Z_{12}) - k_{12} Z_{12} - Z_{11}\\
+    Z_{1i} &= p_1^{i-1} - \alpha_{1(i-1)} (t)\\
+    \dot Z_{1i} &= Z_{1(i+1)} - k_{11} sig^{\beta}(Z_{1i}) - k_{12} Z_{1i} - Z_{1(i-1)}\\
+    \alpha_{1i} &=  \dot \alpha_{1i} \dot Z_{1i} - k_{11} sig^{\beta}(Z_{1i}) - k_{12} Z_{1i} - Z_{1(i-1)} \\
+    \dot Z_{1n} &= - k_{11} sig^{\beta}(Z_{1n}) - k_{12} Z_{1n} - Z_{1(n-1)}
+    u_i = \alpha_{in}
+ \end{align*}.
+ Finally, it utilizes the nth order intergrator $\alpha_{1n}$ for the control inputs and its stability is verified with sum of quadratic form of Lyapunov functions. 
+ \begin{align*}
+    V_{1n} &= \frac{1}{2} (Z_{11}^TZ_{11} + Z_{12}^TZ_{12} + \cdots + Z_{1n}^TZ_{1n})\\
+    \dot V_{1n} &= -k_{11}Z_{11}^T sig^{\beta}(Z_{11}) - \cdots -k_{1n}Z_{1n}^T sig^{\beta}(Z_{1n}) - 2k_{12}V_{1n}
+ \end{align*}
+ Then, 
+ \begin{align*}
+    Z_{1i}^T sig^{\beta}(Z_{1i}) &= sgn(Z_{1i1})|Z_{1i1}| sgn(Z_{1i1})|Z_{1i1}|^{\beta} + \cdots \bigskip\\
+    &+ sgn(Z_{1in})|Z_{1in}| sgn(Z_{1in})|Z_{1in}|^{\beta}\\
+    &=\sum_{k \in dim}|Z_{1ik}| ^{1+\beta} \\
+    ||Z_{1i}||^{\beta +1} = (\sum_{k \in dim}&Z_{1ik} ^{2})^{\frac{\beta +1}{2}} \leq \sum_{k \in dim}(Z_{1ik} ^{2})^{\frac{\beta +1}{2}} (\because 0 \leq \beta \leq 1)\\
+    \therefore Z_{1i}^T sig^{\beta}(Z_{1i}) & = \sum_{k \in dim}|Z_{1ik}| ^{1+\beta}   \geq ||Z_{1i}||^{\beta +1}
+ \end{align*}
+ 
+ \begin{align*}
+    ||Z_{1i}||^{\beta +1} &= ||2(V_{1i} - V_{1(i-1)})||^{\beta + 1}\\
+    &=2^{\frac{\beta + 1}{2}} (V_{1i} - V_{1(i-1)})^{\frac{\beta + 1}{2}}
+ \end{align*}
+    Therefore
+\begin{align*}
+    \dot V_{1n} &\leq - 2^{\frac{\beta + 1}{2}} k_{11}( V_{11} + \sum_{i = 2}^{n}  (V_{1i} - V_{1(i-1)})^{\frac{\beta + 1}{2}} )- 2k_{12}V_{1n}\\
+    &\leq - 2^{\frac{\beta + 1}{2}} k_{11}  V_{1n}^{\frac{\beta + 1}{2}}
+\end{align*}.
+Here we know that $0 \leq \beta \leq 1$, and $k_{11}$ and $V_{1n}$ are positive. Therefore $\dot V_{1n}$ is negative definite and $\lim_{t\rightarrow \infty} p_1 - p_1^* = 0$

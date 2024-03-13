@@ -1,0 +1,42 @@
+\subsection*{Manevuer Design} \label{Manevuer Design}
+%%Could you verify any of the theoretical steps/simulations- you can be selective here- i want you to show case what you have learned in this class to replicate or redo some of the results/simulations- this section is important as it would allow you to "showoff" what you have learned in 597!
+ Before simulating, the desired trajectory has to be generated according to the given desired position and velocity value at time $t_k$ and $t_{k+1}$. With the previous assumption that desired trajectory,$p_i = A(t) r_i + b(t)$, is known and $n^{th}$ order differentiable, the paper assumes $3^{rd}$ order time differentiable equation, 
+ \begin{align*}
+    b(t) = c_3(t-t_k)^3 + c_2 (t-t_k)^2  + c_1 (t-t_k) + c_0,
+ \end{align*}
+ where $c_i \in R^{2}$ are constant vectors at $t \in [t_k, t_{k+1}]$ for all the leader positions. With known desired position and velocity profile at two different given time, then the desired trajectory can be found with 
+ \begin{align*}
+    \begin{bmatrix}
+        c_0\\c_1\\c_2\\c_3
+    \end{bmatrix}
+    = \begin{bmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        1 & \Delta T & \Delta T ^2 & \Delta T^3 \\
+        0 & 1 & \Delta T  & 3\Delta T^2 \\
+    \end{bmatrix}^{-1}
+    \otimes I_2 
+    \begin{bmatrix}
+        S_{t_k}\\v_{t_k}\\S_{t_{k+1}}\\v_{t_{k+1}}
+    \end{bmatrix}
+ \end{align*}
+ where $S_{t_k},v_{t_k},S_{t_{k+1}},v_{t_{k+1}}$ are the desired position and velocity profile at $t_k$ and $t_{k+1}$.
+ Also the scaling maneuver is designed with, 
+ \begin{align*}
+    A(t) &= \phi (t) I_2\\
+    \phi (t) &=  \varsigma_3(t-t_k)^3 + \varsigma_2 (t-t_k)^2  + \varsigma_1 (t-t_k) + \varsigma_0,
+ \end{align*}
+ where $\varsigma_3, \varsigma_2 ,\varsigma_1 , \varsigma_0$ are known desired scaling factor at $t_k$ and $t_{k+1}$. With the same matrix equation used for translational maneuver, scaling maneuver constants,$\varsigma_i \in R, i = 0, 1, \cdots 3$, can be also be inferred. 
+ Also the rotational and shearing design is described in a same manner, where 
+ \begin{align*}
+    A_{rot}(t) &= R(\theta(t)) = 
+    \begin{bmatrix}
+        cos{\theta(t)}&-sin{\theta(t)}\\sin{\theta(t)}&cos{\theta(t)}
+    \end{bmatrix}\\
+    A_{she}(t) &=
+    \begin{bmatrix}
+        \psi_1(t)&0\\0&\psi_2(t)
+    \end{bmatrix}
+ \end{align*}
+ are rotational and shearing matrix for each design, and $\theta(t) \in [0,2\pi)$ and $\psi(t)\in (0,1)$ are rotation angle with respect to the nominal configuration and shearing factors respectively. 
+ 

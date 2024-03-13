@@ -1,0 +1,46 @@
+\section{Mathematical formulation} \label{Mathematical_formulation}
+
+% Mathematical formulation of the problem being address? what are the key equations/concepts needed to address the problem in Section II. Is the formulation novel or builds on an existing framework? How is the paper/topic relates to what we have covered in the Network Dynamic Systems course this quarter.
+
+ In order to properly formulate this multiagent formation manuever control problem, the paper utilizes two layered leader follower strategy and stress matrix in undirected graph. 
+ First, in graph theory, this stress vector $\omega = [\omega_1, \omega_2, \cdots, \omega_m] \in R^m$ is said to be in equilibrium, when it satisfies,
+
+\begin{align*}
+    \sum_{j \in N_i} \omega_{ij} (p_j - p_i) = 0, 
+\end{align*} 
+where this $p_i$ and $p_j$ are the position of i and j agents, and this vector $\omega_{ij} (p_j - p_i)$ represents the tension force between the two agents. In a matrix form, above equation can be expressed as 
+\begin{align*}
+    (\Omega \otimes  I_d)p = 0
+\end{align*} 
+where $p = [p_1^T, p_2^T, \cdots, p_n^T]^T \in R^{d n}$, and $\Omega \in R^{n \times n}$ satisfying
+\begin{align*}
+    [\Omega]_{ij} =  
+    \begin{cases}
+        0, &i \neq j, (i, j)\notin \varepsilon  \\
+        -\omega_{ij}, &i \neq j, (i, j)\in \varepsilon \\
+        \sum_{j \in N_i} \omega_{ik}, &i = j. \\    
+    \end{cases}
+\end{align*} 
+
+By letting these tension force in each agents with its neighbors to sumed to be 0, then their formations would be structurally rigid. This structural rigidity of the formation is proved to be universally rigid if and only if there exists a stress matrix $\Omega$ such that $\Omega$ is positive semidefinite and $rank(\Omega) = n - d - 1$. %%reference needed
+
+%%
+
+Also in "S.zhao", it shows the desired trajectories of each leaders can be expressed as 
+\begin{align*}
+    p_i^* (t) = A(t) r_i + b(t)
+\end{align*}
+where $r_i$ is the nominal configuration of each agents. With this time varying desired trajectory information of each agents, trajectory tracking control algorithm is designed fo the leaders' formation. It also introduces the leader-follower strategy that utilizes above stress matrix and leaders positions to calculate the desired trajectories of followers. It shows that the number of leaders selected in a dimension d in order to be affinely localizable should be d+1. Also it shows that $\lim_{t\rightarrow \infty}p_f = - \bar \Omega_{ff}^{-1} \bar \Omega_{fl} p_l$ where 
+\begin{align*}
+    \Omega = \begin{bmatrix}
+    \Omega_{ll} & \Omega_{lf}\\
+    \Omega_{fl} & \Omega_{ff}
+    \end{bmatrix}
+\end{align*}, where $\Omega_{ff}$ has to be non-singular. Therefore it suggests the number of leaders in dimension d and contraint on stress matrix in order to find convergable route for followers. Then it utilizes this desired positions of the leaders and followers to build the control objectives for leaders and followers, respectively.
+\begin{align*}
+    &\lim_{t\rightarrow \infty} p_l - p_l^* = 0\\
+    &\lim_{t\rightarrow \infty} p_f - p_f^*= p_f - \bar \Omega_{ff}^{-1} \bar \Omega_{fl} p_l = 0
+\end{align*}
+
+The formulation of this problem heavily builds upon the "S.zhao" paper. However, this paper "Distributed leader-follower" is novel in a way that it builds upon the original paper with higher order so that it can render fully distributed control strategy for the followers and achieve autonomous manuever for group of leaders.
+

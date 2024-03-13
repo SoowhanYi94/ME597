@@ -1,0 +1,22 @@
+\subsection*{Tracking Control Algorithm for Second Leader Group} \label{Tracking_Control_Algorithm_Second_Leader_Group}
+%what are the underlying analysis for the design and/or understanding the phenomena of interest? for example, to address the mathematical setup or the design, what analysis techniques (such as stability, or transport, etc.) are used? 
+ Before designing control algorithm for second leader group, it needs to have desired trajectory and time derivative information of those second leader group. To estimate those information in a distributed way, the second leader group utilizes the desired trajectory and its nth order derivatives of the first leader to generate desired trajectory and the time derivatives of second leader group. Since we know the desired trajectory,$b(t)$, and time derivatives of the first leader,$b^{(j)}(t)$, where $j = 0,1, \cdots, n$, desired trajectory and time derivatives of second leader group can be estimated with
+ \begin{align*}
+    \dot {\hat b}_i^{(j)} = -\rho_j sgn[\sum_{k=1}^{M} sgn(\omega_{ik})(\hat b_i^{(j)} - \hat b_k^{(j)})]
+ \end{align*}, where $i \in {2, \cdots, M}$ and $\rho_j$ is positive constant.
+Also the time derivative information of A(t) can be estimated in a distributed way.
+\begin{align*}
+    \dot {\hat a}_i^{(j)} = -\rho_j sgn[\sum_{k=1}^{M} sgn(\omega_{ik})(\hat a_i^{(j)} - \hat a_k^{(j)})]
+ \end{align*}, where $\hat a_i^{(j)} \in R^{d^2}$ is agent i's estimation of a(t), and a(t) is column vector form of A(t). 
+
+ Then combining those two estimates generates desired trajectory and time derivative information of each agents. 
+ \begin{align*}
+    p_i^* (t) = A(t) r_i + b(t)
+ \end{align*}. With this generated desired trajectory of each agents, again, finite time backstepping appoarch is used to generate the control inputs of each agents. 
+ \begin{align*}
+    Z_{i1} &= p_j - p_j^* = Z_{i2} - \alpha_{i1} - \dot p_j^*\\
+    \alpha_{i1} (t) &= \dot p_j^{*} - k_{i1} sig ^{\beta}(Z_{i1}) - k_j2 Z_{i1}\\
+    Z_{ik} &= p_1^{k-1} - \alpha_{1(k-1)} (t)\\
+    \alpha_{ik} &=  \dot \alpha_{ik} \dot Z_{ik} - k_{11} sig^{\beta}(Z_{ik}) - k_{12} Z_{ik} - Z_{1(i-1)} \\
+    u_i &= \alpha_{in}
+\end{align*} 

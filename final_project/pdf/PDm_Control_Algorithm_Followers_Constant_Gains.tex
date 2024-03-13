@@ -1,0 +1,64 @@
+\subsection*{PDm Control Algorithm for Followers with Constant Gains} \label{PDm_Control_Algorithm_Followers_with_constant_gains}
+%what are the underlying analysis for the design and/or understanding the phenomena of interest? for example, to address the mathematical setup or the design, what analysis techniques (such as stability, or transport, etc.) are used? 
+ The author was inspired from "Containment Control of Multiagent Systems With Dynamic Leaders Based on a PIn-Type Approach" and proposed PDm control algorithm for followers. Using all the desired trajectory information and their time derivative information of neighbors of itself, the agent is able to generate adaptive gains using offline computation. The author proposes control algorithm for followers
+ \begin{align*}
+   \dot u_i = -\eta_i \sum_{j \in V_l\bigcup V_f } \omega_{ij}[k_0(p_i-p_j) + k_1(\dot p_i-\dot p_j) \\+ \cdots +k_m( p_i^{(m)}- p_j^{(m)})]
+ \end{align*}.
+ Using the dynamics of leaders and followers and their compact form,
+ \begin{align*}
+   \dot x_i & = (B \otimes I_d)x_i,  i \in V_l\\
+   \dot x_i & = (B \otimes I_d)x_i + (C \otimes I_d)u_i,  i \in V_f\\
+   \dot x_l & = (I_M\otimes B \otimes I_d)x_l\\
+   \dot x_f & = (I_{n_f}\otimes B \otimes I_d)x_f + (\Lambda \Omega_{ff}\otimes C \otimes I_d)x_f\\
+   &- (\Lambda \Omega_{fl} \otimes CK \otimes I_d) x_l\\
+ \end{align*}
+   where $x_i = [p_i^T,p_i^{(1)T},m  \cdots , p_i^{(m)T}]^T \in R^{d(m+1)\times 1}$, and
+ \begin{align*}
+   B &= \begin{bmatrix}
+      0 & 1 & \cdots & 0\\
+      \vdots & \vdots &\ddots &\vdots\\
+      0 & 0 & \cdots &1\\
+      0 & 0 & \cdots &0 \\
+   \end{bmatrix}\\
+   C &= \begin{bmatrix}
+      0 & \cdots & 0 & 1 
+   \end{bmatrix}^T\\
+   \Lambda &= diag{[\eta_{M+1}, \cdots , \eta_{N}]} \in R ^{n_f \times n_f}
+ \end{align*}
+ the tracking error can be defined as
+ \begin{align*}
+   X_f(t) = x_f(t) - x_f^*(t) = x_f + [\Omega_{ff}^{-1} \Omega_{fl} \otimes I_{(m+1)d}]x_l
+ \end{align*}.
+ From this tracking error equation, $\eta_i$ will be designed to let this tracking error to converge to zero. By taking the derivative of it,
+
+ \begin{align*} 
+   \dot X_f(t) &= \dot x_f + [\Omega_{ff}^{-1} \Omega_{fl} \otimes I_{(m+1)d}] \dot x_l\\
+   &= (I_{n_f}\otimes B \otimes I_d)x_f + (\Lambda \Omega_{ff}\otimes C \otimes I_d)x_f\\
+   &- (\Lambda \Omega_{fl} \otimes CK \otimes I_d) x_l\\ &+[\Omega_{ff}^{-1} \Omega_{fl} \otimes I_{(m+1)d}] (I_M\otimes B \otimes I_d)x_l\\
+   &= (I_{n_f}\otimes B \otimes I_d - \Lambda \Omega_{ff} \otimes CK \otimes I_d)X_f(t)
+ \end{align*}
+ With this time derivative information, construct the Lyapunov function and take the derivative.
+ \begin{align*}
+   V &= X_f^T (\Omega_{ff} \otimes P \otimes I_d) X_f\\
+   \dot V &= \dot X_f^T (\Omega_{ff} \otimes P \otimes I_d) X_f + X_f^T (\Omega_{ff} \otimes P \otimes I_d) \dot X_f
+ \end{align*}
+
+
+ Using the above $\dot X_f(t)$ equation and Algebraic Riccati Equation, 
+ \begin{align*}
+   &B^T P + P B - PCC^TP + I_{m+1} =0\\
+   \dot X_f(t) =& (I_{n_f}\otimes B \otimes I_d - \Lambda \Omega_{ff} \otimes CK \otimes I_d)X_f(t)\\
+   \dot V &= X_f^T (\Omega_{ff} \otimes (PB + B^TP) \otimes I_d) X_f \\
+   &-2 X_f^T (\Omega_{ff}\Lambda\Omega_{ff} \otimes (PCC^TP) \otimes I_d) X_f\\
+   &= - X_f^T [\Omega_{ff}\otimes I_{m+1} \otimes I_d] X_f + X_f^T [(\Omega_{ff} \\
+   &- 2\Omega_{ff}\Lambda\Omega_{ff})\otimes PCC^TP \otimes I_d]X_f
+ \end{align*}
+ To prove stability of this Lyapunov function, $(\Omega_{ff} - 2\Omega_{ff}\Lambda\Omega_{ff}) \leq 0$, since $\Omega_{ff}\otimes I_{m+1} \otimes I_d \geq 0$ and $PCC^TP \geq 0$. If we choose $\eta_i$ as
+ \begin{align*}
+   \min_{i\in V_f} \eta_i \geq \frac{1}{2\lambda_{min}(\Omega_{ff})}
+ \end{align*}, then 
+ \begin{align*}
+   y^T(\Omega_{ff}- 2\Omega_{ff}\Lambda\Omega_{ff})y = -(\Omega_{ff}y)^T(2\Lambda - \Omega_{ff}^{-1})\Omega_{ff}y \leq 0,
+ \end{align*}
+ 
+ for any $y \in R^{n_f}$.
