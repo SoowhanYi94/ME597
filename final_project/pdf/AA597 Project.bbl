@@ -1,0 +1,41 @@
+\begin{thebibliography}{1}
+
+\bibitem{9064493}
+Liangming Chen, Jie Mei, Chuanjiang Li, and Guangfu Ma.
+\newblock Distributed leader-follower affine formation maneuver control for
+  high-order multiagent systems.
+\newblock {\em IEEE Transactions on Automatic Control}, 65(11):4941--4948,
+  2020.
+
+\bibitem{8270608}
+Shiyu Zhao.
+\newblock Affine formation maneuver control of multiagent systems.
+\newblock {\em IEEE Transactions on Automatic Control}, 63(12):4140--4155,
+  2018.
+
+\bibitem{ALFAKIH2008962}
+A.Y. Alfakih.
+\newblock On the dual rigidity matrix.
+\newblock {\em Linear Algebra and its Applications}, 428(4):962--972, 2008.
+
+\bibitem{7322205}
+Long Cheng, Yunpeng Wang, Wei Ren, Zeng-Guang Hou, and Min Tan.
+\newblock Containment control of multiagent systems with dynamic leaders based
+  on a $pi^{n}$ -type approach.
+\newblock {\em IEEE Transactions on Cybernetics}, 46(12):3004--3017, 2016.
+
+\bibitem{7339680}
+Zhiyun Lin, Lili Wang, Zhiyong Chen, Minyue Fu, and Zhimin Han.
+\newblock Necessary and sufficient graphical conditions for affine formation
+  control.
+\newblock {\em IEEE Transactions on Automatic Control}, 61(10):2877--2891,
+  2016.
+
+\bibitem{8483481}
+Boyang Zhang, Xiuxia Sun, Shuguang Liu, and Jinglin Hu.
+\newblock Active disturbance rejection control approach to tight formation
+  flight of unmanned aerial vehicles.
+\newblock In {\em 2018 37th Chinese Control Conference (CCC)}, pages
+  6745--6751, 2018.
+
+\end{thebibliography}

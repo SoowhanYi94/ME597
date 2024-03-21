@@ -85,7 +85,7 @@ def P_dot(p, t, graph, weight_dic, formation,desired_trajectory, num, dim, order
     beta_1 = 0.5
     # control input for second leader group
     rho_j = 0.2
-    k_j1 = 1
+    k_j1 = 16
     k_j2 = 16
     #control input for followers
     gamma_i = 1

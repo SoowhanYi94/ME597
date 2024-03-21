@@ -1,0 +1,25 @@
+\subsection{Simulation and parameters} \label{Simulation and parameters}
+%%Could you verify any of the theoretical steps/simulations- you can be selective here- i want you to show case what you have learned in this class to replicate or redo some of the results/simulations- this section is important as it would allow you to "showoff" what you have learned in 597!
+ The paper also utilizes MATLAB to calculate the unique solution of the Algebraic Riccati Equation to get values of K.
+ \begin{align*}
+    K = [46.72 143.817 197.9471 143.817]
+ \end{align*}
+ Therefore $\eta_i$ is chosen to be 56 bcause $\eta_i \geq \frac{1}{2\lambda_{min}(\Omega_{ff})}$. Other constant parameters are chosen abstract
+ \begin{align*}
+    \rho_i = 12, \beta = 0.5, k_{i1} = 1, k_{i2} = 16, i = 1, \cdots 4
+ \end{align*}
+ From figure \ref{paper_simulation} we can see that the paper successfully simulates the designed affine manuever.  
+ \begin{figure}[ht] 
+    \centering
+    \includegraphics*[width=0.4\textwidth]{./img/Paper_simulation.png}
+    \caption{Formation maneuver trajectories}
+    \label{paper_simulation}
+ \end{figure}
+  
+ Here is my attempt, figure \ref{my_simulation}, to redo the work. It seems like the tracking control algorithm for leaders group is working but it is probably details that I might have missed. But here is my link for the code and future simulation demonstration and effort. \url{https://github.com/SoowhanYi94/ME597}
+ \begin{figure}[ht] 
+   \centering
+   \includegraphics*[width=0.4\textwidth]{./img/Figure_1.png}
+   \caption{Formation maneuver trajectories}
+   \label{my_simulation}
+\end{figure}

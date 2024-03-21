@@ -22,11 +22,8 @@ where $p = [p_1^T, p_2^T, \cdots, p_n^T]^T \in R^{d n}$, and $\Omega \in R^{n \t
     \end{cases}
 \end{align*} 
 
-By letting these tension force in each agents with its neighbors to sumed to be 0, then their formations would be structurally rigid. This structural rigidity of the formation is proved to be universally rigid if and only if there exists a stress matrix $\Omega$ such that $\Omega$ is positive semidefinite and $rank(\Omega) = n - d - 1$. %%reference needed
-
-%%
-
-Also in "S.zhao", it shows the desired trajectories of each leaders can be expressed as 
+By letting these tension force in each agents with its neighbors to sumed to be 0, then their formations would be structurally rigid. This structural rigidity of the formation is proved to be universally rigid if and only if there exists a stress matrix $\Omega$ such that $\Omega$ is positive semidefinite and $rank(\Omega) = n - d - 1$. \cite{ALFAKIH2008962}
+Also in \cite{8270608} it shows the desired trajectories of each leaders can be expressed as 
 \begin{align*}
     p_i^* (t) = A(t) r_i + b(t)
 \end{align*}
@@ -35,12 +32,12 @@ where $r_i$ is the nominal configuration of each agents. With this time varying 
     \Omega = \begin{bmatrix}
     \Omega_{ll} & \Omega_{lf}\\
     \Omega_{fl} & \Omega_{ff}
-    \end{bmatrix}
-\end{align*}, where $\Omega_{ff}$ has to be non-singular. Therefore it suggests the number of leaders in dimension d and contraint on stress matrix in order to find convergable route for followers. Then it utilizes this desired positions of the leaders and followers to build the control objectives for leaders and followers, respectively.
+    \end{bmatrix},
+\end{align*} where $\Omega_{ff}$ has to be non-singular. Therefore it suggests the number of leaders in dimension d and contraint on stress matrix in order to find convergable route for followers. Then it utilizes this desired positions of the leaders and followers to build the control objectives for leaders and followers, respectively.
 \begin{align*}
     &\lim_{t\rightarrow \infty} p_l - p_l^* = 0\\
     &\lim_{t\rightarrow \infty} p_f - p_f^*= p_f - \bar \Omega_{ff}^{-1} \bar \Omega_{fl} p_l = 0
 \end{align*}
 
-The formulation of this problem heavily builds upon the "S.zhao" paper. However, this paper "Distributed leader-follower" is novel in a way that it builds upon the original paper with higher order so that it can render fully distributed control strategy for the followers and achieve autonomous manuever for group of leaders.
+The formulation of this problem heavily builds upon the ``Affine Formation Maneuver Control of Multiagent Systems''\cite{8270608} paper. However, this paper\cite{9064493} is novel in a way that it builds upon the original paper with higher order so that it can render fully distributed control strategy for the followers and achieve autonomous manuever for group of leaders.
 
